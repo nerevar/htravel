@@ -12,7 +12,7 @@ Django:
 ### РЖД
 API: https://github.com/visavi/rzd-api
 
-Пример запроса: https://pass.rzd.ru/timetable/public/ru?STRUCTURE_ID=735&layer_id=5371&dir=0&tfl=3&checkSeats=1&code0=2000000&code1=2004000&dt0=23.02.2018&dt1=25.02.2018
+Пример запроса: https://pass.rzd.ru/timetable/public/ru?STRUCTURE_ID=735&layer_id=5371&dir=0&tfl=3&checkSeats=1&code0=2000000&code1=2004000&dt0=13.04.2018&dt1=15.04.2018
 
 Коды городов:
 ```
