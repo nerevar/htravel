@@ -5,7 +5,18 @@ MySQL:
 * Запустить сервер: `mysql.server start`
 
 Django:
-* Интерактивная оболочка: `python manage.py shell`
+* Предварительно: 
+```
+source activate htravel
+```
+* Запустить сервер:
+```
+python manage.py runserver localhost:8000
+```
+* Интерактивная оболочка:
+```
+python manage.py shell
+```
 
 
 
