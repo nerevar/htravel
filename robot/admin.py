@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import City, Country, Route
+from .models import City, Country, Way
 
 
 admin.site.register(City)
 admin.site.register(Country)
-admin.site.register(Route)
+admin.site.register(Way)

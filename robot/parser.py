@@ -1,0 +1,52 @@
+from datetime import datetime
+from robot.models import Country, City, Way, Route, Price
+
+
+def parse_rzd_trip(data):
+    depart_date = datetime.strptime(data['date0'] + ' ' + data['time0'], '%d.%m.%Y %H:%M')
+    arrive_date = datetime.strptime(data['date1'] + ' ' + data['time1'], '%d.%m.%Y %H:%M')
+
+    return Route(
+        departure=depart_date,
+        arrive=arrive_date,
+        duration=(depart_date - arrive_date),
+
+        carrier=data.get('carrier'),
+        carrier_description=data.get('brand'),
+        route_number=data.get('number'),
+    )
+
+
+def parse_rzd_prices(price_list):
+    for item in price_list:
+        if item['typeLoc'] in ['Плацкартный', 'Купе']:
+            yield {
+                'price': int(item['tariff']),
+                'car_class': item['typeLoc'],
+                'free_seats': int(item['freeSeats']),
+            }
+
+
+def parse_rzd(data, way):
+    try:
+        trips_list = data['tp'][0]['list']
+    except:
+        return None
+
+    for data in trips_list:
+        route = parse_rzd_trip(data)
+        if route:
+            route.way = way
+            route.save()
+
+            for price in parse_rzd_prices(data['cars']):
+                Price.objects.create(
+                    route=route,
+                    price=price['price'],
+                    car_class=price['car_class'],
+                    free_seats=price['free_seats'],
+                )
+
+
+    # return route
+    # print(str(trips[0]))
