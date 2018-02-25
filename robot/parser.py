@@ -14,7 +14,7 @@ def parse_rzd_trip(data):
         # arrive=local_tz.localize(arrive_date),
         departure=depart_date,
         arrive=arrive_date,
-        duration=(depart_date - arrive_date),
+        duration=(arrive_date - depart_date),
 
         carrier=data.get('carrier'),
         car_description=data.get('brand'),
@@ -24,7 +24,7 @@ def parse_rzd_trip(data):
 
 def parse_rzd_prices(price_list):
     for item in price_list:
-        if item['typeLoc'] in ['Плацкартный', 'Купе']:
+        if item['typeLoc'] in ['Сидячий', 'Плацкартный', 'Купе']:
             yield {
                 'price': int(item['tariff']),
                 'car_class': item['typeLoc'],
@@ -38,11 +38,13 @@ def parse_rzd(data, way):
     except:
         return None
 
+    routes_count = 0
     for data in trips_list:
         route = parse_rzd_trip(data)
         if route:
             route.way = way
             route.save()
+            routes_count += 1
 
             for price in parse_rzd_prices(data['cars']):
                 Price.objects.create(
@@ -51,7 +53,4 @@ def parse_rzd(data, way):
                     car_class=price['car_class'],
                     free_seats=price['free_seats'],
                 )
-
-
-    # return route
-    # print(str(trips[0]))
+    return routes_count

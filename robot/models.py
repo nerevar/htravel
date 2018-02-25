@@ -1,5 +1,8 @@
+from htravel import settings
+from django.utils.timezone import pytz
+from datetime import timedelta
 from django.db import models
-from django.utils import timezone
+from django.db.models import Q
 
 
 class Country(models.Model):
@@ -46,8 +49,13 @@ class Route(models.Model):
                                        verbose_name='Название поезда или тип самолёта', default='')
     route_number = models.CharField(max_length=6, verbose_name='Номер рейса или номер поезда', default='')
 
+    @property
     def min_price(self):
-        prices = Price.objects.filter(route=self)
+        prices = Price.objects.filter(
+            ~Q(car_class__contains='Сидячий') | Q(route__duration__lte=timedelta(hours=4, minutes=30)),
+            route=self
+        )
+        print(prices.query)
         if len(prices) > 0:
             return prices[0].price
         else:
@@ -55,10 +63,11 @@ class Route(models.Model):
 
     @property
     def depart(self):
-        return self.departure.strftime('%Y-%m-%d %H:%M')
+        local_tz = pytz.timezone(settings.TIME_ZONE)
+        return self.departure.astimezone(local_tz).strftime('%Y-%m-%d %H:%M')
 
     def __str__(self):
-        return '{} {} {} {} = {}₽'.format(self.depart, self.carrier, self.car_description, self.way, self.min_price())
+        return '{} {} {} {} = {}₽'.format(self.depart, self.carrier, self.car_description, self.way, self.min_price)
 
 
 class Price(models.Model):
