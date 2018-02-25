@@ -58,11 +58,11 @@ class Route(models.Model):
         return self.departure.strftime('%Y-%m-%d %H:%M')
 
     def __str__(self):
-        return '{} {} {} = {}₽'.format(self.depart, self.carrier, self.way, self.min_price())
+        return '{} {} {} {} = {}₽'.format(self.depart, self.carrier, self.car_description, self.way, self.min_price())
 
 
 class Price(models.Model):
-    route = models.ForeignKey('Route', on_delete=models.CASCADE, null=True, blank=True)
+    route = models.ForeignKey('Route', on_delete=models.SET_NULL, null=True, blank=True)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     car_class = models.CharField(max_length=40, verbose_name='Тип вагона или места в самолёте')
     free_seats = models.PositiveSmallIntegerField(null=True, blank=True)

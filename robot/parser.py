@@ -1,18 +1,23 @@
+from htravel import settings
+from django.utils.timezone import pytz
 from datetime import datetime
 from robot.models import Country, City, Way, Route, Price
 
 
 def parse_rzd_trip(data):
-    depart_date = datetime.strptime(data['date0'] + ' ' + data['time0'], '%d.%m.%Y %H:%M')
-    arrive_date = datetime.strptime(data['date1'] + ' ' + data['time1'], '%d.%m.%Y %H:%M')
+    local_tz = pytz.timezone(settings.TIME_ZONE)
+    depart_date = datetime.strptime(data['date0'] + ' ' + data['time0'], '%d.%m.%Y %H:%M').replace(tzinfo=local_tz)
+    arrive_date = datetime.strptime(data['date1'] + ' ' + data['time1'], '%d.%m.%Y %H:%M').replace(tzinfo=local_tz)
 
     return Route(
+        # departure=local_tz.localize(depart_date),
+        # arrive=local_tz.localize(arrive_date),
         departure=depart_date,
         arrive=arrive_date,
         duration=(depart_date - arrive_date),
 
         carrier=data.get('carrier'),
-        carrier_description=data.get('brand'),
+        car_description=data.get('brand'),
         route_number=data.get('number'),
     )
 
