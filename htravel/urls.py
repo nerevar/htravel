@@ -15,6 +15,7 @@ Including another URLconf
 """
 
 from robot.views import add_test_trip, clear_trips
+from searcher.views import main
 from django.views.generic import RedirectView
 from django.contrib import admin
 from django.urls import path
@@ -24,4 +25,5 @@ urlpatterns = [
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.png'), name='favicon'),
     path('add_test_trip', add_test_trip, name='add_test_trip'),
     path('clear_trips', clear_trips, name='clear_trips'),
+    path('', main, name='main'),
 ]
