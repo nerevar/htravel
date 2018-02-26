@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+
+{% block content %}
+                <div class="card mb-4">
+                    <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ way.to_city }}</h3>
+                        <p class="card-text">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
+                            aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi
+                            vero voluptate voluptatibus possimus, veniam magni quis!
+                            <ul>
+                                {% for route in routes %}
+                                    <li>{{ route }}</li>
+                                {% endfor %}
+                            </ul>
+                        </p>
+                        <a href="#" class="btn btn-primary">Read More →</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        Posted on January 1, 2017 by
+                        <a href="#">Start Bootstrap</a>
+                    </div>
+                </div>
+{% endblock %}
