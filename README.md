@@ -1,8 +1,23 @@
 # Holidays travel
 
+### Milestones
+##### РЖД:
+- [ ] список билетов 
+- [ ] билеты туда-обратно
+- [ ] несколько городов
+- [ ] запуск по крону направлений
+##### Авиа:
+- [ ] aviasales API
+- [ ] skyskanner API
+- [ ] Pobeda crawler
+
+### Cli команды
 
 MySQL:
-* Запустить сервер: `mysql.server start`
+* Запустить сервер:
+```
+mysql.server start
+```
 
 Django:
 * Предварительно: 
