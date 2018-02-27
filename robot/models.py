@@ -1,6 +1,6 @@
 from htravel import settings
 from django.utils.timezone import pytz
-from datetime import timedelta
+from datetime import timedelta, datetime
 from django.db import models
 from django.db.models import Q
 
@@ -15,6 +15,7 @@ class Country(models.Model):
 
 class City(models.Model):
     title = models.CharField(max_length=50)
+    descr = models.TextField(null=True, blank=True, default=None)
     iata_code = models.CharField(max_length=3, blank=True, null=True, default=None, verbose_name='Код аэропорта ИАТА')
     rzd_code = models.CharField(max_length=10, blank=True, null=True, default=None, verbose_name='Код ж/д станции')
     country = models.ForeignKey('Country', on_delete=models.SET_NULL, null=True)
@@ -68,6 +69,10 @@ class Route(models.Model):
 
     def __str__(self):
         return '{} {} {} {} = {}₽'.format(self.depart, self.carrier, self.car_description, self.way, self.min_price)
+
+    @staticmethod
+    def get_by_date(dt):
+        return Route.objects.filter(arrive__gte=dt)
 
 
 class Price(models.Model):
