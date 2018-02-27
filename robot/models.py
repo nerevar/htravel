@@ -64,7 +64,7 @@ class Route(models.Model):
     @property
     def depart(self):
         local_tz = pytz.timezone(settings.TIME_ZONE)
-        return self.departure.astimezone(local_tz).strftime('%Y-%m-%d %H:%M')
+        return self.departure.astimezone(local_tz).strftime('%Y-%m-%d %a %H:%M')
 
     def __str__(self):
         return '{} {} {} {} = {}₽'.format(self.depart, self.carrier, self.car_description, self.way, self.min_price)
