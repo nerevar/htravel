@@ -63,6 +63,10 @@ class Route(models.Model):
             return None
 
     @property
+    def car_descr(self):
+        return self.car_description or ''
+
+    @property
     def depart(self):
         local_tz = pytz.timezone(settings.TIME_ZONE)
         return self.departure.astimezone(local_tz).strftime('%Y-%m-%d %a %H:%M')
@@ -71,8 +75,24 @@ class Route(models.Model):
         return '{} {} {} {} = {}₽'.format(self.depart, self.carrier, self.car_description, self.way, self.min_price)
 
     @staticmethod
-    def get_by_date(dt):
-        return Route.objects.filter(arrive__gte=dt)
+    def get(direction, filters):
+        routes = Route.objects.filter(way=filters['way'])
+
+        # TODO: поддержать plus_days
+        plus_days = filters.get('plus_days', 0)
+
+        if direction == 'head':
+            routes = routes.filter(
+                # departure__gte=(filters['start_date'] - timedelta(days=1)),
+                arrive__lte=filters['start_date']
+            )
+        else:
+            routes = routes.filter(
+                departure__gte=(filters['start_date'] + timedelta(days=1)),
+                # arrive__lte=(filters['start_date'] + timedelta(days=2)),
+            )
+
+        return routes
 
 
 class Price(models.Model):

@@ -8,12 +8,48 @@
                         <h3 class="card-title">{{ item.way.from_city }} - {{ item.way.to_city }}</h3>
                         <p class="card-text">
                             {{ item.way.to_city.descr }}
-                            <ul>
-                                {% for route in item.routes %}
-                                    <li>{{ route }}</li>
-                                {% endfor %}
-                            </ul>
                         </p>
+
+                        <h3>Туда</h3>
+                        <table border="0" class="table" id="tab-compare">
+                            <thead valign="bottom">
+                            <tr class="row-odd">
+                                <th class="head">Дата</th>
+                                <th class="head">Поезд</th>
+                                <th class="head">Стоимость</th>
+                            </tr>
+                            </thead>
+                            <tbody valign="top">
+                                {% for route in item.routes_head %}
+                                    <tr class="row-odd">
+                                        <td>{{ route.depart }}</td>
+                                        <td>{{ route.car_descr }} {{ route.route_number }}</td>
+                                        <td>{{ route.min_price }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                        <h3>Обратно</h3>
+                        <table border="0" class="table" id="tab-compare">
+                            <thead valign="bottom">
+                            <tr class="row-odd">
+                                <th class="head">Дата</th>
+                                <th class="head">Поезд</th>
+                                <th class="head">Стоимость</th>
+                            </tr>
+                            </thead>
+                            <tbody valign="top">
+                                {% for route in item.routes_back %}
+                                    <tr class="row-odd">
+                                        <td>{{ route.depart }}</td>
+                                        <td>{{ route.car_descr }} {{ route.route_number }}</td>
+                                        <td>{{ route.min_price }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
                         <a href="#" class="btn btn-primary">Read More →</a>
                     </div>
                     <div class="card-footer text-muted">
