@@ -4,6 +4,8 @@ from datetime import timedelta, datetime
 from django.db import models
 from django.db.models import Q
 
+ROUTES_COUNT = 5
+
 
 class Country(models.Model):
     title = models.CharField(max_length=50)
@@ -37,6 +39,21 @@ class Way(models.Model):
         return '{}: {} - {}'.format(self.type, self.from_city, self.to_city)
 
 
+class ForwardRoutesManager(models.Manager):
+    # 1. Получить всёваще
+    # 2. Отфильтровать нужный way (город)
+    # 3. TODO: Отфильтровать по нужной дате
+    # 4. Рассчитать forward_score
+    # 5. Взять топ по forward_score
+
+    def get(self, filters):
+        # TODO: фильтр по дате
+        routes = self.all().filter(way=filters['way'])
+        ordered = sorted(routes, key=lambda x: x.calc_forward_score(routes))
+
+        return ordered[:ROUTES_COUNT]
+
+
 class Route(models.Model):
     way = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True)
     request_date = models.DateTimeField(auto_now_add=True, null=True)
@@ -50,17 +67,58 @@ class Route(models.Model):
                                        verbose_name='Название поезда или тип самолёта', default='')
     route_number = models.CharField(max_length=6, verbose_name='Номер рейса или номер поезда', default='')
 
+    objects = models.Manager()
+    forward_routes = ForwardRoutesManager()
+
     @property
     def min_price(self):
         prices = Price.objects.filter(
             ~Q(car_class__contains='Сидячий') | Q(route__duration__lte=timedelta(hours=4, minutes=30)),
             route=self
         )
-        print(prices.query)
         if len(prices) > 0:
-            return prices[0].price
+            return float(prices[0].price)
         else:
             return None
+
+    def get_platzkart_price(self):
+        prices = Price.objects.filter(route=self, car_class='Плацкартный')
+        if len(prices) > 0:
+            return float(prices[0].price)
+        else:
+            return None
+
+    def calc_price_score(self, other_routes):
+        current_price = self.get_platzkart_price()
+        if not current_price:
+            return -1000
+
+        all_prices = [x.get_platzkart_price() for x in other_routes]
+        all_prices = [x for x in all_prices if x]
+
+        count_vals = sum(current_price < x for x in all_prices)
+        percentile = float(count_vals) / len(all_prices)
+
+        return percentile
+
+    def calc_forward_score(self, other_routes):
+        score = 0
+
+        # Фирменный поезд
+        if self.car_description:
+            score += 1.0 * 1.0
+
+        # Цена
+        score += 2.0 * self.calc_price_score(other_routes)
+
+        # TODO: длительность поездки
+        # TODO: время отправления, время прибытия
+        # TODO: учесть купе / сидячие
+        # TODO: проходящий поезд или нет
+        # TODO: исключить цены за инвалидные места
+
+        # print(self, score, self.car_description)
+        return -score
 
     @property
     def car_descr(self):
