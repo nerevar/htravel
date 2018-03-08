@@ -1,6 +1,7 @@
+import operator
 from htravel import settings
 from django.utils.timezone import pytz
-from datetime import timedelta, datetime
+from datetime import timedelta
 from django.db import models
 from django.db.models import Q
 
@@ -42,14 +43,16 @@ class Way(models.Model):
 class ForwardRoutesManager(models.Manager):
     # 1. Получить всёваще
     # 2. Отфильтровать нужный way (город)
-    # 3. TODO: Отфильтровать по нужной дате
+    # 3. TODO: Отфильтровать по дате выезда
     # 4. Рассчитать forward_score
     # 5. Взять топ по forward_score
 
     def get(self, filters):
         # TODO: фильтр по дате
         routes = self.all().filter(way=filters['way'])
-        ordered = sorted(routes, key=lambda x: x.calc_forward_score(routes))
+        for r in routes:
+            r.score = r.calc_forward_score(routes)
+        ordered = sorted(routes, key=operator.attrgetter('score'), reverse=True)
 
         return ordered[:ROUTES_COUNT]
 
@@ -69,6 +72,8 @@ class Route(models.Model):
 
     objects = models.Manager()
     forward_routes = ForwardRoutesManager()
+
+    score = None
 
     @property
     def min_price(self):
@@ -109,7 +114,7 @@ class Route(models.Model):
             score += 1.0 * 1.0
 
         # Цена
-        score += 2.0 * self.calc_price_score(other_routes)
+        score += 1.0 * self.calc_price_score(other_routes)
 
         # TODO: длительность поездки
         # TODO: время отправления, время прибытия
@@ -118,7 +123,7 @@ class Route(models.Model):
         # TODO: исключить цены за инвалидные места
 
         # print(self, score, self.car_description)
-        return -score
+        return score
 
     @property
     def car_descr(self):
@@ -137,7 +142,7 @@ class Route(models.Model):
         routes = Route.objects.filter(way=filters['way'])
 
         # TODO: поддержать plus_days
-        plus_days = filters.get('plus_days', 0)
+        # plus_days = filters.get('plus_days', 0)
 
         if direction == 'head':
             routes = routes.filter(
