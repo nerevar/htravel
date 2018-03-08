@@ -1,6 +1,7 @@
 import operator
 from htravel import settings
-from django.utils.timezone import pytz
+from robot.helpers import TimeRange
+from django.utils.timezone import pytz, is_aware
 from datetime import timedelta, datetime
 from django.db import models
 from django.db.models import Q
@@ -117,18 +118,80 @@ class Route(models.Model):
 
         return percentile
 
+    def calc_duration_score(self, other_routes):
+        all_durations = [r.duration for r in other_routes if r.min_price]
+
+        count_vals = sum(self.duration < x for x in all_durations)
+        percentile = float(count_vals) / len(all_durations)
+
+        return percentile
+
+    def calc_departure_time_score(self):
+        if self.departure in TimeRange('21:00', '22:00', LOCAL_TZ):
+            return 1.0
+        elif self.departure in TimeRange('20:00', '21:00', LOCAL_TZ):
+            return 0.8
+        elif self.departure in TimeRange('19:00', '20:00', LOCAL_TZ):
+            return 0.7
+        elif self.departure in TimeRange('18:00', '19:00', LOCAL_TZ):
+            return 0.6
+        elif self.departure in TimeRange('17:00', '18:00', LOCAL_TZ):
+            return 0.5
+        elif self.departure in TimeRange('15:00', '17:00', LOCAL_TZ):
+            return 0.4
+
+        elif self.departure in TimeRange('22:00', '23:00', LOCAL_TZ):
+            return 0.8
+        elif self.departure in TimeRange('23:00', '23:59', LOCAL_TZ):
+            return 0.7
+        # TODO: с 00:00 до часу ночи
+
+        return 0.0
+
+    def calc_arrive_time_score(self):
+        if self.arrive in TimeRange('07:30', '09:00', LOCAL_TZ):
+            return 1.0
+        elif self.arrive in TimeRange('07:00', '07:30', LOCAL_TZ):
+            return 0.9
+        elif self.arrive in TimeRange('06:30', '07:00', LOCAL_TZ):
+            return 0.8
+        elif self.arrive in TimeRange('06:00', '06:30', LOCAL_TZ):
+            return 0.7
+        elif self.arrive in TimeRange('05:30', '06:00', LOCAL_TZ):
+            return 0.4
+        elif self.arrive in TimeRange('05:00', '05:30', LOCAL_TZ):
+            return 0.3
+        elif self.arrive in TimeRange('01:00', '05:00', LOCAL_TZ):
+            return 0.1
+
+        elif self.arrive in TimeRange('09:00', '10:00', LOCAL_TZ):
+            return 0.9
+        elif self.arrive in TimeRange('10:00', '11:00', LOCAL_TZ):
+            return 0.8
+        elif self.arrive in TimeRange('11:00', '12:00', LOCAL_TZ):
+            return 0.7
+        elif self.arrive in TimeRange('12:00', '13:00', LOCAL_TZ):
+            return 0.6
+        elif self.arrive in TimeRange('13:00', '19:00', LOCAL_TZ):
+            return 0.4
+
+        return 0.0
+
     def calc_forward_score(self, other_routes):
         score = 0
 
         # Фирменный поезд
         if self.car_description:
-            score += 1.0 * 1.0
+            score += 1.0
 
         # Цена
         score += 1.5 * self.calc_price_score(other_routes)
 
-        # TODO: длительность поездки
-        # TODO: время отправления, время прибытия
+        # Время отправления, прибытия, длительность
+        score += 0.5 * self.calc_departure_time_score()
+        score += 0.5 * self.calc_arrive_time_score()
+        score += 0.2 * self.calc_duration_score(other_routes)
+
         # TODO: учесть купе / сидячие
         # TODO: проходящий поезд или нет
         # TODO: исключить цены за инвалидные места
