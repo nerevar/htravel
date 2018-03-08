@@ -10,6 +10,8 @@ from robot.models import Country, City, Way, Route, Price
 # - фильтрация только хороших билетов с местами и ценами - Filter service
 # - в базу сохранить только хорошие
 
+LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
+
 
 class Parser:
     ways_count = 0
@@ -31,17 +33,18 @@ class Parser:
 
     @staticmethod
     def parse_route(route_data):
-        local_tz = pytz.timezone(settings.TIME_ZONE)
-        depart_date = datetime \
-            .strptime(route_data['date0'] + ' ' + route_data['time0'], '%d.%m.%Y %H:%M') \
-            .replace(tzinfo=local_tz)
-        arrive_date = datetime \
-            .strptime(route_data['date1'] + ' ' + route_data['time1'], '%d.%m.%Y %H:%M') \
-            .replace(tzinfo=local_tz)
+        depart_date = datetime.strptime(
+            route_data['date0'] + ' ' + route_data['time0'],
+            '%d.%m.%Y %H:%M'
+        )
+        arrive_date = datetime.strptime(
+            route_data['date1'] + ' ' + route_data['time1'],
+            '%d.%m.%Y %H:%M'
+        )
 
         return Route(
-            departure=depart_date,
-            arrive=arrive_date,
+            departure=LOCAL_TZ.localize(depart_date),
+            arrive=LOCAL_TZ.localize(arrive_date),
             duration=(arrive_date - depart_date),
 
             carrier=route_data.get('carrier'),

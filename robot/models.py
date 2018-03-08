@@ -1,11 +1,12 @@
 import operator
 from htravel import settings
 from django.utils.timezone import pytz
-from datetime import timedelta
+from datetime import timedelta, datetime
 from django.db import models
 from django.db.models import Q
 
 ROUTES_COUNT = 5
+LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
 
 
 class Country(models.Model):
@@ -43,21 +44,45 @@ class Way(models.Model):
 class ForwardRoutesManager(models.Manager):
     # 1. Получить всёваще
     # 2. Отфильтровать нужный way (город)
-    # 3. TODO: Отфильтровать по дате выезда
+    # 3. Отфильтровать по дате выезда
     # 4. Рассчитать forward_score
     # 5. Взять топ по forward_score
 
     def get(self, filters):
-        # TODO: фильтр по дате
-        routes = self.all().filter(way=filters['way'])
+        # Ищем поезда ТУДА с 15:00 до 01:00 следующего дня
+        depature_from = datetime(
+            filters['forward_date'].year,
+            filters['forward_date'].month,
+            filters['forward_date'].day,
+            hour=15,
+            minute=0,
+        ) - timedelta(days=1)
+
+        depature_to = datetime(
+            filters['forward_date'].year,
+            filters['forward_date'].month,
+            filters['forward_date'].day,
+            hour=0,
+            minute=59,
+        )
+
+        routes = self.all().filter(
+            departure__gte=LOCAL_TZ.localize(depature_from),
+            departure__lte=LOCAL_TZ.localize(depature_to),
+            way=filters['way']
+        )
         for r in routes:
             r.score = r.calc_forward_score(routes)
         ordered = sorted(routes, key=operator.attrgetter('score'), reverse=True)
 
-        return ordered[:ROUTES_COUNT]
+        return ordered#[:ROUTES_COUNT]
 
 
 class Route(models.Model):
+    # dynamic fields:
+    score = None
+
+    # model's properties:
     way = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True)
     request_date = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -73,8 +98,6 @@ class Route(models.Model):
     objects = models.Manager()
     forward_routes = ForwardRoutesManager()
 
-    score = None
-
     @property
     def min_price(self):
         prices = Price.objects.filter(
@@ -86,22 +109,10 @@ class Route(models.Model):
         else:
             return None
 
-    def get_platzkart_price(self):
-        prices = Price.objects.filter(route=self, car_class='Плацкартный')
-        if len(prices) > 0:
-            return float(prices[0].price)
-        else:
-            return None
-
     def calc_price_score(self, other_routes):
-        current_price = self.get_platzkart_price()
-        if not current_price:
-            return -1000
+        all_prices = [r.min_price for r in other_routes if r.min_price]
 
-        all_prices = [x.get_platzkart_price() for x in other_routes]
-        all_prices = [x for x in all_prices if x]
-
-        count_vals = sum(current_price < x for x in all_prices)
+        count_vals = sum(self.min_price < x for x in all_prices)
         percentile = float(count_vals) / len(all_prices)
 
         return percentile
@@ -114,7 +125,7 @@ class Route(models.Model):
             score += 1.0 * 1.0
 
         # Цена
-        score += 1.0 * self.calc_price_score(other_routes)
+        score += 1.5 * self.calc_price_score(other_routes)
 
         # TODO: длительность поездки
         # TODO: время отправления, время прибытия
@@ -131,8 +142,11 @@ class Route(models.Model):
 
     @property
     def depart(self):
-        local_tz = pytz.timezone(settings.TIME_ZONE)
-        return self.departure.astimezone(local_tz).strftime('%Y-%m-%d %a %H:%M')
+        return self.departure.astimezone(LOCAL_TZ).strftime('%Y-%m-%d %a %H:%M')
+
+    @property
+    def arriv(self):
+        return self.arrive.astimezone(LOCAL_TZ).strftime('%Y-%m-%d %a %H:%M')
 
     def __str__(self):
         return '{} {} {} {} = {}₽'.format(self.depart, self.carrier, self.car_description, self.way, self.min_price)
@@ -146,13 +160,13 @@ class Route(models.Model):
 
         if direction == 'head':
             routes = routes.filter(
-                # departure__gte=(filters['start_date'] - timedelta(days=1)),
-                arrive__lte=filters['start_date']
+                # departure__gte=(filters['forward_date'] - timedelta(days=1)),
+                arrive__lte=filters['forward_date']
             )
         else:
             routes = routes.filter(
-                departure__gte=(filters['start_date'] + timedelta(days=1)),
-                # arrive__lte=(filters['start_date'] + timedelta(days=2)),
+                departure__gte=(filters['forward_date'] + timedelta(days=1)),
+                # arrive__lte=(filters['forward_date'] + timedelta(days=2)),
             )
 
         return routes
