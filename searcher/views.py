@@ -20,7 +20,7 @@ def main(request):
             items[way.to_city_id]['way'] = way
             items[way.to_city_id]['routes_forward'] = Route.forward_routes.get(filters)
         else:
-            items[way.from_city_id]['routes_backward'] = Route.get('back', filters)
+            items[way.from_city_id]['routes_backward'] = Route.backward_routes.get(filters)
 
     return render(request, 'tickets.html', {
         'items': items.values()
