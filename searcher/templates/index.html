@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for item in items %}
+        <div class="card mb-4">
+            <!-- <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> -->
+            <div class="card-body">
+                <h3 class="card-title">{{ item.way.from_city }} - {{ item.way.to_city }}</h3>
+                <p class="card-text">
+                    {{ item.way.to_city.descr }}
+                </p>
+
+                <h5>Туда {{ item.routes_forward_count }} поездов</h5>
+                <p>3 лучших поезда, <a href="/trip/{{ item.way.from_city.name }}/{{ item.way.to_city.name }}/{{ item.filters.forward_date_str }}">посмотреть все</a>:</p>
+                <table border="0" class="table" id="tab-compare">
+                    <thead valign="bottom">
+                    <tr class="row-odd">
+                        <th class="head">Дата</th>
+                        <th class="head">Поезд</th>
+                        <th class="head">Стоимость</th>
+                        <th class="head">score</th>
+                    </tr>
+                    </thead>
+                    <tbody valign="top">
+                        {% for route in item.routes_forward %}
+                            <tr class="row-odd">
+                                <td class="trains__dates"><nobr>{{ route.depart }}</nobr> <br/> <nobr>{{ route.arriv }}</nobr></td>
+                                <td>{{ route.car_descr }} {{ route.route_number }}</td>
+                                <td>{{ route.min_price }}</td>
+                                <td>{{ route.score }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <h5>Обратно {{ item.routes_backward_count }} поездов</h5>
+                <p>3 лучших поезда, <a href="#">посмотреть все</a>:</p>
+                <table border="0" class="table" id="tab-compare">
+                    <thead valign="bottom">
+                    <tr class="row-odd">
+                        <th class="head">Дата</th>
+                        <th class="head">Поезд</th>
+                        <th class="head">Стоимость</th>
+                        <th class="head">score</th>
+                    </tr>
+                    </thead>
+                    <tbody valign="top">
+                        {% for route in item.routes_backward %}
+                            <tr class="row-odd">
+                                <td class="trains__dates"><nobr>{{ route.depart }}</nobr> <br/> <nobr>{{ route.arriv }}</nobr></td>
+                                <td>{{ route.car_descr }} {{ route.route_number }}</td>
+                                <td>{{ route.min_price }}</td>
+                                <td>{{ route.score }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+                <a href="#" class="btn btn-primary">Read More →</a>
+            </div>
+            <div class="card-footer text-muted">
+                Posted on January 1, 2017 by
+                <a href="#">Start Bootstrap</a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

@@ -20,6 +20,7 @@ class Country(models.Model):
 
 class City(models.Model):
     title = models.CharField(max_length=50)
+    name = models.CharField(max_length=50)
     descr = models.TextField(null=True, blank=True, default=None)
     iata_code = models.CharField(max_length=3, blank=True, null=True, default=None, verbose_name='Код аэропорта ИАТА')
     rzd_code = models.CharField(max_length=10, blank=True, null=True, default=None, verbose_name='Код ж/д станции')
