@@ -136,20 +136,11 @@ class Route(models.Model):
                                        verbose_name='Название поезда или тип самолёта', default='')
     route_number = models.CharField(max_length=6, verbose_name='Номер рейса или номер поезда', default='')
 
+    min_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+
     objects = models.Manager()
     forward_routes = ForwardRoutesManager()
     backward_routes = BackwardRoutesManager()
-
-    @property
-    def min_price(self):
-        prices = Price.objects.filter(
-            ~Q(car_class__contains='Сидячий') | Q(route__duration__lte=timedelta(hours=4, minutes=30)),
-            route=self
-        )
-        if len(prices) > 0:
-            return float(prices[0].price)
-        else:
-            return None
 
     @property
     def car_descr(self):
@@ -193,6 +184,9 @@ class RouteScoresCalculator:
         self.other_routes = other_routes
 
     def calc_price_score(self):
+        if not self.route.min_price:
+            return -1000
+
         all_prices = [r.min_price for r in self.other_routes if r.min_price]
 
         count_vals = sum(self.route.min_price < x for x in all_prices)

@@ -1,6 +1,6 @@
 from htravel import settings
 from django.utils.timezone import pytz
-from datetime import datetime
+from datetime import datetime, timedelta
 from robot.models import Country, City, Way, Route, Price
 
 # Parser:
@@ -79,11 +79,19 @@ class Parser:
                 self.routes_count += 1
 
                 # TODO: фильтрация, на основе route и цен
+                min_price = None
                 for price_data in route_data['cars']:
                     price = self.parse_price(price_data)
                     if not price:
                         continue
 
+                    if price.car_class != 'Сидячий' or route.duration <= timedelta(hours=4, minutes=30) \
+                            and (min_price is None or price.price < min_price):
+                        min_price = price.price
                     price.route = route
                     price.save()
                     self.prices_count += 1
+
+                if min_price:
+                    route.min_price = min_price
+                    route.save()
