@@ -14,6 +14,8 @@ def download():
 
 def get_latest_dumps():
     for trips in os.listdir(DUMPS_FOLDER):
+        if not os.path.isdir(os.path.join(DUMPS_FOLDER, trips)):
+            continue
         for date in os.listdir(os.path.join(DUMPS_FOLDER, trips)):
             json_files = os.listdir(os.path.join(DUMPS_FOLDER, trips, date))
             paths = [os.path.join(DUMPS_FOLDER, trips, date, basename) for basename in json_files]
@@ -31,6 +33,7 @@ class Crawler:
         self.request_date = None
 
     def download(self, delay=5):
+        # TODO: retry failded downloads
         # скачивает с rzd, возвращает json
         params = '&dir=1&tfl=1&checkSeats=1'
         params += '&code0={code_from}&dt0={date_from}&code1={code_to}&dt1={date_to}'.format(

@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -54,3 +54,25 @@ def download_test_routes(request):
 
     return HttpResponse(response_text)
     # return HttpResponse('Downloaded {} + {} routes'.format(len(data['tp'][0]), data['tp'][1]))
+
+
+def download_april_may(request):
+    response_text = ''
+    for way_cities in [('moscow', 'spb'), ('moscow', 'kazan')]:
+        way = Way.objects.get(
+            from_city__name__exact=way_cities[0],
+            to_city__name__exact=way_cities[1],
+        )
+
+        start_date = datetime(2018, 4, 6)
+        for i in range(8):
+            c = Crawler(way, start_date, start_date + timedelta(days=2))
+            data = c.download()
+            c.save_to_file()
+            if 'tp' in data and len(data['tp']):
+                response_text += '{} downloaded ok: {} ways'.format(start_date, len(data['tp']))
+            else:
+                response_text += '{} download fail {}'.format(start_date, data)
+            start_date += timedelta(days=7)
+
+    return HttpResponse(response_text)
