@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block title %}Билеты в {{ days.0.to.way.to_city }} — Holidays Travel{% endblock %}
+{% block title %}Билеты в {{ groups.0.to.way.to_city }} — Holidays Travel{% endblock %}
 
 {% block content %}
-    {% for item in days %}
+    {% for item in groups %}
             <div class="card mb-4">
                 <!-- <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> -->
                 <div class="card-body">
@@ -13,6 +13,7 @@
                     </p>
 
                     <h5>Туда {{ item.to.routes_count }} поездов</h5>
+                    <p><a href="/trip/{{ item.to.way.from_city.name }}/{{ item.to.way.to_city.name }}/{{ item.to.date_str }}">посмотреть все</a></p>
                     <table border="0" class="table" id="tab-compare">
                         <thead valign="bottom">
                         <tr class="row-odd">

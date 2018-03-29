@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from robot.views import add_test_trips, clear_trips, download_test_routes, download_april_may
-from searcher.views import main, by_city_and_date, by_city
+from searcher.views import main, by_city_and_date, by_city, by_date
 
 from django.views.generic import RedirectView
 from django.contrib import admin
@@ -31,4 +31,5 @@ urlpatterns = [
     path('', main, name='main'),
     path('trip/<str:city_from>/<str:city_to>/<str:date>', by_city_and_date, name='by_city_and_date'),
     path('trip/<str:city_from>/<str:city_to>', by_city, name='by_city'),
+    path('trip/<str:date_start>', by_date, name='by_date'),
 ]

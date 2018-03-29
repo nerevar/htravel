@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Билеты на выходные {{ groups.0.to.filters.forward_date_str }} — Holidays Travel{% endblock %}
+
+{% block content %}
+    {% for item in groups %}
+            <div class="card mb-4">
+                <!-- <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> -->
+                <div class="card-body">
+                    <h3 class="card-title">В эти выходные {{ item.to.way.from_city }} - {{ item.to.way.to_city }}</h3>
+                    <p class="card-text">
+                        {{ item.to.way.to_city.descr }}
+                    </p>
+
+                    <h5>Туда {{ item.to.routes_count }} поездов</h5>
+                    <p><a href="/trip/{{ item.to.way.from_city.name }}/{{ item.to.way.to_city.name }}/{{ item.to.filters.forward_date_str }}">посмотреть все</a></p>
+                    <table border="0" class="table" id="tab-compare">
+                        <thead valign="bottom">
+                        <tr class="row-odd">
+                            <th class="head">Дата</th>
+                            <th class="head">Поезд</th>
+                            <th class="head">Стоимость</th>
+                            <th class="head">score</th>
+                        </tr>
+                        </thead>
+                        <tbody valign="top">
+                            {% for route in item.to.routes %}
+                                <tr class="row-odd">
+                                    <td class="trains__dates"><nobr>{{ route.depart }}</nobr> <br/> <nobr>{{ route.arriv }}</nobr></td>
+                                    <td>{{ route.car_descr }} {{ route.route_number }}</td>
+                                    <td>{{ route.min_price }}</td>
+                                    <td>{{ route.score }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <h5>Обратно {{ item.from.routes_count }} поездов</h5>
+                    <table border="0" class="table" id="tab-compare">
+                        <thead valign="bottom">
+                        <tr class="row-odd">
+                            <th class="head">Дата</th>
+                            <th class="head">Поезд</th>
+                            <th class="head">Стоимость</th>
+                            <th class="head">score</th>
+                        </tr>
+                        </thead>
+                        <tbody valign="top">
+                            {% for route in item.from.routes %}
+                                <tr class="row-odd">
+                                    <td class="trains__dates"><nobr>{{ route.depart }}</nobr> <br/> <nobr>{{ route.arriv }}</nobr></td>
+                                    <td>{{ route.car_descr }} {{ route.route_number }}</td>
+                                    <td>{{ route.min_price }}</td>
+                                    <td>{{ route.score }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <a href="#" class="btn btn-primary">Read More →</a>
+                </div>
+                <div class="card-footer text-muted">
+                    Posted on January 1, 2017 by
+                    <a href="#">Start Bootstrap</a>
+                </div>
+            </div>
+    {% endfor %}
+{% endblock %}
