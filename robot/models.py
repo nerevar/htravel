@@ -1,3 +1,4 @@
+import itertools
 import operator
 from htravel import settings
 from robot.helpers import TimeRange
@@ -44,13 +45,25 @@ class Way(models.Model):
 
 
 class ForwardRoutesManager(models.Manager):
-    # 1. Получить всёваще
-    # 2. Отфильтровать нужный way (город)
-    # 3. Отфильтровать по дате выезда
-    # 4. Рассчитать forward_score
-    # 5. Взять топ по forward_score
+    def get_by_city(self, filters):
+        # TODO: Ищем поезда ТУДА с 15:00 до 01:00 следующего дня
+        all_routes = self.all().filter(
+            way=filters['way']
+        )
 
-    def get(self, filters):
+        result = []
+        for date, routes in itertools.groupby(all_routes, key=lambda x: x.departure.astimezone(LOCAL_TZ).strftime('%Y-%m-%d')):
+            routes = list(routes)
+            # print('   ', date, len(routes))
+            for r in routes:
+                fw = ForwardRouteScoresCalculator(r, routes)
+                r.score = fw.calc_score()
+            ordered = sorted(routes, key=operator.attrgetter('score'), reverse=True)
+            result.append(ordered)
+
+        return result
+
+    def get_by_city_and_date(self, filters):
         # Ищем поезда ТУДА с 15:00 до 01:00 следующего дня
         depature_from = datetime(
             filters['forward_date'].year,
@@ -82,13 +95,26 @@ class ForwardRoutesManager(models.Manager):
 
 
 class BackwardRoutesManager(models.Manager):
-    # 1. Получить всёваще
-    # 2. Отфильтровать нужный way (город)
-    # 3. Отфильтровать по дате выезда
-    # 4. Рассчитать backward_score
-    # 5. Взять топ по backward_score
+    def get_by_city(self, filters):
+        # TODO: Ищем поезда ТУДА с 15:00 до 01:00 следующего дня
+        all_routes = self.all().filter(
+            way=filters['way']
+        )
 
-    def get(self, filters):
+        result = []
+        for date, routes in itertools.groupby(all_routes, key=lambda x: x.departure.astimezone(LOCAL_TZ).strftime('%Y-%m-%d')):
+            routes = list(routes)
+            print('   ', date, len(routes))
+            for r in routes:
+                fw = BackwardRouteScoresCalculator(r, routes)
+                # TODO: считать score сразу в базе
+                r.score = fw.calc_score()
+            ordered = sorted(routes, key=operator.attrgetter('score'), reverse=True)
+            result.append(ordered)
+
+        return result
+
+    def get_by_city_and_date(self, filters):
         # Ищем поезда ОБРАТНО с 15:00 до 01:00 следующего дня
         depature_from = datetime(
             filters['forward_date'].year,
@@ -195,10 +221,13 @@ class RouteScoresCalculator:
         return percentile
 
     def calc_duration_score(self):
-        all_durations = [r.duration for r in self.other_routes if r.min_price]
+        try:
+            all_durations = [r.duration for r in self.other_routes if r.min_price]
 
-        count_vals = sum(self.route.duration < x for x in all_durations)
-        percentile = float(count_vals) / len(all_durations)
+            count_vals = sum(self.route.duration < x for x in all_durations)
+            percentile = float(count_vals) / len(all_durations)
+        except:
+            print('err calc_duration_score', all_durations, count_vals, list(self.other_routes))
 
         return percentile
 
