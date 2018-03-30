@@ -37,45 +37,15 @@ def main(request):
 
 
 def by_city(request, city_from, city_to):
-    """Поезда на разные даты в конкретный город city_to"""
-    filters = {
-        # 'from_city': 'Москва', # TODO
-        # 'plus_days': 0, # TODO
-        # 'forward_date_str': '14.04.2018',
-    }
-    #filters['forward_date'] = datetime.strptime(filters['forward_date_str'], '%d.%m.%Y')
-    items = defaultdict(dict)
-
     way_to = Way.objects.get(from_city__name__exact=city_from, to_city__name__exact=city_to)
     way_from = Way.objects.get(from_city__name__exact=city_to, to_city__name__exact=city_from)
 
-    filters['way'] = way_to
-    for routes in Route.forward_routes.get_by_city(filters):
-        date = routes[0].departure.astimezone(LOCAL_TZ).strftime('%Y-%m-%d')
-        items[date]['to'] = {}
-        items[date]['to']['way'] = way_to
-        items[date]['to']['routes'] = routes[:3]
-        items[date]['to']['routes_count'] = len(routes)
-        items[date]['to']['filters'] = filters
-        items[date]['to']['date'] = date
-        # TODO: сделать нормальную идентификацию по "субботе"
-        items[date]['to']['date_str'] = (routes[0].departure.astimezone(LOCAL_TZ) + timedelta(days=1)).strftime('%d.%m.%Y')
+    trips = Route.trips.get_trips({'way_to': way_to, 'way_from': way_from, })
 
-    filters['way'] = way_from
-    for routes in Route.backward_routes.get_by_city(filters):
-        date = (routes[0].departure.astimezone(LOCAL_TZ) - timedelta(days=2)).strftime('%Y-%m-%d')
-        items[date]['from'] = {}
-        items[date]['from']['way'] = way_from
-        items[date]['from']['routes'] = routes[:3]
-        items[date]['from']['routes_count'] = len(routes)
-        items[date]['from']['filters'] = filters
-
-    days = sorted(items.items(), key=lambda x: x[0])
-
-    # from pprint import pprint
-    # pprint([x[1] for x in days])
     return render(request, 'by_city.html', {
-        'groups': [x[1] for x in days]
+        'way_to': way_to,
+        'way_from': way_from,
+        'trips': list(trips)
     })
 
 

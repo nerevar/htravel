@@ -8,3 +8,6 @@ start:
 
 stop:
 	mysql.server stop
+
+shell:
+	python manage.py shell

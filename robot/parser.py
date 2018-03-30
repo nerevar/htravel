@@ -44,6 +44,7 @@ class Parser:
 
         return Route(
             departure=LOCAL_TZ.localize(depart_date),
+            departure_time=LOCAL_TZ.localize(depart_date).time(),
             arrive=LOCAL_TZ.localize(arrive_date),
             duration=(arrive_date - depart_date),
 

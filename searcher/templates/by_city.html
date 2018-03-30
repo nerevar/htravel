@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %}Билеты в {{ groups.0.to.way.to_city }} — Holidays Travel{% endblock %}
+{% block title %}Билеты в {{ way_to.to_city }} — Holidays Travel{% endblock %}
 
 {% block content %}
-    {% for item in groups %}
+    {% for trip in trips %}
             <div class="card mb-4">
                 <!-- <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> -->
                 <div class="card-body">
-                    <h3 class="card-title">{{ item.to.way.from_city }} - {{ item.to.way.to_city }} на выходные {{ item.to.date }}</h3>
+                    <h3 class="card-title">{{ trip.way_to.from_city }} - {{ trip.way_to.to_city }} на выходные {{ trip.key_date }}</h3>
                     <p class="card-text">
-                        {{ item.to.way.to_city.descr }}
+                        {{ trip.way_to.to_city.descr }}
                     </p>
 
-                    <h5>Туда {{ item.to.routes_count }} поездов</h5>
-                    <p><a href="/trip/{{ item.to.way.from_city.name }}/{{ item.to.way.to_city.name }}/{{ item.to.date_str }}">посмотреть все</a></p>
+                    <h5>Туда {{ trip.routes_to_count }} поездов</h5>
+                    <p><a href="/trip/{{ trip.way_to.from_city.name }}/{{ trip.way_to.to_city.name }}/{{ trip.key_date }}">посмотреть все TODO: формат даты</a></p>
                     <table border="0" class="table" id="tab-compare">
                         <thead valign="bottom">
                         <tr class="row-odd">
@@ -24,7 +24,7 @@
                         </tr>
                         </thead>
                         <tbody valign="top">
-                            {% for route in item.to.routes %}
+                            {% for route in trip.routes_to %}
                                 <tr class="row-odd">
                                     <td class="trains__dates"><nobr>{{ route.depart }}</nobr> <br/> <nobr>{{ route.arriv }}</nobr></td>
                                     <td>{{ route.car_descr }} {{ route.route_number }}</td>
@@ -35,7 +35,7 @@
                         </tbody>
                     </table>
 
-                    <h5>Обратно {{ item.from.routes_count }} поездов</h5>
+                    <h5>Обратно {{ trip.routes_from_count }} поездов</h5>
                     <table border="0" class="table" id="tab-compare">
                         <thead valign="bottom">
                         <tr class="row-odd">
@@ -46,7 +46,7 @@
                         </tr>
                         </thead>
                         <tbody valign="top">
-                            {% for route in item.from.routes %}
+                            {% for route in trip.routes_from %}
                                 <tr class="row-odd">
                                     <td class="trains__dates"><nobr>{{ route.depart }}</nobr> <br/> <nobr>{{ route.arriv }}</nobr></td>
                                     <td>{{ route.car_descr }} {{ route.route_number }}</td>

@@ -1,11 +1,16 @@
-import itertools
 import operator
-from htravel import settings
-from robot.helpers import TimeRange
+import itertools
+from functools import reduce
+from collections import defaultdict
+from datetime import timedelta, datetime, time
+from dateutil.relativedelta import relativedelta, SA
+
 from django.utils.timezone import pytz, is_aware
-from datetime import timedelta, datetime
 from django.db import models
 from django.db.models import Q
+
+from htravel import settings
+from robot.helpers import TimeRange
 
 ROUTES_COUNT = 5
 LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
@@ -42,6 +47,105 @@ class Way(models.Model):
 
     def __str__(self):
         return '{}: {} - {}'.format(self.type, self.from_city, self.to_city)
+
+
+class TripsManager(models.Manager):
+    @staticmethod
+    def get_departure_to_filter(date_to_str):
+        date_to = datetime.strptime(date_to_str, '%d.%m.%Y')
+        departure_from = datetime(date_to.year, date_to.month, date_to.day, hour=15, minute=0) - timedelta(days=1)
+        departure_to = datetime( date_to.year, date_to.month, date_to.day, hour=0, minute=59)
+
+        return [
+            Q(departure__gte=LOCAL_TZ.localize(departure_from)),
+            Q(departure__lte=LOCAL_TZ.localize(departure_to)),
+        ]
+
+    @staticmethod
+    def get_departure_from_filter(date_to_str):
+        date_to = datetime.strptime(date_to_str, '%d.%m.%Y')
+        departure_from = datetime(date_to.year, date_to.month, date_to.day, hour=15, minute=0) + timedelta(days=1)
+        departure_to = datetime(date_to.year, date_to.month, date_to.day, hour=0, minute=59) + timedelta(days=2)
+
+        return [
+            Q(departure__gte=LOCAL_TZ.localize(departure_from)),
+            Q(departure__lte=LOCAL_TZ.localize(departure_to)),
+        ]
+
+    @staticmethod
+    def get_time_filter():
+        # TODO: поезда с 12 до часу ночи
+        return [
+            Q(departure_time__gte=time(hour=15, minute=0)),
+            Q(departure_time__lte=time(hour=23, minute=59)),
+        ]
+
+    @staticmethod
+    def get_way_filter(way):
+        return [Q(way=way)]
+
+    def get_routes(self, filters, direction='to'):
+        trip_filters = []
+        if direction == 'to':
+            if filters.get('date_to_str'):
+                trip_filters += self.get_departure_to_filter(filters['date_to_str'])
+            else:
+                trip_filters += self.get_time_filter()
+            if filters.get('way_to'):
+                trip_filters += self.get_way_filter(filters['way_to'])
+        else:
+            if filters.get('date_to_str'):
+                trip_filters += self.get_departure_from_filter(filters['date_to_str'])
+            else:
+                trip_filters += self.get_time_filter()
+            if filters.get('way_from'):
+                trip_filters += self.get_way_filter(filters['way_from'])
+
+        all_routes = self.all().filter(reduce(operator.and_, trip_filters))
+
+        result = {}
+        if direction == 'to':
+            def group_key(x): return x.key_day(+1), x.way.to_city_id
+        else:
+            def group_key(x): return x.key_day(-1), x.way.from_city_id
+
+        for (date, city_id), routes in itertools.groupby(all_routes, key=group_key):
+            routes = list(routes)
+            for r in routes:
+                if direction == 'to':
+                    fw = ForwardRouteScoresCalculator(r, routes)
+                else:
+                    fw = BackwardRouteScoresCalculator(r, routes)
+                r.score = fw.calc_score()
+            ordered = sorted(routes, key=operator.attrgetter('score'), reverse=True)
+            result[(date, city_id)] = ordered
+
+        return result
+
+    def get_trips(self, filters):
+        routes_to = self.get_routes({
+            'date_to_str': filters.get('date_to_str'),
+            'way_to': filters.get('way_to'),
+        }, direction='to')
+        routes_from = self.get_routes({
+            'date_to_str': filters.get('date_to_str'),
+            'way_from': filters.get('way_from'),
+        }, direction='from')
+
+        # сортировка по дате, потом по городу TODO: что-нибудь получше
+        common_dates = sorted(set(routes_to.keys()) & set(routes_from.keys()), key=lambda x: (x[0], x[1]))
+        for key_date, city_id in common_dates:
+            yield {
+                'filters': filters,
+                'key_date': key_date,
+                'city_id': city_id,
+                'way_to': routes_to[(key_date, city_id)][0].way,
+                'way_from': routes_from[(key_date, city_id)][0].way,
+                'routes_to': routes_to[(key_date, city_id)],
+                'routes_to_count': len(routes_to[(key_date, city_id)]),
+                'routes_from': routes_from[(key_date, city_id)],
+                'routes_from_count': len(routes_from[(key_date, city_id)]),
+            }
 
 
 class ForwardRoutesManager(models.Manager):
@@ -120,6 +224,7 @@ class ForwardRoutesManager(models.Manager):
             departure__lte=LOCAL_TZ.localize(depature_to),
             way=filters['way']
         )
+
         for r in routes:
             fw = ForwardRouteScoresCalculator(r, routes)
             r.score = fw.calc_score()
@@ -225,6 +330,7 @@ class Route(models.Model):
     request_date = models.DateTimeField(auto_now_add=True, null=True)
 
     departure = models.DateTimeField(null=True)
+    departure_time = models.TimeField(null=True)
     arrive = models.DateTimeField(null=True)
     duration = models.DurationField(null=True)
 
@@ -238,6 +344,10 @@ class Route(models.Model):
     objects = models.Manager()
     forward_routes = ForwardRoutesManager()
     backward_routes = BackwardRoutesManager()
+    trips = TripsManager()
+
+    def key_day(self, direction=1):
+        return (self.departure.astimezone(LOCAL_TZ) + relativedelta(weekday=SA(direction))).strftime('%Y-%m-%d')
 
     @property
     def car_descr(self):
@@ -410,3 +520,4 @@ class Price(models.Model):
 
     class Meta:
         ordering = ['price']
+
