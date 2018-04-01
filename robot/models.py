@@ -11,6 +11,7 @@ from django.db.models import Q
 
 from htravel import settings
 from robot.helpers import TimeRange
+from searcher.helpers import get_date_to
 
 ROUTES_COUNT = 5
 LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
@@ -84,6 +85,13 @@ class TripsManager(models.Manager):
     def get_way_filter(way):
         return [Q(way=way)]
 
+    @staticmethod
+    def get_city_filter(direction, city_name):
+        if direction == 'to':
+            return [Q(way__from_city__name__exact=city_name)]
+        else:
+            return [Q(way__to_city__name__exact=city_name)]
+
     def get_routes(self, filters, direction='to'):
         trip_filters = []
         if direction == 'to':
@@ -93,6 +101,8 @@ class TripsManager(models.Manager):
                 trip_filters += self.get_time_filter()
             if filters.get('way_to'):
                 trip_filters += self.get_way_filter(filters['way_to'])
+            if filters.get('city_from'):
+                trip_filters += self.get_city_filter(direction, filters['city_from'])
         else:
             if filters.get('date_to_str'):
                 trip_filters += self.get_departure_from_filter(filters['date_to_str'])
@@ -100,6 +110,8 @@ class TripsManager(models.Manager):
                 trip_filters += self.get_time_filter()
             if filters.get('way_from'):
                 trip_filters += self.get_way_filter(filters['way_from'])
+            if filters.get('city_from'):
+                trip_filters += self.get_city_filter(direction, filters['city_from'])
 
         all_routes = self.all().filter(reduce(operator.and_, trip_filters))
 
@@ -126,10 +138,12 @@ class TripsManager(models.Manager):
         routes_to = self.get_routes({
             'date_to_str': filters.get('date_to_str'),
             'way_to': filters.get('way_to'),
+            'city_from': filters.get('city_from'),
         }, direction='to')
         routes_from = self.get_routes({
             'date_to_str': filters.get('date_to_str'),
             'way_from': filters.get('way_from'),
+            'city_from': filters.get('city_from'),
         }, direction='from')
 
         # сортировка по дате, потом по городу TODO: что-нибудь получше
@@ -138,6 +152,7 @@ class TripsManager(models.Manager):
             yield {
                 'filters': filters,
                 'key_date': key_date,
+                'date_to': get_date_to(key_date),
                 'city_id': city_id,
                 'way_to': routes_to[(key_date, city_id)][0].way,
                 'way_from': routes_from[(key_date, city_id)][0].way,

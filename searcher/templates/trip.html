@@ -1,0 +1,60 @@
+<div class="card mb-4">
+    <!-- <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> -->
+    <div class="card-body">
+        <h3 class="card-title">{{ trip.way_to.from_city }} - {{ trip.way_to.to_city }} на выходных {{ trip.date_to }}</h3>
+        <p class="card-text">
+            {{ trip.way_to.to_city.descr }}
+        </p>
+
+        <h5>Туда {{ trip.routes_to_count }} поездов</h5>
+        <p><a href="/trip/{{ trip.way_to.from_city.name }}/{{ trip.way_to.to_city.name }}/{{ trip.date_to }}">посмотреть все</a></p>
+        <table border="0" class="table" id="tab-compare">
+            <thead valign="bottom">
+            <tr class="row-odd">
+                <th class="head">Дата</th>
+                <th class="head">Поезд</th>
+                <th class="head">Стоимость</th>
+                <th class="head">score</th>
+            </tr>
+            </thead>
+            <tbody valign="top">
+                {% for route in trip.routes_to|slice:SHOW_ROUTES_COUNT %}
+                    <tr class="row-odd">
+                        <td class="trains__dates"><nobr>{{ route.depart }}</nobr> <br/> <nobr>{{ route.arriv }}</nobr></td>
+                        <td>{{ route.car_descr }} {{ route.route_number }}</td>
+                        <td>{{ route.min_price }}</td>
+                        <td>{{ route.score }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h5>Обратно {{ trip.routes_from_count }} поездов</h5>
+        <table border="0" class="table" id="tab-compare">
+            <thead valign="bottom">
+            <tr class="row-odd">
+                <th class="head">Дата</th>
+                <th class="head">Поезд</th>
+                <th class="head">Стоимость</th>
+                <th class="head">score</th>
+            </tr>
+            </thead>
+            <tbody valign="top">
+                {% for route in trip.routes_from|slice:SHOW_ROUTES_COUNT %}
+                    <tr class="row-odd">
+                        <td class="trains__dates"><nobr>{{ route.depart }}</nobr> <br/> <nobr>{{ route.arriv }}</nobr></td>
+                        <td>{{ route.car_descr }} {{ route.route_number }}</td>
+                        <td>{{ route.min_price }}</td>
+                        <td>{{ route.score }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="#" class="btn btn-primary">Read More →</a>
+    </div>
+    <div class="card-footer text-muted">
+        Posted on January 1, 2017 by
+        <a href="#">Start Bootstrap</a>
+    </div>
+</div>

@@ -29,7 +29,7 @@ urlpatterns = [
     path('download_april_may', download_april_may, name='download_april_may'),
     path('clear_trips', clear_trips, name='clear_trips'),
     path('', main, name='main'),
-    path('trip/<str:city_from>/<str:city_to>/<str:date>', by_city_and_date, name='by_city_and_date'),
+    path('trip/<str:city_from>/<str:city_to>/<str:date_start>', by_city_and_date, name='by_city_and_date'),
     path('trip/<str:city_from>/<str:city_to>', by_city, name='by_city'),
     path('trip/<str:date_start>', by_date, name='by_date'),
 ]
