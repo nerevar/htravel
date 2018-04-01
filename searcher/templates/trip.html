@@ -1,7 +1,8 @@
+{% load trip_extras %}
 <div class="card mb-4">
     <!-- <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> -->
     <div class="card-body">
-        <h3 class="card-title">{{ trip.way_to.from_city }} - {{ trip.way_to.to_city }} на выходных {{ trip.date_to }}</h3>
+        <h3 class="card-title">{{ trip.way_to.from_city }} - {% city_link trip.way_to.to_city %} на выходных {% date_link trip.date_to %}</h3>
         <p class="card-text">
             {{ trip.way_to.to_city.descr }}
         </p>
