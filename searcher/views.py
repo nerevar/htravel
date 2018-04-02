@@ -1,17 +1,24 @@
 from datetime import datetime, timedelta
 from collections import defaultdict
 
-from robot.models import Way, Route, LOCAL_TZ
+from robot.models import Way, Route, City, LOCAL_TZ
 from django.shortcuts import render
-
+from dateutil.relativedelta import relativedelta, SA
 
 def main(request):
     """главная страница"""
-    trips = list(Route.trips.get_trips({'city_from': 'moscow'}))
+    next_saturday = datetime.now().astimezone(LOCAL_TZ) + relativedelta(weekday=SA(1))
+    date_start = next_saturday.strftime('%d.%m.%Y')
+    trips = list(Route.trips.get_trips({'city_from': 'moscow', 'date_to_str': date_start}))
 
     return render(request, 'index.html', {
+        'date_to_str': date_start,
         'type': 'index',
         'trips': trips,
+
+        'next_saturday': (next_saturday + timedelta(days=7)).strftime('%d.%m.%Y'),
+        'city_spb': City.objects.get(name__exact='spb'),
+        'city_kazan': City.objects.get(name__exact='kazan'),
     })
 
 

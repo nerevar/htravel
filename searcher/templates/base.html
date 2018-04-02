@@ -1,4 +1,5 @@
 {% load static %}
+{% load trip_extras %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,6 +70,10 @@
                     так, чтобы не брать дополнительного отпуска. <br/>
                     Либо же добавить плюс 1-2 выходных дня к выходным и больше времени
                     провести в выбранном городе</p>
+
+                <p class="text-faded mb-5">Тут мы показываем билеты на ближайшие выходные, а можете посмотреть билеты на `следующие выходные` {% date_link next_saturday %} или на `другую дату`.
+                    А ещё вы можете посмотреть билеты на 3 месяца вперёд в `{% city_link city_spb %}`, `{% city_link city_kazan %}` или `другие города`
+                </p>
                 <a class="btn btn-primary btn-xl js-scroll-trigger" href="#services">На выходные 14-15 апреля</a>
             </div>
         </div>
