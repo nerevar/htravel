@@ -22,7 +22,7 @@
                 {% for route in trip.routes_to|slice:SHOW_ROUTES_COUNT %}
                     <tr class="row-odd">
                         <td class="trains__dates"><nobr>{{ route.depart }}</nobr> <br/> <nobr>{{ route.arriv }}</nobr></td>
-                        <td>{{ route.car_descr }} {{ route.route_number }}</td>
+                        <td>{{ route.train.name|default_if_none:"" }} {{ route.train.number }}</td>
                         <td>{{ route.min_price }}</td>
                         <td>{{ route.score }}</td>
                     </tr>
@@ -44,7 +44,7 @@
                 {% for route in trip.routes_from|slice:SHOW_ROUTES_COUNT %}
                     <tr class="row-odd">
                         <td class="trains__dates"><nobr>{{ route.depart }}</nobr> <br/> <nobr>{{ route.arriv }}</nobr></td>
-                        <td>{{ route.car_descr }} {{ route.route_number }}</td>
+                        <td>{{ route.train.name|default_if_none:"" }} {{ route.train.number }}</td>
                         <td>{{ route.min_price }}</td>
                         <td>{{ route.score }}</td>
                     </tr>

@@ -1,19 +1,26 @@
-from htravel import settings
+import re
+import base64
+import logging
+
 from django.utils.timezone import pytz
 from datetime import datetime, timedelta
-from robot.models import Country, City, Way, Route, Price
 
-# Parser:
-# - принять на вход json_dump
-# - для каждого "сегмента" получить Way
-# - распарсить в каждом сегменте все Route, создать инстансы
-# - фильтрация только хороших билетов с местами и ценами - Filter service
-# - в базу сохранить только хорошие
+from htravel import settings
+from robot.models import Country, City, Way, Route, Price, Train
 
 LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
+logger = logging.getLogger(__name__)
 
 
-class Parser:
+class RzdParser:
+    """
+    RzdParser:
+    - принять на вход json_dump
+    - для каждого "сегмента" получить Way
+    - распарсить в каждом сегменте все Route, создать инстансы
+    - фильтрация только хороших билетов с местами и ценами - Filter service
+    - в базу сохранить только хорошие
+    """
     ways_count = 0
     routes_count = 0
     prices_count = 0
@@ -41,16 +48,24 @@ class Parser:
             route_data['date1'] + ' ' + route_data['time1'],
             '%d.%m.%Y %H:%M'
         )
+        train_number = route_data.get('number')
+
+        try:
+            train = Train.objects.get(number=train_number)
+        except:
+            logger.warning(
+                'Error parse rzd, train_number {train_number} not found'.format(
+                    train_number=train_number,
+                ))
+
+            return None
 
         return Route(
             departure=LOCAL_TZ.localize(depart_date),
             departure_time=LOCAL_TZ.localize(depart_date).time(),
             arrive=LOCAL_TZ.localize(arrive_date),
             duration=(arrive_date - depart_date),
-
-            carrier=route_data.get('carrier'),
-            car_description=route_data.get('brand'),
-            route_number=route_data.get('number'),
+            train=train
         )
 
     @staticmethod
@@ -96,3 +111,38 @@ class Parser:
                 if min_price:
                     route.min_price = min_price
                     route.save()
+
+
+class TuturuTrainsParser:
+    def __init__(self, data, way):
+        self.json_dump = data
+        self.way = way
+
+    def parse(self):
+        if not len(self.json_dump.get('trips', [])):
+            return None
+
+        trains_count = 0
+        for train_data in self.json_dump['trips']:
+            train_number = re.sub(r'[^\dа-яА-Яa-zA-Z]', '', train_data.get('trainNumber'), re.UNICODE)
+            tuturu_id = train_data.get('numberForUrl')
+            train_number_encoded = base64.b64encode(train_number.encode()).decode('utf-8')
+            if tuturu_id != train_number_encoded:
+                logger.warning('Error base64 encode tutu.ru train: number - `{train_number}` (`{train_number_raw}`), tuturu_id - `{tuturu_id}`, encoded - `{encoded}`, decoded - `{decoded_tuturu}`'.format(
+                    train_number=train_number,
+                    train_number_raw=train_data.get('trainNumber'),
+                    tuturu_id=tuturu_id,
+                    encoded=train_number_encoded,
+                    decoded_tuturu=base64.b64decode(tuturu_id.encode()).decode('utf-8')
+                ))
+            train, created = Train.objects.get_or_create(
+                number=train_number,
+                defaults={
+                    'way': self.way,
+                    'name': (train_data.get('name') or None),
+                    'is_firm': train_data.get('firm', False),
+                    'tuturu_id': tuturu_id
+                }
+            )
+            trains_count += int(created)
+        return trains_count

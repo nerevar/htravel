@@ -1,10 +1,33 @@
 import os
 import time
 import json
+import logging
 import requests
 from datetime import datetime
 
 DUMPS_FOLDER = './robot/dumps/rzd/'
+TUTURU_TRAINS_FOLDER = './robot/dumps/tutu.ru/trains'
+
+logger = logging.getLogger(__name__)
+
+
+def get_all_tuturu_dump_files():
+    for filename in os.listdir(TUTURU_TRAINS_FOLDER):
+        yield filename
+
+
+def download_tuturu_trains(way):
+    filename = os.path.join(TUTURU_TRAINS_FOLDER, '{}-{}.json'.format(way.from_city.name, way.to_city.name))
+    url = 'https://www.tutu.ru/poezda/api/travelpayouts/?departureStation={}&arrivalStation={}'.format(
+        way.from_city.rzd_code, way.to_city.rzd_code
+    )
+    r = requests.get(url)
+    data = r.json()
+
+    logger.info('download_all_tuturu_trains, got {} trains from way: {}'.format(len(data['trips']), way))
+
+    with open(filename, 'w', encoding='utf-8') as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
 
 
 def download():

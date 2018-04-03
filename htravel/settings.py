@@ -129,3 +129,45 @@ STATIC_URL = '/static/'
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, 'static'),
 # ]
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'logfile': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': './robot/logs/debug.log',
+            'maxBytes': 1024*1024*50,  # 50 MB
+            'backupCount': 5,
+            'formatter': 'verbose',
+        },
+    },
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s|%(asctime)s|%(filename)s:%(lineno)d| %(message)s',
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s [%(asctime)s] %(message)s',
+            'datefmt': "%Y-%m-%d %H:%M:%S",
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'robot': {
+            'handlers': ['logfile'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

@@ -1,4 +1,6 @@
+import os
 import json
+import logging
 from datetime import datetime, timedelta
 
 from django.http import HttpResponse
@@ -6,11 +8,33 @@ from django.shortcuts import render
 
 from robot.crawler import Crawler
 import robot.crawler as crawler
-from robot.parser import Parser
+from robot.parser import RzdParser, TuturuTrainsParser
 from robot.models import Way, Route, Price
 
-# ключевые поля маршрута:
-# way_id, route_number, departure (day)
+logger = logging.getLogger(__name__)
+
+
+def download_all_tuturu_trains(request):
+    """скачивает недостающие json-дампы с номерами поездов tutu.ru"""
+    current_ways = [x.replace('.json', '').split('-') for x in crawler.get_all_tuturu_dump_files()]
+    logger.info('download_all_tuturu_trains, current_ways: {}'.format(current_ways))
+    for new_way in Way.filtered.get_except(current_ways):
+        crawler.download_tuturu_trains(new_way)
+    return HttpResponse('ok')
+
+
+def parse_tuturu_trains(request):
+    response_text = ''
+    for filename in os.listdir(crawler.TUTURU_TRAINS_FOLDER):
+        with open(os.path.join(crawler.TUTURU_TRAINS_FOLDER, filename)) as f:
+            data = json.load(f)
+        city_from, city_to = filename.replace('.json', '').split('-')
+        parser = TuturuTrainsParser(data, Way.filtered.get_by_cities(city_from, city_to))
+        trains_count = parser.parse()
+        response_text += '{} new trains from tutu.ru added: {}<br/>\n'.format(trains_count, filename)
+        logger.info('parse_tuturu_trains, {} new trains from tutu.ru added: {}<br/>\n'.format(trains_count, filename))
+
+    return HttpResponse(response_text)
 
 
 def clear_trips(request):
@@ -19,12 +43,26 @@ def clear_trips(request):
     return HttpResponse('All deleted...')
 
 
+def add_test_one_trip(request):
+    response_text = ''
+    for filename in ['./robot/dumps/rzd/moscow-spb/2018-04-06/2018-04-06-moscow-spb-2018-03-29--11-24-24-872693.json']:
+        with open(filename) as f:
+            data = json.load(f)
+        parser = RzdParser(data)
+        parser.parse()
+        response_text += 'Saved {} ways, {} routes, {} prices from file: {} <br/>'.format(
+            parser.ways_count, parser.routes_count, parser.prices_count, filename
+        )
+
+    return HttpResponse(response_text)
+
+
 def add_test_trips(request):
     response_text = ''
     for filename in crawler.get_latest_dumps():
         with open(filename) as f:
             data = json.load(f)
-        parser = Parser(data)
+        parser = RzdParser(data)
         parser.parse()
         response_text += 'Saved {} ways, {} routes, {} prices from file: {} <br/>'.format(
             parser.ways_count, parser.routes_count, parser.prices_count, filename
@@ -46,7 +84,7 @@ def download_test_routes(request):
     data = c.download()
     c.save_to_file()
 
-    parser = Parser(data)
+    parser = RzdParser(data)
     parser.parse()
     response_text += 'Saved {} ways, {} routes, {} prices <br/>'.format(
         parser.ways_count, parser.routes_count, parser.prices_count

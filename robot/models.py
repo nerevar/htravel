@@ -37,14 +37,26 @@ class City(models.Model):
         return self.title
 
 
+class WayFilterManager(models.Manager):
+    @staticmethod
+    def get_except(filters):
+        q_objects = Q()
+        for city_from, city_to in filters:
+            q_objects.add(~(Q(from_city__name__exact=city_from) & Q(to_city__name__exact=city_to)), Q.AND)
+        return Way.objects.filter(q_objects)
+
+    @staticmethod
+    def get_by_cities(city_from, city_to):
+        return Way.objects.get(from_city__name__exact=city_from, to_city__name__exact=city_to)
+
+
 class Way(models.Model):
-    route_types = {
-        ('TRAIN', 'Train'),
-        ('PLANE', 'Airplane'),
-    }
-    type = models.CharField(max_length=5, choices=route_types, default='TRAIN')
+    type = models.CharField(max_length=5, default='TRAIN')
     from_city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='from_city')
     to_city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='to_city')
+
+    objects = models.Manager()
+    filtered = WayFilterManager()
 
     def __str__(self):
         return '{}: {} - {}'.format(self.type, self.from_city, self.to_city)
@@ -336,6 +348,17 @@ class BackwardRoutesManager(models.Manager):
         return ordered#[:ROUTES_COUNT]
 
 
+class Train(models.Model):
+    number = models.CharField(max_length=6, primary_key=True, verbose_name='Номер рейса или номер поезда', default='')
+    name = models.CharField(max_length=40, null=True, blank=True, verbose_name='Название поезда или тип самолёта', default='')
+    is_firm = models.BooleanField(default=False, blank=True)
+    tuturu_id = models.CharField(max_length=10, verbose_name='id поезда в системе tutu.ru', default='')
+    way = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return '🚂{} {}'.format(self.number, self.name)
+
+
 class Route(models.Model):
     # dynamic fields:
     score = None
@@ -349,10 +372,7 @@ class Route(models.Model):
     arrive = models.DateTimeField(null=True)
     duration = models.DurationField(null=True)
 
-    carrier = models.CharField(max_length=40, verbose_name='Перевозчик', null=True, blank=True)
-    car_description = models.CharField(max_length=40, null=True, blank=True,
-                                       verbose_name='Название поезда или тип самолёта', default='')
-    route_number = models.CharField(max_length=6, verbose_name='Номер рейса или номер поезда', default='')
+    train = models.ForeignKey('Train', on_delete=models.SET_NULL, null=True, blank=True)
 
     min_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
@@ -365,10 +385,6 @@ class Route(models.Model):
         return (self.departure.astimezone(LOCAL_TZ) + relativedelta(weekday=SA(direction))).strftime('%Y-%m-%d')
 
     @property
-    def car_descr(self):
-        return self.car_description or ''
-
-    @property
     def depart(self):
         return self.departure.astimezone(LOCAL_TZ).strftime('%Y-%m-%d %a %H:%M')
 
@@ -377,7 +393,7 @@ class Route(models.Model):
         return self.arrive.astimezone(LOCAL_TZ).strftime('%Y-%m-%d %a %H:%M')
 
     def __str__(self):
-        return '{} {} {} {} = {}₽'.format(self.depart, self.carrier, self.car_description, self.way, self.min_price)
+        return '{} {} {} = {}₽'.format(self.depart, self.train, self.way, self.min_price)
 
     @staticmethod
     def get(direction, filters):
@@ -410,22 +426,13 @@ class RouteScoresCalculator:
             return -1000
 
         all_prices = [r.min_price for r in self.other_routes if r.min_price]
-
         count_vals = sum(self.route.min_price < x for x in all_prices)
-        percentile = float(count_vals) / len(all_prices)
-
-        return percentile
+        return float(count_vals) / len(all_prices)
 
     def calc_duration_score(self):
-        try:
-            all_durations = [r.duration for r in self.other_routes if r.min_price]
-
-            count_vals = sum(self.route.duration < x for x in all_durations)
-            percentile = float(count_vals) / len(all_durations)
-        except:
-            print('err calc_duration_score', all_durations, count_vals, list(self.other_routes))
-
-        return percentile
+        all_durations = [r.duration for r in self.other_routes if r.min_price]
+        count_vals = sum(self.route.duration < x for x in all_durations)
+        return float(count_vals) / len(all_durations)
 
     def calc_departure_time_score(self):
         if self.route.departure in TimeRange('21:00', '22:00', LOCAL_TZ):
@@ -484,7 +491,7 @@ class ForwardRouteScoresCalculator(RouteScoresCalculator):
         score = 0
 
         # Фирменный поезд
-        if self.route.car_description:
+        if self.route.train.is_firm:
             score += 1.0
 
         # Цена
@@ -508,7 +515,7 @@ class BackwardRouteScoresCalculator(RouteScoresCalculator):
         score = 0
 
         # Фирменный поезд
-        if self.route.car_description:
+        if self.route.train.is_firm:
             score += 1.0
 
         # Цена
@@ -535,4 +542,3 @@ class Price(models.Model):
 
     class Meta:
         ordering = ['price']
-
