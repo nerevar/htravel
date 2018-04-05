@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta
-from collections import defaultdict
 
 from robot.models import Way, Route, City, LOCAL_TZ
 from django.shortcuts import render
 from dateutil.relativedelta import relativedelta, SA
+
 
 def main(request):
     """главная страница"""
