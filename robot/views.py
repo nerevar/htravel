@@ -9,7 +9,7 @@ from django.shortcuts import render
 from robot.crawler import Crawler
 import robot.crawler as crawler
 from robot.parser import RzdParser, TuturuTrainsParser
-from robot.models import Way, Route, Price
+from robot.models import Way, Route
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +38,6 @@ def parse_tuturu_trains(request):
 
 
 def clear_trips(request):
-    Price.objects.all().delete()
     Route.objects.all().delete()
     return HttpResponse('All deleted...')
 
@@ -50,8 +49,8 @@ def add_test_one_trip(request):
             data = json.load(f)
         parser = RzdParser(data)
         parser.parse()
-        response_text += 'Saved {} ways, {} routes, {} prices from file: {} <br/>'.format(
-            parser.ways_count, parser.routes_count, parser.prices_count, filename
+        response_text += 'Saved {} ways, {} routes from file: {} <br/>'.format(
+            parser.ways_count, parser.routes_count, filename
         )
 
     return HttpResponse(response_text)
@@ -64,8 +63,8 @@ def add_test_trips(request):
             data = json.load(f)
         parser = RzdParser(data)
         parser.parse()
-        response_text += 'Saved {} ways, {} routes, {} prices from file: {} <br/>'.format(
-            parser.ways_count, parser.routes_count, parser.prices_count, filename
+        response_text += 'Saved {} ways, {} routes from file: {} <br/>'.format(
+            parser.ways_count, parser.routes_count, filename
         )
 
     return HttpResponse(response_text)
@@ -86,8 +85,8 @@ def download_test_routes(request):
 
     parser = RzdParser(data)
     parser.parse()
-    response_text += 'Saved {} ways, {} routes, {} prices <br/>'.format(
-        parser.ways_count, parser.routes_count, parser.prices_count
+    response_text += 'Saved {} ways, {} routes <br/>'.format(
+        parser.ways_count, parser.routes_count
     )
 
     return HttpResponse(response_text)

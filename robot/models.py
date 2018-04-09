@@ -202,6 +202,14 @@ class Route(models.Model):
 
     train = models.ForeignKey('Train', on_delete=models.SET_NULL, null=True, blank=True)
 
+    price_seated = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    price_platzkart = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+    price_coupe = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
+
+    seats_seated = models.PositiveSmallIntegerField(null=True, blank=True)
+    seats_platzkart = models.PositiveSmallIntegerField(null=True, blank=True)
+    seats_coupe = models.PositiveSmallIntegerField(null=True, blank=True)
+
     min_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
     objects = models.Manager()
@@ -358,13 +366,3 @@ class BackwardRouteScoresCalculator(RouteScoresCalculator):
         # TODO: исключить с пересадками (?)
 
         return score
-
-
-class Price(models.Model):
-    route = models.ForeignKey('Route', on_delete=models.SET_NULL, null=True, blank=True)
-    price = models.DecimalField(max_digits=8, decimal_places=2)
-    car_class = models.CharField(max_length=40, verbose_name='Тип вагона или места в самолёте')
-    free_seats = models.PositiveSmallIntegerField(null=True, blank=True)
-
-    class Meta:
-        ordering = ['price']

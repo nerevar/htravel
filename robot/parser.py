@@ -6,10 +6,11 @@ from django.utils.timezone import pytz
 from datetime import datetime, timedelta
 
 from htravel import settings
-from robot.models import Country, City, Way, Route, Price, Train
+from robot.models import City, Way, Route, Train
 
 LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
 logger = logging.getLogger(__name__)
+DEFAULT_MIN_PRICE = 999999
 
 
 class RzdParser:
@@ -23,7 +24,6 @@ class RzdParser:
     """
     ways_count = 0
     routes_count = 0
-    prices_count = 0
 
     def __init__(self, data):
         self.json_dump = data
@@ -68,16 +68,6 @@ class RzdParser:
             train=train
         )
 
-    @staticmethod
-    def parse_price(price_data):
-        if price_data['typeLoc'] in ['Сидячий', 'Плацкартный', 'Купе']:
-            return Price(
-                price=int(price_data['tariff']),
-                car_class=price_data['typeLoc'],
-                free_seats=int(price_data['freeSeats']),
-            )
-        return None
-
     def parse(self):
         for way_data in self.json_dump['tp']:
             way = self.parse_way(way_data)
@@ -90,27 +80,29 @@ class RzdParser:
                 if not route:
                     continue
 
-                route.way = way
-                route.save()
-                self.routes_count += 1
-
                 # TODO: фильтрация, на основе route и цен
-                min_price = None
+                min_price = DEFAULT_MIN_PRICE
                 for price_data in route_data['cars']:
-                    price = self.parse_price(price_data)
-                    if not price:
-                        continue
+                    if price_data['typeLoc'] == 'Купе':
+                        route.price_coupe = int(price_data['tariff'])
+                        route.seats_coupe = int(price_data['freeSeats'])
+                        min_price = min(min_price, route.price_coupe)
+                    if price_data['typeLoc'] == 'Плацкартный':
+                        route.price_platzkart = int(price_data['tariff'])
+                        route.seats_platzkart = int(price_data['freeSeats'])
+                        min_price = min(min_price, route.price_platzkart)
+                    if price_data['typeLoc'] == 'Сидячий':
+                        route.price_seated = int(price_data['tariff'])
+                        route.seats_seated = int(price_data['freeSeats'])
+                        if route.duration <= timedelta(hours=4, minutes=30):
+                            min_price = min(min_price, route.price_seated)
 
-                    if price.car_class != 'Сидячий' or route.duration <= timedelta(hours=4, minutes=30) \
-                            and (min_price is None or price.price < min_price):
-                        min_price = price.price
-                    price.route = route
-                    price.save()
-                    self.prices_count += 1
-
-                if min_price:
+                # TODO: логировать количество билетов, не прошедших фильтр
+                if min_price != DEFAULT_MIN_PRICE:
                     route.min_price = min_price
+                    route.way = way
                     route.save()
+                    self.routes_count += 1
 
 
 class TuturuTrainsParser:
