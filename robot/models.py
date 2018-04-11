@@ -1,7 +1,8 @@
 import operator
 import itertools
+from copy import deepcopy
 from functools import reduce
-from datetime import timedelta, datetime, time
+from datetime import timedelta, datetime, time, date
 from dateutil.relativedelta import relativedelta, SA
 
 from django.utils.timezone import pytz
@@ -76,6 +77,17 @@ class TripsManager(models.Manager):
         ]
 
     @staticmethod
+    def get_departure_day_filter(departure_day):
+        # TODO: сделать нормально
+        parts = [int(x) for x in departure_day.split('.')]
+
+        d = date(parts[2], parts[1], parts[0])
+        return [
+            Q(departure__range=(LOCAL_TZ.localize(datetime.combine(d, time.min)),
+                                LOCAL_TZ.localize(datetime.combine(d, time.max)))),
+        ]
+
+    @staticmethod
     def get_departure_from_filter(date_to_str):
         date_to = datetime.strptime(date_to_str, '%d.%m.%Y')
         departure_from = datetime(date_to.year, date_to.month, date_to.day, hour=15, minute=0) + timedelta(days=1)
@@ -105,11 +117,13 @@ class TripsManager(models.Manager):
         else:
             return [Q(way__to_city__name__exact=city_name)]
 
-    def get_routes(self, filters, direction='to'):
+    def get_routes(self, filters, direction='to', group=True):
         trip_filters = []
         if direction == 'to':
             if filters.get('date_to_str'):
                 trip_filters += self.get_departure_to_filter(filters['date_to_str'])
+            elif filters.get('departure_day'):
+                trip_filters += self.get_departure_day_filter(filters['departure_day'])
             else:
                 trip_filters += self.get_time_filter()
             if filters.get('way_to'):
@@ -119,6 +133,8 @@ class TripsManager(models.Manager):
         else:
             if filters.get('date_to_str'):
                 trip_filters += self.get_departure_from_filter(filters['date_to_str'])
+            elif filters.get('departure_day'):
+                trip_filters += self.get_departure_day_filter(filters['departure_day'])
             else:
                 trip_filters += self.get_time_filter()
             if filters.get('way_from'):
@@ -127,6 +143,10 @@ class TripsManager(models.Manager):
                 trip_filters += self.get_city_filter(direction, filters['city_from'])
 
         all_routes = self.all().filter(reduce(operator.and_, trip_filters))
+
+        # TODO: нормально параметризовать
+        if not group:
+            return all_routes
 
         result = {}
         if direction == 'to':
@@ -150,11 +170,13 @@ class TripsManager(models.Manager):
     def get_trips(self, filters):
         routes_to = self.get_routes({
             'date_to_str': filters.get('date_to_str'),
+            'departure_day': filters.get('departure_day'),
             'way_to': filters.get('way_to'),
             'city_from': filters.get('city_from'),
         }, direction='to')
         routes_from = self.get_routes({
             'date_to_str': filters.get('date_to_str'),
+            'departure_day': filters.get('departure_day'),
             'way_from': filters.get('way_from'),
             'city_from': filters.get('city_from'),
         }, direction='from')
@@ -187,13 +209,13 @@ class Train(models.Model):
         return '🚂{} {}'.format(self.number, self.name)
 
 
-class Route(models.Model):
+class BaseRoute(models.Model):
     # dynamic fields:
     score = None
 
     # model's properties:
     way = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True)
-    request_date = models.DateTimeField(auto_now_add=True, null=True)
+    request_date = models.DateTimeField(blank=True, null=True)
 
     departure = models.DateTimeField(null=True)
     departure_time = models.TimeField(null=True)
@@ -215,8 +237,22 @@ class Route(models.Model):
     objects = models.Manager()
     trips = TripsManager()
 
+    class Meta:
+        abstract = True
+
+    @property
+    def json_data(self):
+        data = deepcopy(self.__dict__)
+        for key in ['_state', 'id']:
+            del data[key]
+        return data
+
     def key_day(self, direction=1):
         return (self.departure.astimezone(LOCAL_TZ) + relativedelta(weekday=SA(direction))).strftime('%Y-%m-%d')
+
+    @property
+    def day(self):
+        return self.departure.astimezone(LOCAL_TZ).strftime('%Y-%m-%d')
 
     @property
     def depart(self):
@@ -248,6 +284,14 @@ class Route(models.Model):
             )
 
         return routes
+
+
+class Route(BaseRoute):
+    pass
+
+
+class RouteArchive(BaseRoute):
+    pass
 
 
 class RouteScoresCalculator:
@@ -366,3 +410,14 @@ class BackwardRouteScoresCalculator(RouteScoresCalculator):
         # TODO: исключить с пересадками (?)
 
         return score
+
+
+class JsonDump(models.Model):
+    request_date = models.DateTimeField(blank=True, null=True)
+    way = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True)
+    status = models.CharField(max_length=20, default='downloaded', null=True, blank=True)
+    date_to = models.DateField(null=True)
+    date_from = models.DateField(null=True)
+    filename = models.CharField(max_length=255, null=True, blank=True)
+    trains_to_count = models.PositiveSmallIntegerField(null=True, blank=True)
+    trains_from_count = models.PositiveSmallIntegerField(null=True, blank=True)

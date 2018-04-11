@@ -6,10 +6,11 @@ from datetime import datetime, timedelta
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from robot.crawler import Crawler
+from robot.crawler import RzdTrainsCrawler
 import robot.crawler as crawler
+from robot.updater import Updater
 from robot.parser import RzdParser, TuturuTrainsParser
-from robot.models import Way, Route
+from robot.models import Way, Route, RouteArchive
 
 logger = logging.getLogger(__name__)
 
@@ -39,16 +40,37 @@ def parse_tuturu_trains(request):
 
 def clear_trips(request):
     Route.objects.all().delete()
+    RouteArchive.objects.all().delete()
     return HttpResponse('All deleted...')
 
 
 def add_test_one_trip(request):
     response_text = ''
-    for filename in ['./robot/dumps/rzd/moscow-spb/2018-04-06/2018-04-06-moscow-spb-2018-03-29--11-24-24-872693.json']:
+    for filename in ['./robot/dumps/rzd/moscow/spb/2018-04-20-2018-04-22/2018-04-05--11-27-46-752017.json']:
         with open(filename) as f:
             data = json.load(f)
         parser = RzdParser(data)
-        parser.parse()
+
+        for way, routes in parser.parse():
+            Updater(routes).add()
+
+        response_text += 'Saved {} ways, {} routes from file: {} <br/>'.format(
+            parser.ways_count, parser.routes_count, filename
+        )
+
+    return HttpResponse(response_text)
+
+
+def add_test_second_trip(request):
+    response_text = ''
+    for filename in ['./robot/dumps/rzd/moscow/spb/2018-04-20-2018-04-22/2018-04-09--11-13-52-044707.json']:
+        with open(filename) as f:
+            data = json.load(f)
+        parser = RzdParser(data)
+
+        for way, routes in parser.parse():
+            Updater(routes).update()
+
         response_text += 'Saved {} ways, {} routes from file: {} <br/>'.format(
             parser.ways_count, parser.routes_count, filename
         )
@@ -62,7 +84,9 @@ def add_test_trips(request):
         with open(filename) as f:
             data = json.load(f)
         parser = RzdParser(data)
-        parser.parse()
+        for way, routes in parser.parse():
+            Updater(routes).add()
+
         response_text += 'Saved {} ways, {} routes from file: {} <br/>'.format(
             parser.ways_count, parser.routes_count, filename
         )
@@ -72,19 +96,19 @@ def add_test_trips(request):
 
 def download_test_routes(request):
     response_text = ''
-    way = Way.objects.get(
-        from_city__name__exact='moscow',
-        to_city__name__exact='spb',
-    )
+    way = Way.filtered.get_by_cities('moscow', 'spb')
 
     # print(way)
     # print(way.to_city.name)
-    c = Crawler(way, datetime(2018, 4, 20), datetime(2018, 4, 22))
+    c = RzdTrainsCrawler(way, datetime(2018, 4, 20), datetime(2018, 4, 22))
     data = c.download()
     c.save_to_file()
+    c.save_to_db()
 
     parser = RzdParser(data)
-    parser.parse()
+    for way, routes in parser.parse():
+        Updater(routes).add()
+
     response_text += 'Saved {} ways, {} routes <br/>'.format(
         parser.ways_count, parser.routes_count
     )
@@ -95,15 +119,12 @@ def download_test_routes(request):
 
 def download_april_may(request):
     response_text = ''
-    for way_cities in [('moscow', 'spb'), ('moscow', 'kazan')]:
-        way = Way.objects.get(
-            from_city__name__exact=way_cities[0],
-            to_city__name__exact=way_cities[1],
-        )
+    for city_from, city_to in [('moscow', 'spb'), ('moscow', 'kazan')]:
+        way = Way.filtered.get_by_cities(city_from, city_to)
 
         start_date = datetime(2018, 4, 6)
         for i in range(8):
-            c = Crawler(way, start_date, start_date + timedelta(days=2))
+            c = RzdTrainsCrawler(way, start_date, start_date + timedelta(days=2))
             data = c.download()
             c.save_to_file()
             if 'tp' in data and len(data['tp']):

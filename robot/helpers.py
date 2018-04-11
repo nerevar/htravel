@@ -1,5 +1,11 @@
 from datetime import datetime
 
+from django.utils.timezone import pytz
+
+from htravel import settings
+
+LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
+
 
 class TimeRange:
     def __init__(self, s1, s2, tz, strict=False):
@@ -13,3 +19,7 @@ class TimeRange:
             return self.t1 < dt.astimezone(self.tz).time() < self.t2
         else:
             return self.t1 <= dt.astimezone(self.tz).time() <= self.t2
+
+
+def parse_rzd_timestamp(date_str):
+    return LOCAL_TZ.localize(datetime.strptime(date_str, '%d.%m.%Y %H:%M:%S.%f'))

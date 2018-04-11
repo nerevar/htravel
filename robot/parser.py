@@ -1,12 +1,14 @@
 import re
 import base64
 import logging
+import itertools
 
 from django.utils.timezone import pytz
 from datetime import datetime, timedelta
 
 from htravel import settings
 from robot.models import City, Way, Route, Train
+from robot.helpers import parse_rzd_timestamp
 
 LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
 logger = logging.getLogger(__name__)
@@ -69,6 +71,9 @@ class RzdParser:
         )
 
     def parse(self):
+        """парсит json_dump от ржд, yield'ит маршруты Routes - туда и обратно"""
+        all_routes = []
+        request_date = parse_rzd_timestamp(self.json_dump['timestamp'])
         for way_data in self.json_dump['tp']:
             way = self.parse_way(way_data)
             if not way:
@@ -101,8 +106,12 @@ class RzdParser:
                 if min_price != DEFAULT_MIN_PRICE:
                     route.min_price = min_price
                     route.way = way
-                    route.save()
+                    route.request_date = request_date
+                    all_routes.append(route)
                     self.routes_count += 1
+
+        for way, routes in itertools.groupby(all_routes, key=lambda x: x.way):
+            yield way, routes
 
 
 class TuturuTrainsParser:
