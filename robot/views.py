@@ -98,8 +98,6 @@ def download_test_routes(request):
     response_text = ''
     way = Way.filtered.get_by_cities('moscow', 'spb')
 
-    # print(way)
-    # print(way.to_city.name)
     c = RzdTrainsCrawler(way, datetime(2018, 4, 20), datetime(2018, 4, 22))
     data = c.download()
     c.save_to_file()

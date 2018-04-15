@@ -24,9 +24,9 @@ def get_all_tuturu_dump_files():
 
 
 def download_tuturu_trains(way):
-    filename = os.path.join(TUTURU_TRAINS_FOLDER, '{}-{}.json'.format(way.from_city.name, way.to_city.name))
+    filename = os.path.join(TUTURU_TRAINS_FOLDER, '{}-{}.json'.format(way.city_from.name, way.city_to.name))
     url = 'https://www.tutu.ru/poezda/api/travelpayouts/?departureStation={}&arrivalStation={}'.format(
-        way.from_city.rzd_code, way.to_city.rzd_code
+        way.city_from.rzd_code, way.city_to.rzd_code
     )
     r = requests.get(url)
     data = r.json()
@@ -68,8 +68,8 @@ class RzdTrainsCrawler:
         # TODO: retry failded downloads
         params = '&dir=1&tfl=1&checkSeats=1'
         params += '&code0={code_from}&dt0={date_to}&code1={code_to}&dt1={date_from}'.format(
-            code_from=self.way.from_city.rzd_code,
-            code_to=self.way.to_city.rzd_code,
+            code_from=self.way.city_from.rzd_code,
+            code_to=self.way.city_to.rzd_code,
             date_from=self.date_from.strftime('%d.%m.%Y'),
             date_to=self.date_to.strftime('%d.%m.%Y'),
         )
@@ -91,8 +91,8 @@ class RzdTrainsCrawler:
 
     def get_dump_filename(self):
         return os.path.join(DUMPS_FOLDER, '{city_from}/{city_to}/{date_to}-{date_from}/{request_date}.json'.format(
-            city_from=self.way.from_city.name,
-            city_to=self.way.to_city.name,
+            city_from=self.way.city_from.name,
+            city_to=self.way.city_to.name,
             date_to=self.date_to.strftime('%Y-%m-%d'),
             date_from=self.date_from.strftime('%Y-%m-%d'),
             request_date=self.request_date.strftime('%Y-%m-%d--%H-%M-%S-%f'),

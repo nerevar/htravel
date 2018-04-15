@@ -33,9 +33,9 @@ class RzdParser:
     @staticmethod
     def parse_way(way_data):
         try:
-            from_city = City.objects.get(title=way_data['from'])
-            to_city = City.objects.get(title=way_data['where'])
-            way = Way.objects.get(from_city=from_city, to_city=to_city)
+            city_from = City.objects.get(title=way_data['from'])
+            city_to = City.objects.get(title=way_data['where'])
+            way = Way.objects.get(city_from=city_from, city_to=city_to)
         except:
             return None
         return way

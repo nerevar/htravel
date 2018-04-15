@@ -24,8 +24,8 @@ def main(request):
 
 def by_city(request, city_from, city_to):
     """Поезда в конкретный город на разные даты"""
-    way_to = Way.objects.get(from_city__name__exact=city_from, to_city__name__exact=city_to)
-    way_from = Way.objects.get(from_city__name__exact=city_to, to_city__name__exact=city_from)
+    way_to = Way.objects.get(city_from__name__exact=city_from, city_to__name__exact=city_to)
+    way_from = Way.objects.get(city_from__name__exact=city_to, city_to__name__exact=city_from)
 
     trips = list(Route.trips.get_trips({'way_to': way_to, 'way_from': way_from}))
 
@@ -52,8 +52,8 @@ def by_date(request, date_start):
 def by_city_and_date(request, city_from, city_to, date_start):
     """Поезда в конкретный город city_to на конкретную дату date"""
     # TODO: 404 страница
-    way_to = Way.objects.get(from_city__name__exact=city_from, to_city__name__exact=city_to)
-    way_from = Way.objects.get(from_city__name__exact=city_to, to_city__name__exact=city_from)
+    way_to = Way.objects.get(city_from__name__exact=city_from, city_to__name__exact=city_to)
+    way_from = Way.objects.get(city_from__name__exact=city_to, city_to__name__exact=city_from)
 
     trips = Route.trips.get_trips({'way_to': way_to, 'way_from': way_from, 'date_to_str': date_start})
 

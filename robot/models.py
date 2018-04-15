@@ -44,24 +44,29 @@ class WayFilterManager(models.Manager):
     def get_except(filters):
         q_objects = Q()
         for city_from, city_to in filters:
-            q_objects.add(~(Q(from_city__name__exact=city_from) & Q(to_city__name__exact=city_to)), Q.AND)
+            q_objects.add(~(Q(city_from__name__exact=city_from) & Q(city_to__name__exact=city_to)), Q.AND)
         return Way.objects.filter(q_objects)
 
     @staticmethod
     def get_by_cities(city_from, city_to):
-        return Way.objects.get(from_city__name__exact=city_from, to_city__name__exact=city_to)
+        return Way.objects.get(city_from__name__exact=city_from, city_to__name__exact=city_to)
 
 
 class Way(models.Model):
     type = models.CharField(max_length=5, default='TRAIN')
-    from_city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='from_city')
-    to_city = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='to_city')
+    city_from = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='city_from')
+    city_to = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='city_to')
 
     objects = models.Manager()
     filtered = WayFilterManager()
 
     def __str__(self):
-        return '{}: {} - {}'.format(self.type, self.from_city, self.to_city)
+        return '{}: {} - {}'.format(self.type, self.city_from, self.city_to)
+
+
+# class Trip(models.Model):
+#     way_to = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True, related_name='way_to')
+#     way_from = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True, related_name='way_from')
 
 
 class TripsManager(models.Manager):
@@ -113,9 +118,9 @@ class TripsManager(models.Manager):
     @staticmethod
     def get_city_filter(direction, city_name):
         if direction == 'to':
-            return [Q(way__from_city__name__exact=city_name)]
+            return [Q(way__city_from__name__exact=city_name)]
         else:
-            return [Q(way__to_city__name__exact=city_name)]
+            return [Q(way__city_to__name__exact=city_name)]
 
     def get_routes(self, filters, direction='to', group=True):
         trip_filters = []
@@ -150,9 +155,9 @@ class TripsManager(models.Manager):
 
         result = {}
         if direction == 'to':
-            def group_key(x): return x.key_day(+1), x.way.to_city_id
+            def group_key(x): return x.key_day(+1), x.way.city_to_id
         else:
-            def group_key(x): return x.key_day(-1), x.way.from_city_id
+            def group_key(x): return x.key_day(-1), x.way.city_from_id
 
         for (date, city_id), routes in itertools.groupby(all_routes, key=group_key):
             routes = list(routes)

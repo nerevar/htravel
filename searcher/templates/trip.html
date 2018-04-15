@@ -2,13 +2,13 @@
 <div class="card mb-4">
     <!-- <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap"> -->
     <div class="card-body">
-        <h3 class="card-title">{{ trip.way_to.from_city }} - {% city_link trip.way_to.to_city %} на выходных {% date_link trip.date_to %}</h3>
+        <h3 class="card-title">{{ trip.way_to.city_from }} - {% city_link trip.way_to.city_to %} на выходных {% date_link trip.date_to %}</h3>
         <p class="card-text">
-            {{ trip.way_to.to_city.descr }}
+            {{ trip.way_to.city_to.descr }}
         </p>
 
         <h5>Туда {{ trip.routes_to_count }} поездов</h5>
-        <p><a href="/trip/{{ trip.way_to.from_city.name }}/{{ trip.way_to.to_city.name }}/{{ trip.date_to }}">посмотреть все</a></p>
+        <p><a href="/trip/{{ trip.way_to.city_from.name }}/{{ trip.way_to.city_to.name }}/{{ trip.date_to }}">посмотреть все</a></p>
         <table border="0" class="table" id="tab-compare">
             <thead valign="bottom">
             <tr class="row-odd">
