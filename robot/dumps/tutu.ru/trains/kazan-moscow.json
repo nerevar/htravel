@@ -12,7 +12,7 @@
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 2419
+                    "price": 3116
                 },
                 {
                     "type": "coupe",
@@ -20,7 +20,7 @@
                 },
                 {
                     "type": "lux",
-                    "price": 7327
+                    "price": 7862
                 },
                 {
                     "type": "soft",
@@ -51,7 +51,7 @@
                 },
                 {
                     "type": "lux",
-                    "price": 6709
+                    "price": 7703
                 }
             ],
             "travelTimeInSeconds": "41160",
@@ -70,7 +70,7 @@
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 2419
+                    "price": 3116
                 },
                 {
                     "type": "coupe",
@@ -78,7 +78,7 @@
                 },
                 {
                     "type": "lux",
-                    "price": 6912
+                    "price": 7405
                 }
             ],
             "travelTimeInSeconds": "45240",
@@ -101,7 +101,7 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2779
+                    "price": 3409
                 }
             ],
             "travelTimeInSeconds": "46020",
@@ -120,11 +120,11 @@
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1684
+                    "price": 2103
                 },
                 {
                     "type": "coupe",
-                    "price": 3045
+                    "price": 3694
                 }
             ],
             "travelTimeInSeconds": "47040",
@@ -143,7 +143,7 @@
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 932
+                    "price": 1335
                 },
                 {
                     "type": "plazcard",
@@ -151,11 +151,11 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 1637
+                    "price": 2032
                 },
                 {
                     "type": "lux",
-                    "price": 4899
+                    "price": 6501
                 }
             ],
             "travelTimeInSeconds": "47580",
@@ -178,7 +178,7 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2932
+                    "price": 3409
                 }
             ],
             "travelTimeInSeconds": "46020",
@@ -197,7 +197,7 @@
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 2419
+                    "price": 3116
                 },
                 {
                     "type": "coupe",
@@ -224,7 +224,7 @@
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1710
+                    "price": 1684
                 },
                 {
                     "type": "coupe",
@@ -247,11 +247,7 @@
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 932
-                },
-                {
-                    "type": "common",
-                    "price": 927
+                    "price": 1335
                 },
                 {
                     "type": "plazcard",
@@ -305,11 +301,11 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 1768
+                    "price": 2032
                 },
                 {
                     "type": "lux",
-                    "price": 5600
+                    "price": 5819
                 }
             ],
             "travelTimeInSeconds": "47280",
@@ -355,11 +351,11 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2138
+                    "price": 1182
                 },
                 {
                     "type": "lux",
-                    "price": 4113
+                    "price": 4219
                 }
             ],
             "travelTimeInSeconds": "51780",
@@ -409,6 +405,37 @@
             "numberForUrl": "MjUz0K0="
         },
         {
+            "name": "",
+            "departureStation": "2060500",
+            "arrivalStation": "2000003",
+            "runDepartureStation": "2060500",
+            "runArrivalStation": "2000003",
+            "departureTime": "00:40:00",
+            "arrivalTime": "13:07:00",
+            "trainNumber": "295Г",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 932
+                },
+                {
+                    "type": "plazcard",
+                    "price": 2033
+                },
+                {
+                    "type": "coupe",
+                    "price": 2750
+                },
+                {
+                    "type": "lux",
+                    "price": 6069
+                }
+            ],
+            "travelTimeInSeconds": "44820",
+            "firm": false,
+            "numberForUrl": "Mjk10JM="
+        },
+        {
             "name": null,
             "departureStation": "2060500",
             "arrivalStation": "2000003",
@@ -424,7 +451,7 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2760
+                    "price": 3394
                 }
             ],
             "travelTimeInSeconds": "43320",
@@ -447,7 +474,7 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2138
+                    "price": 1182
                 }
             ],
             "travelTimeInSeconds": "60780",
@@ -470,7 +497,7 @@
                 },
                 {
                     "type": "lux",
-                    "price": 5124
+                    "price": 6920
                 }
             ],
             "travelTimeInSeconds": "44760",
@@ -493,7 +520,7 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2138
+                    "price": 1182
                 }
             ],
             "travelTimeInSeconds": "51900",
@@ -516,7 +543,7 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2191
+                    "price": 1768
                 }
             ],
             "travelTimeInSeconds": "47760",
@@ -535,19 +562,19 @@
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 932
+                    "price": 1335
                 },
                 {
                     "type": "plazcard",
-                    "price": 1684
+                    "price": 1710
                 },
                 {
                     "type": "coupe",
-                    "price": 1768
+                    "price": 2032
                 },
                 {
                     "type": "lux",
-                    "price": 3644
+                    "price": 4001
                 }
             ],
             "travelTimeInSeconds": "45840",
@@ -566,11 +593,11 @@
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1994
+                    "price": 1963
                 },
                 {
                     "type": "coupe",
-                    "price": 2563
+                    "price": 1199
                 }
             ],
             "travelTimeInSeconds": "51720",
