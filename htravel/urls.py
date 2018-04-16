@@ -14,8 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from robot.views import add_test_trips, clear_trips, download_test_routes, download_april_may, parse_tuturu_trains, \
+from robot.views import clear_trips, parse_tuturu_trains, \
     add_test_one_trip, add_test_second_trip, download_all_tuturu_trains
+# add_test_trips, download_test_routes, download_april_may
 from searcher.views import main, by_city_and_date, by_city, by_date
 
 from django.views.generic import RedirectView
@@ -25,9 +26,9 @@ from django.urls import path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.png'), name='favicon'),
-    path('add_test_trips', add_test_trips, name='add_test_trips'),
-    path('download_test_routes', download_test_routes, name='download_test_routes'),
-    path('download_april_may', download_april_may, name='download_april_may'),
+    # path('add_test_trips', add_test_trips, name='add_test_trips'),
+    # path('download_test_routes', download_test_routes, name='download_test_routes'),
+    # path('download_april_may', download_april_may, name='download_april_may'),
     path('add_test_one_trip', add_test_one_trip, name='add_test_one_trip'),
     path('add_test_second_trip', add_test_second_trip, name='add_test_second_trip'),
     path('clear_trips', clear_trips, name='clear_trips'),

@@ -1,4 +1,6 @@
+import os
 import re
+import json
 import base64
 import logging
 import itertools
@@ -9,6 +11,7 @@ from datetime import datetime, timedelta
 from htravel import settings
 from robot.models import City, Way, Route, Train
 from robot.helpers import parse_rzd_timestamp
+from robot.crawler import TUTURU_TRAINS_FOLDER
 
 LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
 logger = logging.getLogger(__name__)
@@ -18,8 +21,7 @@ DEFAULT_MIN_PRICE = 999999
 class RzdParser:
     """
     RzdParser:
-    - принять на вход json_dump
-    - для каждого "сегмента" получить Way
+    - принять на вход json_dump и trip
     - распарсить в каждом сегменте все Route, создать инстансы
     - фильтрация только хороших билетов с местами и ценами - Filter service
     - в базу сохранить только хорошие
@@ -27,15 +29,15 @@ class RzdParser:
     ways_count = 0
     routes_count = 0
 
-    def __init__(self, data):
+    def __init__(self, data, trip):
         self.json_dump = data
+        self.trip = trip
 
-    @staticmethod
-    def parse_way(way_data):
+    def parse_way(self, way_data):
         try:
             city_from = City.objects.get(title=way_data['from'])
             city_to = City.objects.get(title=way_data['where'])
-            way = Way.objects.get(city_from=city_from, city_to=city_to)
+            way = Way.objects.get(city_from=city_from, city_to=city_to, trip=self.trip)
         except:
             return None
         return way
@@ -115,9 +117,13 @@ class RzdParser:
 
 
 class TuturuTrainsParser:
-    def __init__(self, data, way):
-        self.json_dump = data
-        self.way = way
+    def __init__(self, filename):
+        city_from, city_to = filename.replace('.json', '').split('-')
+        self.city_from = City.objects.get(name__exact=city_from)
+        self.city_to = City.objects.get(name__exact=city_to)
+
+        with open(os.path.join(TUTURU_TRAINS_FOLDER, filename)) as f:
+            self.json_dump = json.load(f)
 
     def parse(self):
         if not len(self.json_dump.get('trips', [])):
@@ -139,10 +145,11 @@ class TuturuTrainsParser:
             train, created = Train.objects.get_or_create(
                 number=train_number,
                 defaults={
-                    'way': self.way,
                     'name': (train_data.get('name') or None),
                     'is_firm': train_data.get('firm', False),
-                    'tuturu_id': tuturu_id
+                    'tuturu_id': tuturu_id,
+                    'city_from': self.city_from,
+                    'city_to': self.city_to,
                 }
             )
             trains_count += int(created)

@@ -3,13 +3,13 @@ import time
 import json
 import logging
 import requests
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.utils.timezone import pytz
 
 from htravel import settings
-from robot.models import JsonDump
-from robot.helpers import parse_rzd_timestamp
+from robot.models import JsonDump, Trip
+from robot.helpers import parse_rzd_timestamp, get_next_saturday
 
 LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
 DUMPS_FOLDER = './robot/dumps/rzd/'
@@ -56,8 +56,8 @@ def get_latest_dumps():
 class RzdTrainsCrawler:
     base_url = 'https://pass.rzd.ru/timetable/public/ru?STRUCTURE_ID=735&layer_id=5371'
 
-    def __init__(self, way, date_to, date_from):
-        self.way = way
+    def __init__(self, trip, date_to, date_from):
+        self.trip = trip
         self.date_to = date_to
         self.date_from = date_from
         self.json_dump = None
@@ -68,8 +68,8 @@ class RzdTrainsCrawler:
         # TODO: retry failded downloads
         params = '&dir=1&tfl=1&checkSeats=1'
         params += '&code0={code_from}&dt0={date_to}&code1={code_to}&dt1={date_from}'.format(
-            code_from=self.way.city_from.rzd_code,
-            code_to=self.way.city_to.rzd_code,
+            code_from=self.trip.city_from.rzd_code,
+            code_to=self.trip.city_to.rzd_code,
             date_from=self.date_from.strftime('%d.%m.%Y'),
             date_to=self.date_to.strftime('%d.%m.%Y'),
         )
@@ -85,14 +85,14 @@ class RzdTrainsCrawler:
         self.json_dump = r.json()
         self.request_date = parse_rzd_timestamp(self.json_dump['timestamp'])
 
-        logger.info('downloaded rzd train: {}, {} - {}'.format(self.way, self.date_to, self.date_from))
+        logger.info('downloaded rzd train: {}, {} - {}'.format(self.trip, self.date_to, self.date_from))
 
         return self.json_dump
 
     def get_dump_filename(self):
         return os.path.join(DUMPS_FOLDER, '{city_from}/{city_to}/{date_to}-{date_from}/{request_date}.json'.format(
-            city_from=self.way.city_from.name,
-            city_to=self.way.city_to.name,
+            city_from=self.trip.city_from.name,
+            city_to=self.trip.city_to.name,
             date_to=self.date_to.strftime('%Y-%m-%d'),
             date_from=self.date_from.strftime('%Y-%m-%d'),
             request_date=self.request_date.strftime('%Y-%m-%d--%H-%M-%S-%f'),
@@ -107,12 +107,12 @@ class RzdTrainsCrawler:
 
     def save_to_db(self):
         trains = self.json_dump.get('tp', [])
-        trains_to_count = len(trains[0]) if len(trains) >= 1 else 0
-        trains_from_count = len(trains[1]) if len(trains) == 2 else 0
+        trains_to_count = len(trains[0]['list']) if len(trains) >= 1 else 0
+        trains_from_count = len(trains[1]['list']) if len(trains) == 2 else 0
 
-        JsonDump.objects.create(
-            request_date=LOCAL_TZ.localize(self.request_date),
-            way=self.way,
+        return JsonDump.objects.create(
+            request_date=self.request_date,
+            trip=self.trip,
             status='downloaded',
             date_to=self.date_to,
             date_from=self.date_from,
@@ -120,3 +120,42 @@ class RzdTrainsCrawler:
             trains_to_count=trains_to_count,
             trains_from_count=trains_from_count
         )
+
+
+def download_rzd_trains(max_days_range=8, download_delay=6):
+    """
+    Скачивает все поезда по всем Путешествиям `Trips`
+    :param max_days_range: — диапазон дней, за сколько брать новые поезда для обновления
+    :param download_delay: - не перекачивать, если со времени последнего дампа прошло менее `download_delay` часов
+    :return: JsonDump[] — возвращает итератор скачанных дампов `JsonDump`
+    """
+
+    # TODO: logging
+    last_day = datetime.now().date() + timedelta(days=max_days_range)
+    print('Data range: {} - {}'.format(datetime.now().date(), last_day))
+
+    for trip in Trip.objects.all():
+        print(str(trip))
+        saturday = get_next_saturday().date()
+        while saturday <= last_day:
+            friday = saturday - timedelta(days=1)
+            sunday = saturday + timedelta(days=1)
+            if sunday >= last_day:
+                break
+
+            # TODO: не скачивать, если в базе уже есть свежий JsonDump download_delay
+            # TODO: bulletproof -> не падать, если не скачалось
+
+            print('    ' + str(saturday), end=' ')
+            c = RzdTrainsCrawler(trip, friday, sunday)
+            data = c.download()
+
+            if 'tp' in data and len(data['tp']) == 2:
+                print('TO: {} -> {} ways'.format(friday, len(data['tp'][0]['list'])), end='; ')
+                print('FROM: {} -> {} ways'.format(sunday, len(data['tp'][1]['list'])))
+                c.save_to_file()
+                yield c.save_to_db()
+            else:
+                print('Error download: {}'.format(data))
+
+            saturday += timedelta(days=7)

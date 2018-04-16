@@ -1,4 +1,5 @@
 from datetime import datetime
+from dateutil.relativedelta import relativedelta, SA
 
 from django.utils.timezone import pytz
 
@@ -23,3 +24,9 @@ class TimeRange:
 
 def parse_rzd_timestamp(date_str):
     return LOCAL_TZ.localize(datetime.strptime(date_str, '%d.%m.%Y %H:%M:%S.%f'))
+
+
+def get_next_saturday(from_date=None, direction=1):
+    if from_date is None:
+        from_date = datetime.now()
+    return from_date.astimezone(LOCAL_TZ) + relativedelta(weekday=SA(direction))

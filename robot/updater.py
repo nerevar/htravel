@@ -4,7 +4,7 @@ from django.db import transaction
 from django.utils.timezone import pytz
 
 from htravel import settings
-from robot.models import Route, RouteArchive
+from robot.models import Route, RouteArchive, Trip
 
 LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
 logger = logging.getLogger(__name__)
@@ -22,12 +22,17 @@ class Updater:
 
     def update(self):
         """обновляет имеющиеся маршруты в базе на новые"""
-        current_routes = list(Route.trips.get_routes({
-            'way_to': self.way,
-            'departure_day': self.day
+        current_routes = list(Trip.trips.get_routes({
+            'city_from': self.way.city_from,
+            'departure_day': self.day,
+            'way': self.way,
         }, group=False))
+
         # TODO: логирование
-        print('update current_routes: {}, new_routes: {}'.format(len(current_routes), len(list(self.routes))))
+        print('update current_routes: {}, new_routes: {}, way: {}, dep_day: {}'.format(
+            len(current_routes), len(list(self.routes)),
+            self.way, self.day
+        ))
 
         if len(current_routes) == 0:
             return self.add()
@@ -37,6 +42,7 @@ class Updater:
         # https://stackoverflow.com/questions/12661253/how-to-bulk-update-with-django
         with transaction.atomic():
             # copy current routes to archive
+            # TODO: сохранять в базу только изменившиеся маршруты
             RouteArchive.objects.bulk_create(
                 [RouteArchive(**x.json_data) for x in current_routes]
             )

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load trip_extras %}
 
-{% block title %}Билеты в {{ way_to.to_city }} на выходные {{ trip.date_to }} — Holidays Travel{% endblock %}
+{% block title %}Билеты в {{ trip.way_to.city_to }} на выходные {{ trip.date_to }} — Holidays Travel{% endblock %}
 
 {% block content %}
     {% show_trip trip type 99 %}

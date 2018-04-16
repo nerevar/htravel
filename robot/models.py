@@ -1,16 +1,16 @@
+import json
 import operator
 import itertools
 from copy import deepcopy
 from functools import reduce
 from datetime import timedelta, datetime, time, date
-from dateutil.relativedelta import relativedelta, SA
 
 from django.utils.timezone import pytz
 from django.db import models
 from django.db.models import Q
 
 from htravel import settings
-from robot.helpers import TimeRange
+from robot.helpers import TimeRange, get_next_saturday
 from searcher.helpers import get_date_to
 
 ROUTES_COUNT = 5
@@ -37,42 +37,21 @@ class City(models.Model):
         return self.title
 
 
-class WayFilterManager(models.Manager):
-    # TODO: get way back
-
-    @staticmethod
-    def get_except(filters):
-        q_objects = Q()
-        for city_from, city_to in filters:
-            q_objects.add(~(Q(city_from__name__exact=city_from) & Q(city_to__name__exact=city_to)), Q.AND)
-        return Way.objects.filter(q_objects)
-
-    @staticmethod
-    def get_by_cities(city_from, city_to):
-        return Way.objects.get(city_from__name__exact=city_from, city_to__name__exact=city_to)
-
-
 class Way(models.Model):
+    """Маршрут из одного города в другой. Привязан к путешествию `Trip`"""
     type = models.CharField(max_length=5, default='TRAIN')
-    city_from = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='city_from')
-    city_to = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='city_to')
-
-    objects = models.Manager()
-    filtered = WayFilterManager()
+    city_from = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='%(class)s_city_from')
+    city_to = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='%(class)s_city_to')
+    direction = models.CharField(max_length=4, default='to', verbose_name='Направление маршрута туда/обратно: to/from')
+    trip = models.ForeignKey('Trip', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return '{}: {} - {}'.format(self.type, self.city_from, self.city_to)
 
 
-# class Trip(models.Model):
-#     way_to = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True, related_name='way_to')
-#     way_from = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True, related_name='way_from')
-
-
 class TripsManager(models.Manager):
     @staticmethod
-    def get_departure_to_filter(date_to_str):
-        date_to = datetime.strptime(date_to_str, '%d.%m.%Y')
+    def get_departure_to_filter(date_to):
         departure_from = datetime(date_to.year, date_to.month, date_to.day, hour=15, minute=0) - timedelta(days=1)
         departure_to = datetime(date_to.year, date_to.month, date_to.day, hour=0, minute=59)
 
@@ -93,8 +72,7 @@ class TripsManager(models.Manager):
         ]
 
     @staticmethod
-    def get_departure_from_filter(date_to_str):
-        date_to = datetime.strptime(date_to_str, '%d.%m.%Y')
+    def get_departure_from_filter(date_to):
         departure_from = datetime(date_to.year, date_to.month, date_to.day, hour=15, minute=0) + timedelta(days=1)
         departure_to = datetime(date_to.year, date_to.month, date_to.day, hour=0, minute=59) + timedelta(days=2)
 
@@ -118,36 +96,34 @@ class TripsManager(models.Manager):
     @staticmethod
     def get_city_filter(direction, city_name):
         if direction == 'to':
-            return [Q(way__city_from__name__exact=city_name)]
+            return [Q(way__city_from=city_name)]
         else:
-            return [Q(way__city_to__name__exact=city_name)]
+            return [Q(way__city_to=city_name)]
 
     def get_routes(self, filters, direction='to', group=True):
         trip_filters = []
         if direction == 'to':
-            if filters.get('date_to_str'):
-                trip_filters += self.get_departure_to_filter(filters['date_to_str'])
+            if filters.get('date_to'):
+                trip_filters += self.get_departure_to_filter(filters['date_to'])
             elif filters.get('departure_day'):
                 trip_filters += self.get_departure_day_filter(filters['departure_day'])
             else:
                 trip_filters += self.get_time_filter()
-            if filters.get('way_to'):
-                trip_filters += self.get_way_filter(filters['way_to'])
             if filters.get('city_from'):
                 trip_filters += self.get_city_filter(direction, filters['city_from'])
         else:
-            if filters.get('date_to_str'):
-                trip_filters += self.get_departure_from_filter(filters['date_to_str'])
+            if filters.get('date_from'):
+                trip_filters += self.get_departure_from_filter(filters['date_from'])
             elif filters.get('departure_day'):
                 trip_filters += self.get_departure_day_filter(filters['departure_day'])
             else:
                 trip_filters += self.get_time_filter()
-            if filters.get('way_from'):
-                trip_filters += self.get_way_filter(filters['way_from'])
             if filters.get('city_from'):
                 trip_filters += self.get_city_filter(direction, filters['city_from'])
 
-        all_routes = self.all().filter(reduce(operator.and_, trip_filters))
+        if filters.get('way'):
+            trip_filters += self.get_way_filter(filters['way'])
+        all_routes = Route.objects.filter(reduce(operator.and_, trip_filters))
 
         # TODO: нормально параметризовать
         if not group:
@@ -155,11 +131,11 @@ class TripsManager(models.Manager):
 
         result = {}
         if direction == 'to':
-            def group_key(x): return x.key_day(+1), x.way.city_to_id
+            def group_key(x): return x.key_day(+1)
         else:
-            def group_key(x): return x.key_day(-1), x.way.city_from_id
+            def group_key(x): return x.key_day(-1)
 
-        for (date, city_id), routes in itertools.groupby(all_routes, key=group_key):
+        for key_date, routes in itertools.groupby(all_routes, key=group_key):
             routes = list(routes)
             for r in routes:
                 if direction == 'to':
@@ -168,47 +144,93 @@ class TripsManager(models.Manager):
                     fw = BackwardRouteScoresCalculator(r, routes)
                 r.score = fw.calc_score()
             ordered = sorted(routes, key=operator.attrgetter('score'), reverse=True)
-            result[(date, city_id)] = ordered
+            result[key_date] = ordered
 
         return result
 
-    def get_trips(self, filters):
-        routes_to = self.get_routes({
-            'date_to_str': filters.get('date_to_str'),
-            'departure_day': filters.get('departure_day'),
-            'way_to': filters.get('way_to'),
-            'city_from': filters.get('city_from'),
-        }, direction='to')
-        routes_from = self.get_routes({
-            'date_to_str': filters.get('date_to_str'),
-            'departure_day': filters.get('departure_day'),
-            'way_from': filters.get('way_from'),
-            'city_from': filters.get('city_from'),
-        }, direction='from')
+    def get(self, filters: dict):
+        """
+        Возвращает Путешествия по заданным фильтрам
+        :param dict filters: — словарь с фильтрами
+            City city_from — город откуда
+            [City city_to] - город куда
+            [datetime date_to] - день отправления, должна быть суббота
+        :return:
+        """
+        trip_filters = {'city_from': filters.get('city_from')}
+        if 'city_to' in filters:
+            trip_filters['city_to'] = filters.get('city_to')
 
-        # сортировка по дате, потом по городу TODO: что-нибудь получше
-        common_dates = sorted(set(routes_to.keys()) & set(routes_from.keys()), key=lambda x: (x[0], x[1]))
-        for key_date, city_id in common_dates:
-            yield {
-                'filters': filters,
-                'key_date': key_date,
-                'date_to': get_date_to(key_date),
-                'city_id': city_id,
-                'way_to': routes_to[(key_date, city_id)][0].way,
-                'way_from': routes_from[(key_date, city_id)][0].way,
-                'routes_to': routes_to[(key_date, city_id)],
-                'routes_to_count': len(routes_to[(key_date, city_id)]),
-                'routes_from': routes_from[(key_date, city_id)],
-                'routes_from_count': len(routes_from[(key_date, city_id)]),
-            }
+        # TODO: сортировка по популярности города
+        for trip in Trip.objects.filter(**trip_filters):
+            routes_to = self.get_routes({
+                'date_to': filters.get('date_to'),
+                'departure_day': filters.get('departure_day'),
+                'way': trip.way_to,
+                'city_from': filters.get('city_from'),
+            }, direction='to')
+
+            routes_from = self.get_routes({
+                'date_to': filters.get('date_to'),
+                'departure_day': filters.get('departure_day'),
+                'way': trip.way_from,
+                'city_from': filters.get('city_from'),
+            }, direction='from')
+
+            # группировка и сортировка по дате
+            common_dates = sorted(set(routes_to.keys()) & set(routes_from.keys()))
+            for key_date in common_dates:
+                yield {
+                    'trip': trip,
+                    'filters': filters,
+                    'key_date': key_date,
+                    'date_to': get_date_to(key_date),
+                    'way_to': routes_to[key_date][0].way,
+                    'way_from': routes_from[key_date][0].way,
+                    'routes_to': routes_to[key_date],
+                    'routes_to_count': len(routes_to[key_date]),
+                    'routes_from': routes_from[key_date],
+                    'routes_from_count': len(routes_from[key_date]),
+                }
+
+    @staticmethod
+    def get_except(filters):
+        q_objects = Q()
+        for city_from, city_to in filters:
+            q_objects.add(~(Q(city_from__name__exact=city_from) & Q(city_to__name__exact=city_to)), Q.AND)
+            q_objects.add(~(Q(city_from__name__exact=city_to) & Q(city_to__name__exact=city_from)), Q.AND)
+        return Trip.objects.filter(q_objects)
+
+    @staticmethod
+    def get_by_cities(city_from, city_to):
+        return Trip.objects.get(city_from__name__exact=city_from, city_to__name__exact=city_to)
+
+
+class Trip(models.Model):
+    """Сущность путешествие, например "Москва-Питер" и "Питер-Москва" """
+    way_to = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True, related_name='way_to')
+    way_from = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True, related_name='way_from')
+    city_from = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='%(class)s_city_from')
+    city_to = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='%(class)s_city_to')
+
+    objects = models.Manager()
+    trips = TripsManager()
+
+    def __str__(self):
+        return 'Путешествие: {} - {}'.format(self.way_to.city_from.title, self.way_to.city_to.title)
+
+    def ways(self):
+        return [self.way_to, self.way_from]
 
 
 class Train(models.Model):
-    number = models.CharField(max_length=6, primary_key=True, verbose_name='Номер рейса или номер поезда', default='')
-    name = models.CharField(max_length=40, null=True, blank=True, verbose_name='Название поезда или тип самолёта', default='')
+    number = models.CharField(max_length=6, primary_key=True, default='', verbose_name='Номер рейса или номер поезда')
+    name = models.CharField(max_length=40, null=True, blank=True, default='',
+                            verbose_name='Название поезда или тип самолёта')
     is_firm = models.BooleanField(default=False, blank=True)
     tuturu_id = models.CharField(max_length=10, verbose_name='id поезда в системе tutu.ru', default='')
-    way = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True)
+    city_from = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='%(class)s_city_from')
+    city_to = models.ForeignKey('City', on_delete=models.SET_NULL, null=True, related_name='%(class)s_city_to')
 
     def __str__(self):
         return '🚂{} {}'.format(self.number, self.name)
@@ -239,9 +261,6 @@ class BaseRoute(models.Model):
 
     min_price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
 
-    objects = models.Manager()
-    trips = TripsManager()
-
     class Meta:
         abstract = True
 
@@ -253,7 +272,7 @@ class BaseRoute(models.Model):
         return data
 
     def key_day(self, direction=1):
-        return (self.departure.astimezone(LOCAL_TZ) + relativedelta(weekday=SA(direction))).strftime('%Y-%m-%d')
+        return get_next_saturday(from_date=self.departure, direction=direction).strftime('%Y-%m-%d')
 
     @property
     def day(self):
@@ -419,10 +438,14 @@ class BackwardRouteScoresCalculator(RouteScoresCalculator):
 
 class JsonDump(models.Model):
     request_date = models.DateTimeField(blank=True, null=True)
-    way = models.ForeignKey('Way', on_delete=models.SET_NULL, null=True, blank=True)
+    trip = models.ForeignKey('Trip', on_delete=models.SET_NULL, null=True, blank=True)
     status = models.CharField(max_length=20, default='downloaded', null=True, blank=True)
     date_to = models.DateField(null=True)
     date_from = models.DateField(null=True)
     filename = models.CharField(max_length=255, null=True, blank=True)
     trains_to_count = models.PositiveSmallIntegerField(null=True, blank=True)
     trains_from_count = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    def get_data(self):
+        with open(self.filename) as f:
+            return json.load(f)
