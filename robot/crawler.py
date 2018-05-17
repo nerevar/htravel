@@ -84,8 +84,10 @@ class RzdTrainsCrawler:
 
         self.json_dump = r.json()
         self.request_date = parse_rzd_timestamp(self.json_dump['timestamp'])
-
-        logger.info('downloaded rzd train: {}, {} - {}'.format(self.trip, self.date_to, self.date_from))
+        trains_to_count, trains_from_count = self.get_trains_count()
+        logger.info('downloaded rzd train: {}, {} - {}, trains: {},{}'.format(
+            self.trip, self.date_to, self.date_from, trains_to_count, trains_from_count
+        ))
 
         return self.json_dump
 
@@ -105,10 +107,14 @@ class RzdTrainsCrawler:
         with open(filename, 'w', encoding='utf-8') as f:
             json.dump(self.json_dump, f, indent=4, ensure_ascii=False)
 
-    def save_to_db(self):
+    def get_trains_count(self):
         trains = self.json_dump.get('tp', [])
         trains_to_count = len(trains[0]['list']) if len(trains) >= 1 else 0
         trains_from_count = len(trains[1]['list']) if len(trains) == 2 else 0
+        return trains_to_count, trains_from_count
+
+    def save_to_db(self):
+        trains_to_count, trains_from_count = self.get_trains_count()
 
         return JsonDump.objects.create(
             request_date=self.request_date,

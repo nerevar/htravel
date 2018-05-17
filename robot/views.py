@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 def download_all_tuturu_trains(request):
     """скачивает недостающие json-дампы с номерами поездов tutu.ru"""
     current_ways = [x.replace('.json', '').split('-') for x in crawler.get_all_tuturu_dump_files()]
-    logger.info('download_all_tuturu_trains, current_ways: {}'.format(current_ways))
+    # logger.info('download_all_tuturu_trains, current_ways: {}'.format(current_ways))
     for new_trip in Trip.trips.get_except(current_ways):
         crawler.download_tuturu_trains(new_trip.way_to)
         crawler.download_tuturu_trains(new_trip.way_from)

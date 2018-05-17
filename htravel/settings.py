@@ -148,6 +148,14 @@ LOGGING = {
             'backupCount': 5,
             'formatter': 'verbose',
         },
+        'crawler_log': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': './robot/logs/crawler.log',
+            'maxBytes': 1024 * 1024 * 50,  # 50 MB
+            'backupCount': 5,
+            'formatter': 'verbose',
+        },
     },
     'formatters': {
         'verbose': {
@@ -166,6 +174,11 @@ LOGGING = {
         },
         'robot': {
             'handlers': ['logfile'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'robot.crawler': {
+            'handlers': ['crawler_log'],
             'level': 'DEBUG',
             'propagate': True,
         },
