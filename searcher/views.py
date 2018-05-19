@@ -28,6 +28,7 @@ def main(request):
 
 def by_city(request, city_from, city_to):
     """Поезда в конкретный город на разные даты"""
+    next_saturday = get_next_saturday()
     trips = list(Trip.trips.get({
         'city_from': City.objects.get(name__exact=city_from),
         'city_to': City.objects.get(name__exact=city_to)
@@ -35,7 +36,11 @@ def by_city(request, city_from, city_to):
 
     return render(request, 'by_city.html', {
         'type': 'by_city',
-        'trips': trips
+        'trips': trips,
+
+        'next_saturday': (next_saturday + timedelta(days=7)).strftime('%d.%m.%Y'),
+        'city_spb': City.objects.get(name__exact='spb'),
+        'city_kazan': City.objects.get(name__exact='kazan'),
     })
 
 
@@ -43,6 +48,7 @@ def by_date(request, date_start):
     """Поезда на конкретную дату date в разные города"""
     # TODO: escape date_to_str
     date_to = datetime.strptime(date_start, '%d.%m.%Y')
+    next_saturday = get_next_saturday()
 
     trips = list(Trip.trips.get({
         'city_from': City.objects.get(name__exact='moscow'),
@@ -52,7 +58,11 @@ def by_date(request, date_start):
     return render(request, 'by_date.html', {
         'type': 'by_date',
         'date_to_str': date_start,
-        'trips': trips
+        'trips': trips,
+
+        'next_saturday': (next_saturday + timedelta(days=7)).strftime('%d.%m.%Y'),
+        'city_spb': City.objects.get(name__exact='spb'),
+        'city_kazan': City.objects.get(name__exact='kazan'),
     })
 
 
@@ -60,6 +70,7 @@ def by_city_and_date(request, city_from, city_to, date_start):
     """Поезда в конкретный город city_to на конкретную дату date"""
     # TODO: 404 страница
     date_to = datetime.strptime(date_start, '%d.%m.%Y')
+    next_saturday = get_next_saturday()
 
     trips = list(Trip.trips.get({
         'city_from': City.objects.get(name__exact=city_from),
@@ -69,5 +80,9 @@ def by_city_and_date(request, city_from, city_to, date_start):
 
     return render(request, 'by_city_and_date.html', {
         'type': 'by_city_and_date',
-        'trip': trips[0]
+        'trip': trips[0],
+
+        'next_saturday': (next_saturday + timedelta(days=7)).strftime('%d.%m.%Y'),
+        'city_spb': City.objects.get(name__exact='spb'),
+        'city_kazan': City.objects.get(name__exact='kazan'),
     })
