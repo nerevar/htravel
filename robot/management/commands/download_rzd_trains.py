@@ -38,7 +38,7 @@ class Command(BaseCommand):
 
         if options['download']:
             self.stdout.write('Download all routes')
-            dumps = download_rzd_trains()
+            dumps = download_rzd_trains(max_days_range=90)
         elif options['download_sample']:
             self.stdout.write('Download sample routes')
             # TODO: download sample routes

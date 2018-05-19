@@ -123,6 +123,7 @@ class TripsManager(models.Manager):
 
         if filters.get('way'):
             trip_filters += self.get_way_filter(filters['way'])
+
         all_routes = Route.objects.filter(reduce(operator.and_, trip_filters))
 
         # TODO: нормально параметризовать
