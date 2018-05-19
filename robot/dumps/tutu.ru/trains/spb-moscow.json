@@ -12,15 +12,15 @@
             "categories": [
                 {
                     "type": "coupe",
-                    "price": 2246
+                    "price": 2667
                 },
                 {
                     "type": "lux",
-                    "price": 7282
+                    "price": 6800
                 },
                 {
                     "type": "soft",
-                    "price": 17864
+                    "price": 16774
                 }
             ],
             "travelTimeInSeconds": "28800",
@@ -39,7 +39,7 @@
             "categories": [
                 {
                     "type": "coupe",
-                    "price": 2246
+                    "price": 2667
                 },
                 {
                     "type": "lux",
@@ -47,7 +47,7 @@
                 },
                 {
                     "type": "soft",
-                    "price": 15588
+                    "price": 14704
                 }
             ],
             "travelTimeInSeconds": "32400",
@@ -61,23 +61,23 @@
             "runDepartureStation": "2004200",
             "runArrivalStation": "2006004",
             "departureTime": "22:41:00",
-            "arrivalTime": "06:50:00",
+            "arrivalTime": "07:28:00",
             "trainNumber": "015А",
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1593
+                    "price": 1936
                 },
                 {
                     "type": "coupe",
-                    "price": 2411
+                    "price": 2780
                 },
                 {
                     "type": "lux",
                     "price": 5479
                 }
             ],
-            "travelTimeInSeconds": "29340",
+            "travelTimeInSeconds": "31620",
             "firm": true,
             "numberForUrl": "MDE10JA="
         },
@@ -88,19 +88,19 @@
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
             "departureTime": "22:29:00",
-            "arrivalTime": "05:57:00",
+            "arrivalTime": "07:18:00",
             "trainNumber": "019У",
             "categories": [
                 {
                     "type": "coupe",
-                    "price": 2548
+                    "price": 3276
                 },
                 {
                     "type": "lux",
-                    "price": 5011
+                    "price": 6151
                 }
             ],
-            "travelTimeInSeconds": "26880",
+            "travelTimeInSeconds": "31740",
             "firm": true,
             "numberForUrl": "MDE50KM="
         },
@@ -111,19 +111,19 @@
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
             "departureTime": "21:55:00",
-            "arrivalTime": "06:06:00",
+            "arrivalTime": "06:21:00",
             "trainNumber": "025А",
             "categories": [
                 {
                     "type": "coupe",
-                    "price": 2246
+                    "price": 2667
                 },
                 {
                     "type": "lux",
-                    "price": 4458
+                    "price": 5264
                 }
             ],
-            "travelTimeInSeconds": "29460",
+            "travelTimeInSeconds": "30360",
             "firm": true,
             "numberForUrl": "MDI10JA="
         },
@@ -134,7 +134,7 @@
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
             "departureTime": "23:36:00",
-            "arrivalTime": "07:19:00",
+            "arrivalTime": "07:40:00",
             "trainNumber": "027А",
             "categories": [
                 {
@@ -143,10 +143,14 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2572
+                    "price": 3048
+                },
+                {
+                    "type": "soft",
+                    "price": 20489
                 }
             ],
-            "travelTimeInSeconds": "27780",
+            "travelTimeInSeconds": "29040",
             "firm": true,
             "numberForUrl": "MDI30JA="
         },
@@ -157,12 +161,12 @@
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
             "departureTime": "22:11:00",
-            "arrivalTime": "05:49:00",
+            "arrivalTime": "06:30:00",
             "trainNumber": "029А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 1122
+                    "price": 652
                 },
                 {
                     "type": "plazcard",
@@ -170,10 +174,10 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 3258
+                    "price": 2771
                 }
             ],
-            "travelTimeInSeconds": "27480",
+            "travelTimeInSeconds": "29940",
             "firm": false,
             "numberForUrl": "MDI50JA="
         },
@@ -189,15 +193,15 @@
             "categories": [
                 {
                     "type": "coupe",
-                    "price": 4758
+                    "price": 3500
                 },
                 {
                     "type": "lux",
-                    "price": 6806
+                    "price": 5631
                 },
                 {
                     "type": "soft",
-                    "price": 21143
+                    "price": 18355
                 }
             ],
             "travelTimeInSeconds": "30600",
@@ -211,7 +215,7 @@
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
             "departureTime": "01:15:00",
-            "arrivalTime": "11:20:00",
+            "arrivalTime": "11:43:00",
             "trainNumber": "055А",
             "categories": [
                 {
@@ -220,10 +224,10 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 1587
+                    "price": 2129
                 }
             ],
-            "travelTimeInSeconds": "36300",
+            "travelTimeInSeconds": "37680",
             "firm": false,
             "numberForUrl": "MDU10JA="
         },
@@ -233,24 +237,24 @@
             "arrivalStation": "2000001",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2060001",
-            "departureTime": "19:15:00",
+            "departureTime": "18:03:00",
             "arrivalTime": "02:10:00",
             "trainNumber": "059А",
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 2214
+                    "price": 2942
                 },
                 {
                     "type": "coupe",
-                    "price": 2411
+                    "price": 2780
                 },
                 {
                     "type": "lux",
                     "price": 7056
                 }
             ],
-            "travelTimeInSeconds": "24900",
+            "travelTimeInSeconds": "29220",
             "firm": true,
             "numberForUrl": "MDU50JA="
         },
@@ -260,20 +264,20 @@
             "arrivalStation": "2000001",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2020500",
-            "departureTime": "20:32:00",
+            "departureTime": "20:00:00",
             "arrivalTime": "04:12:00",
             "trainNumber": "079А",
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1983
+                    "price": 1936
                 },
                 {
                     "type": "coupe",
-                    "price": 2857
+                    "price": 1903
                 }
             ],
-            "travelTimeInSeconds": "27600",
+            "travelTimeInSeconds": "29520",
             "firm": true,
             "numberForUrl": "MDc50JA="
         },
@@ -289,11 +293,11 @@
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1888
+                    "price": 1623
                 },
                 {
                     "type": "coupe",
-                    "price": 2438
+                    "price": 2555
                 }
             ],
             "travelTimeInSeconds": "27960",
@@ -306,7 +310,7 @@
             "arrivalStation": "2000001",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2064070",
-            "departureTime": "16:32:00",
+            "departureTime": "16:11:00",
             "arrivalTime": "03:03:00",
             "trainNumber": "121А",
             "categories": [
@@ -316,10 +320,10 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 1673
+                    "price": 1903
                 }
             ],
-            "travelTimeInSeconds": "37860",
+            "travelTimeInSeconds": "39120",
             "firm": false,
             "numberForUrl": "MTIx0JA="
         },
@@ -329,20 +333,20 @@
             "arrivalStation": "2000001",
             "runDepartureStation": "2004006",
             "runArrivalStation": "2060150",
-            "departureTime": "13:33:00",
+            "departureTime": "12:45:00",
             "arrivalTime": "22:27:00",
             "trainNumber": "131Г",
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1593
+                    "price": 1936
                 },
                 {
                     "type": "coupe",
                     "price": 3239
                 }
             ],
-            "travelTimeInSeconds": "32040",
+            "travelTimeInSeconds": "34920",
             "firm": false,
             "numberForUrl": "MTMx0JM="
         },
@@ -352,17 +356,17 @@
             "arrivalStation": "2000001",
             "runDepartureStation": "2004006",
             "runArrivalStation": "2040000",
-            "departureTime": "13:33:00",
+            "departureTime": "12:45:00",
             "arrivalTime": "22:27:00",
             "trainNumber": "145А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 879
+                    "price": 534
                 },
                 {
                     "type": "common",
-                    "price": 1153
+                    "price": 672
                 },
                 {
                     "type": "plazcard",
@@ -370,14 +374,14 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2625
+                    "price": 2460
                 },
                 {
                     "type": "lux",
-                    "price": 4384
+                    "price": 4788
                 }
             ],
-            "travelTimeInSeconds": "32040",
+            "travelTimeInSeconds": "34920",
             "firm": false,
             "numberForUrl": "MTQ10JA="
         },
@@ -393,11 +397,11 @@
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1983
+                    "price": 1815
                 },
                 {
                     "type": "coupe",
-                    "price": 3599
+                    "price": 3378
                 }
             ],
             "travelTimeInSeconds": "34920",
@@ -406,49 +410,30 @@
         },
         {
             "name": "",
-            "departureStation": "2004001",
+            "departureStation": "2004006",
             "arrivalStation": "2006004",
-            "runDepartureStation": "2004001",
+            "runDepartureStation": "2004006",
             "runArrivalStation": "2006004",
-            "departureTime": "01:00:00",
-            "arrivalTime": "10:13:00",
+            "departureTime": "20:33:00",
+            "arrivalTime": "04:13:00",
             "trainNumber": "271А",
             "categories": [
                 {
+                    "type": "sedentary",
+                    "price": 652
+                },
+                {
                     "type": "plazcard",
-                    "price": 1789
+                    "price": 1867
                 },
                 {
                     "type": "coupe",
-                    "price": 2732
+                    "price": 2601
                 }
             ],
-            "travelTimeInSeconds": "33180",
+            "travelTimeInSeconds": "27600",
             "firm": false,
             "numberForUrl": "Mjcx0JA="
-        },
-        {
-            "name": "",
-            "departureStation": "2004003",
-            "arrivalStation": "2000001",
-            "runDepartureStation": "2004003",
-            "runArrivalStation": "2024000",
-            "departureTime": "13:35:00",
-            "arrivalTime": "23:54:00",
-            "trainNumber": "275А",
-            "categories": [
-                {
-                    "type": "plazcard",
-                    "price": 1859
-                },
-                {
-                    "type": "coupe",
-                    "price": 2125
-                }
-            ],
-            "travelTimeInSeconds": "37140",
-            "firm": false,
-            "numberForUrl": "Mjc10JA="
         },
         {
             "name": "",
@@ -456,68 +441,22 @@
             "arrivalStation": "2000001",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2064050",
-            "departureTime": "13:32:00",
+            "departureTime": "12:42:00",
             "arrivalTime": "21:35:00",
             "trainNumber": "049А",
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1983
+                    "price": 1936
                 },
                 {
                     "type": "coupe",
                     "price": 3121
                 }
             ],
-            "travelTimeInSeconds": "28980",
+            "travelTimeInSeconds": "31980",
             "firm": false,
             "numberForUrl": "MDQ50JA="
-        },
-        {
-            "name": "",
-            "departureStation": "2004003",
-            "arrivalStation": "2006004",
-            "runDepartureStation": "2004003",
-            "runArrivalStation": "2006004",
-            "departureTime": "19:35:00",
-            "arrivalTime": "04:13:00",
-            "trainNumber": "221А",
-            "categories": [
-                {
-                    "type": "coupe",
-                    "price": 2726
-                }
-            ],
-            "travelTimeInSeconds": "31080",
-            "firm": false,
-            "numberForUrl": "MjIx0JA="
-        },
-        {
-            "name": "",
-            "departureStation": "2004001",
-            "arrivalStation": "2000001",
-            "runDepartureStation": "2004001",
-            "runArrivalStation": "2000001",
-            "departureTime": "19:27:00",
-            "arrivalTime": "04:50:00",
-            "trainNumber": "251А",
-            "categories": [
-                {
-                    "type": "sedentary",
-                    "price": 843
-                },
-                {
-                    "type": "plazcard",
-                    "price": 1859
-                },
-                {
-                    "type": "coupe",
-                    "price": 2570
-                }
-            ],
-            "travelTimeInSeconds": "33780",
-            "firm": false,
-            "numberForUrl": "MjUx0JA="
         },
         {
             "name": "",
@@ -535,7 +474,7 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 3661
+                    "price": 5692
                 }
             ],
             "travelTimeInSeconds": "33780",
@@ -554,7 +493,7 @@
             "categories": [
                 {
                     "type": "coupe",
-                    "price": 3489
+                    "price": 2958
                 }
             ],
             "travelTimeInSeconds": "26760",
@@ -564,11 +503,11 @@
         {
             "name": "",
             "departureStation": "2004001",
-            "arrivalStation": "2000001",
+            "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
-            "runArrivalStation": "2060500",
-            "departureTime": "16:00:00",
-            "arrivalTime": "01:56:00",
+            "runArrivalStation": "2006004",
+            "departureTime": "02:20:00",
+            "arrivalTime": "11:54:00",
             "trainNumber": "163А",
             "categories": [
                 {
@@ -580,7 +519,7 @@
                     "price": 2715
                 }
             ],
-            "travelTimeInSeconds": "35760",
+            "travelTimeInSeconds": "34440",
             "firm": false,
             "numberForUrl": "MTYz0JA="
         },
@@ -600,7 +539,7 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 4135
+                    "price": 3090
                 },
                 {
                     "type": "lux",
@@ -613,71 +552,6 @@
         },
         {
             "name": "",
-            "departureStation": "2004006",
-            "arrivalStation": "2006004",
-            "runDepartureStation": "2004006",
-            "runArrivalStation": "2006004",
-            "departureTime": "01:07:00",
-            "arrivalTime": "11:54:00",
-            "trainNumber": "219А",
-            "categories": [
-                {
-                    "type": "coupe",
-                    "price": 4955
-                }
-            ],
-            "travelTimeInSeconds": "38820",
-            "firm": false,
-            "numberForUrl": "MjE50JA="
-        },
-        {
-            "name": "",
-            "departureStation": "2004001",
-            "arrivalStation": "2006004",
-            "runDepartureStation": "2004001",
-            "runArrivalStation": "2006004",
-            "departureTime": "23:04:00",
-            "arrivalTime": "10:05:00",
-            "trainNumber": "249А",
-            "categories": [
-                {
-                    "type": "plazcard",
-                    "price": 1859
-                },
-                {
-                    "type": "coupe",
-                    "price": 2778
-                }
-            ],
-            "travelTimeInSeconds": "39660",
-            "firm": false,
-            "numberForUrl": "MjQ50JA="
-        },
-        {
-            "name": "",
-            "departureStation": "2004001",
-            "arrivalStation": "2006004",
-            "runDepartureStation": "2004001",
-            "runArrivalStation": "2006004",
-            "departureTime": "00:40:00",
-            "arrivalTime": "10:05:00",
-            "trainNumber": "023А",
-            "categories": [
-                {
-                    "type": "coupe",
-                    "price": 1540
-                },
-                {
-                    "type": "lux",
-                    "price": 5975
-                }
-            ],
-            "travelTimeInSeconds": "33900",
-            "firm": false,
-            "numberForUrl": "MDIz0JA="
-        },
-        {
-            "name": "",
             "departureStation": "2004001",
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
@@ -687,16 +561,12 @@
             "trainNumber": "061А",
             "categories": [
                 {
-                    "type": "sedentary",
-                    "price": 843
-                },
-                {
                     "type": "plazcard",
-                    "price": 1536
+                    "price": 1867
                 },
                 {
                     "type": "coupe",
-                    "price": 2940
+                    "price": 1985
                 }
             ],
             "travelTimeInSeconds": "36120",
@@ -709,13 +579,13 @@
             "arrivalStation": "2000001",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2024000",
-            "departureTime": "14:31:00",
+            "departureTime": "14:09:00",
             "arrivalTime": "23:48:00",
             "trainNumber": "107Ж",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 1843
+                    "price": 1164
                 },
                 {
                     "type": "plazcard",
@@ -723,14 +593,14 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2411
+                    "price": 2780
                 },
                 {
                     "type": "lux",
-                    "price": 7186
+                    "price": 6665
                 }
             ],
-            "travelTimeInSeconds": "33420",
+            "travelTimeInSeconds": "34740",
             "firm": true,
             "numberForUrl": "MTA30JY="
         },
@@ -750,7 +620,7 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2999
+                    "price": 2825
                 }
             ],
             "travelTimeInSeconds": "34320",
@@ -773,7 +643,7 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2819
+                    "price": 3627
                 }
             ],
             "travelTimeInSeconds": "50580",
@@ -787,15 +657,15 @@
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
             "departureTime": "22:50:00",
-            "arrivalTime": "06:45:00",
+            "arrivalTime": "07:08:00",
             "trainNumber": "005А",
             "categories": [
                 {
                     "type": "coupe",
-                    "price": 2246
+                    "price": 2574
                 }
             ],
-            "travelTimeInSeconds": "28500",
+            "travelTimeInSeconds": "29880",
             "firm": true,
             "numberForUrl": "MDA10JA="
         },
@@ -805,62 +675,8 @@
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "13:45:00",
-            "arrivalTime": "23:55:00",
-            "trainNumber": "257А",
-            "categories": [
-                {
-                    "type": "common",
-                    "price": 1030
-                },
-                {
-                    "type": "plazcard",
-                    "price": 1789
-                },
-                {
-                    "type": "coupe",
-                    "price": 4955
-                }
-            ],
-            "travelTimeInSeconds": "36600",
-            "firm": false,
-            "numberForUrl": "MjU30JA="
-        },
-        {
-            "name": "",
-            "departureStation": "2004001",
-            "arrivalStation": "2000001",
-            "runDepartureStation": "2004001",
-            "runArrivalStation": "2000140",
-            "departureTime": "23:04:00",
-            "arrivalTime": "06:41:00",
-            "trainNumber": "263А",
-            "categories": [
-                {
-                    "type": "sedentary",
-                    "price": 1089
-                },
-                {
-                    "type": "plazcard",
-                    "price": 1859
-                },
-                {
-                    "type": "coupe",
-                    "price": 4326
-                }
-            ],
-            "travelTimeInSeconds": "27420",
-            "firm": false,
-            "numberForUrl": "MjYz0JA="
-        },
-        {
-            "name": "",
-            "departureStation": "2004001",
-            "arrivalStation": "2006004",
-            "runDepartureStation": "2004001",
-            "runArrivalStation": "2006004",
-            "departureTime": "20:25:00",
-            "arrivalTime": "04:37:00",
+            "departureTime": "18:30:00",
+            "arrivalTime": "05:22:00",
             "trainNumber": "209А",
             "categories": [
                 {
@@ -869,14 +685,14 @@
                 },
                 {
                     "type": "plazcard",
-                    "price": 1913
+                    "price": 1867
                 },
                 {
                     "type": "coupe",
-                    "price": 2940
+                    "price": 1985
                 }
             ],
-            "travelTimeInSeconds": "29520",
+            "travelTimeInSeconds": "39120",
             "firm": false,
             "numberForUrl": "MjA50JA="
         },
@@ -887,19 +703,19 @@
             "runDepartureStation": "1000001",
             "runArrivalStation": "2006004",
             "departureTime": "01:53:00",
-            "arrivalTime": "09:19:00",
+            "arrivalTime": "09:30:00",
             "trainNumber": "031А",
             "categories": [
                 {
                     "type": "coupe",
-                    "price": 4356
+                    "price": 5137
                 },
                 {
                     "type": "lux",
-                    "price": 7153
+                    "price": 7837
                 }
             ],
-            "travelTimeInSeconds": "26760",
+            "travelTimeInSeconds": "27420",
             "firm": true,
             "numberForUrl": "MDMx0JA="
         },
@@ -919,7 +735,7 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 2944
+                    "price": 2968
                 }
             ],
             "travelTimeInSeconds": "34500",
@@ -932,76 +748,26 @@
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "23:30:00",
-            "arrivalTime": "08:30:00",
-            "trainNumber": "243А",
+            "departureTime": "21:05:00",
+            "arrivalTime": "05:49:00",
+            "trainNumber": "127А",
             "categories": [
+                {
+                    "type": "common",
+                    "price": 1106
+                },
                 {
                     "type": "plazcard",
                     "price": 1789
                 },
                 {
                     "type": "coupe",
-                    "price": 2932
+                    "price": 4394
                 }
             ],
-            "travelTimeInSeconds": "32400",
-            "firm": false,
-            "numberForUrl": "MjQz0JA="
-        },
-        {
-            "name": "",
-            "departureStation": "2004001",
-            "arrivalStation": "2006004",
-            "runDepartureStation": "2004001",
-            "runArrivalStation": "2006004",
-            "departureTime": "21:24:00",
-            "arrivalTime": "04:51:00",
-            "trainNumber": "127А",
-            "categories": [
-                {
-                    "type": "sedentary",
-                    "price": 843
-                },
-                {
-                    "type": "common",
-                    "price": 830
-                },
-                {
-                    "type": "plazcard",
-                    "price": 1536
-                },
-                {
-                    "type": "coupe",
-                    "price": 2823
-                }
-            ],
-            "travelTimeInSeconds": "26820",
+            "travelTimeInSeconds": "31440",
             "firm": false,
             "numberForUrl": "MTI30JA="
-        },
-        {
-            "name": "",
-            "departureStation": "2004006",
-            "arrivalStation": "2006004",
-            "runDepartureStation": "2004200",
-            "runArrivalStation": "2006004",
-            "departureTime": "18:08:00",
-            "arrivalTime": "04:30:00",
-            "trainNumber": "201А",
-            "categories": [
-                {
-                    "type": "plazcard",
-                    "price": 1859
-                },
-                {
-                    "type": "coupe",
-                    "price": 2570
-                }
-            ],
-            "travelTimeInSeconds": "37320",
-            "firm": false,
-            "numberForUrl": "MjAx0JA="
         },
         {
             "name": null,
@@ -1014,12 +780,16 @@
             "trainNumber": "261А",
             "categories": [
                 {
+                    "type": "common",
+                    "price": 1153
+                },
+                {
                     "type": "plazcard",
                     "price": 1789
                 },
                 {
                     "type": "coupe",
-                    "price": 1199
+                    "price": 3059
                 }
             ],
             "travelTimeInSeconds": "36600",
@@ -1042,7 +812,7 @@
                 },
                 {
                     "type": "coupe",
-                    "price": 3661
+                    "price": 4277
                 }
             ],
             "travelTimeInSeconds": "27420",
@@ -1061,15 +831,19 @@
             "categories": [
                 {
                     "type": "common",
-                    "price": 1030
+                    "price": 1106
                 },
                 {
                     "type": "plazcard",
-                    "price": 1789
+                    "price": 1867
                 },
                 {
                     "type": "coupe",
-                    "price": 2653
+                    "price": 3667
+                },
+                {
+                    "type": "lux",
+                    "price": 6145
                 }
             ],
             "travelTimeInSeconds": "35280",
@@ -1080,20 +854,28 @@
             "name": "",
             "departureStation": "2004006",
             "arrivalStation": "2006004",
-            "runDepartureStation": "1000001",
+            "runDepartureStation": "2004300",
             "runArrivalStation": "2006004",
-            "departureTime": "02:16:00",
-            "arrivalTime": "11:54:00",
-            "trainNumber": "069А",
+            "departureTime": "19:41:00",
+            "arrivalTime": "04:37:00",
+            "trainNumber": "099А",
             "categories": [
                 {
+                    "type": "plazcard",
+                    "price": 1815
+                },
+                {
                     "type": "coupe",
-                    "price": 3244
+                    "price": 2999
+                },
+                {
+                    "type": "lux",
+                    "price": 5342
                 }
             ],
-            "travelTimeInSeconds": "34680",
+            "travelTimeInSeconds": "32160",
             "firm": false,
-            "numberForUrl": "MDY50JA="
+            "numberForUrl": "MDk50JA="
         },
         {
             "name": "",
@@ -1101,110 +883,22 @@
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "23:30:00",
-            "arrivalTime": "08:30:00",
+            "departureTime": "18:30:00",
+            "arrivalTime": "05:22:00",
             "trainNumber": "263Ч",
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1006
+                    "price": 1536
                 },
                 {
                     "type": "coupe",
-                    "price": 2711
+                    "price": 3002
                 }
             ],
-            "travelTimeInSeconds": "32400",
+            "travelTimeInSeconds": "39120",
             "firm": false,
             "numberForUrl": "MjYz0Kc="
-        },
-        {
-            "name": null,
-            "departureStation": "2004006",
-            "arrivalStation": "2006004",
-            "runDepartureStation": "2004006",
-            "runArrivalStation": "2006004",
-            "departureTime": "20:02:00",
-            "arrivalTime": "10:13:00",
-            "trainNumber": "214В",
-            "categories": [
-                {
-                    "type": "plazcard",
-                    "price": 2103
-                },
-                {
-                    "type": "coupe",
-                    "price": 2976
-                }
-            ],
-            "travelTimeInSeconds": "51060",
-            "firm": false,
-            "numberForUrl": "MjE00JI="
-        },
-        {
-            "name": "",
-            "departureStation": "2004003",
-            "arrivalStation": "2000001",
-            "runDepartureStation": "2004003",
-            "runArrivalStation": "2020500",
-            "departureTime": "13:28:00",
-            "arrivalTime": "23:54:00",
-            "trainNumber": "279В",
-            "categories": [
-                {
-                    "type": "plazcard",
-                    "price": 1593
-                },
-                {
-                    "type": "coupe",
-                    "price": 3760
-                }
-            ],
-            "travelTimeInSeconds": "37560",
-            "firm": false,
-            "numberForUrl": "Mjc50JI="
-        },
-        {
-            "name": "",
-            "departureStation": "2004001",
-            "arrivalStation": "2000001",
-            "runDepartureStation": "2004001",
-            "runArrivalStation": "2024120",
-            "departureTime": "12:10:00",
-            "arrivalTime": "21:52:00",
-            "trainNumber": "277А",
-            "categories": [
-                {
-                    "type": "plazcard",
-                    "price": 1859
-                },
-                {
-                    "type": "coupe",
-                    "price": 3023
-                }
-            ],
-            "travelTimeInSeconds": "34920",
-            "firm": false,
-            "numberForUrl": "Mjc30JA="
-        },
-        {
-            "name": null,
-            "departureStation": "2004006",
-            "arrivalStation": "2000001",
-            "runDepartureStation": "2004006",
-            "runArrivalStation": "2000001",
-            "departureTime": "15:08:00",
-            "arrivalTime": "23:54:00",
-            "trainNumber": "085А",
-            "categories": [
-                {
-                    "type": "sedentary",
-                    "price": 1089
-                }
-            ],
-            "travelTimeInSeconds": "31560",
-            "firm": false,
-            "numberForUrl": "MDg10JA="
         },
         {
             "name": "",
@@ -1218,39 +912,16 @@
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1983
+                    "price": 1936
                 },
                 {
                     "type": "coupe",
-                    "price": 2622
+                    "price": 1805
                 }
             ],
             "travelTimeInSeconds": "27480",
             "firm": false,
             "numberForUrl": "Mjg50JA="
-        },
-        {
-            "name": "",
-            "departureStation": "2004006",
-            "arrivalStation": "2000001",
-            "runDepartureStation": "2004006",
-            "runArrivalStation": "2060500",
-            "departureTime": "15:08:00",
-            "arrivalTime": "23:54:00",
-            "trainNumber": "253А",
-            "categories": [
-                {
-                    "type": "plazcard",
-                    "price": 1859
-                },
-                {
-                    "type": "coupe",
-                    "price": 3023
-                }
-            ],
-            "travelTimeInSeconds": "31560",
-            "firm": false,
-            "numberForUrl": "MjUz0JA="
         },
         {
             "name": null,
@@ -1263,12 +934,16 @@
             "trainNumber": "255А",
             "categories": [
                 {
+                    "type": "sedentary",
+                    "price": 513
+                },
+                {
                     "type": "plazcard",
-                    "price": 1983
+                    "price": 1936
                 },
                 {
                     "type": "coupe",
-                    "price": 1889
+                    "price": 2514
                 }
             ],
             "travelTimeInSeconds": "34680",
@@ -1276,48 +951,21 @@
             "numberForUrl": "MjU10JA="
         },
         {
-            "name": "",
-            "departureStation": "2004001",
-            "arrivalStation": "2006004",
-            "runDepartureStation": "2004001",
-            "runArrivalStation": "2006004",
-            "departureTime": "09:57:00",
-            "arrivalTime": "19:55:00",
-            "trainNumber": "267А",
-            "categories": [
-                {
-                    "type": "common",
-                    "price": 1030
-                },
-                {
-                    "type": "plazcard",
-                    "price": 1789
-                },
-                {
-                    "type": "coupe",
-                    "price": 2843
-                }
-            ],
-            "travelTimeInSeconds": "35880",
-            "firm": false,
-            "numberForUrl": "MjY30JA="
-        },
-        {
             "name": "Невский экспресс",
             "departureStation": "2004001",
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "13:10:00",
-            "arrivalTime": "17:15:00",
+            "departureTime": "15:23:00",
+            "arrivalTime": "19:35:00",
             "trainNumber": "747А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2219
+                    "price": 2020
                 }
             ],
-            "travelTimeInSeconds": "14700",
+            "travelTimeInSeconds": "15120",
             "firm": true,
             "numberForUrl": "NzQ30JA="
         },
@@ -1328,15 +976,15 @@
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
             "departureTime": "05:30:00",
-            "arrivalTime": "09:00:00",
+            "arrivalTime": "09:13:00",
             "trainNumber": "751А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2861
+                    "price": 2979
                 }
             ],
-            "travelTimeInSeconds": "12600",
+            "travelTimeInSeconds": "13380",
             "firm": true,
             "numberForUrl": "NzUx0JA="
         },
@@ -1346,16 +994,16 @@
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "06:40:00",
-            "arrivalTime": "10:43:00",
+            "departureTime": "06:50:00",
+            "arrivalTime": "11:00:00",
             "trainNumber": "753А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2194
+                    "price": 2248
                 }
             ],
-            "travelTimeInSeconds": "14580",
+            "travelTimeInSeconds": "15000",
             "firm": true,
             "numberForUrl": "NzUz0JA="
         },
@@ -1365,16 +1013,16 @@
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "09:00:00",
-            "arrivalTime": "12:58:00",
+            "departureTime": "08:08:00",
+            "arrivalTime": "12:16:00",
             "trainNumber": "757А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2194
+                    "price": 3434
                 }
             ],
-            "travelTimeInSeconds": "14280",
+            "travelTimeInSeconds": "14880",
             "firm": true,
             "numberForUrl": "NzU30JA="
         },
@@ -1384,16 +1032,16 @@
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "11:00:00",
-            "arrivalTime": "14:46:00",
+            "departureTime": "10:15:00",
+            "arrivalTime": "14:16:00",
             "trainNumber": "761А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2194
+                    "price": 3300
                 }
             ],
-            "travelTimeInSeconds": "13560",
+            "travelTimeInSeconds": "14460",
             "firm": true,
             "numberForUrl": "NzYx0JA="
         },
@@ -1403,16 +1051,16 @@
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "11:10:00",
-            "arrivalTime": "14:56:00",
+            "departureTime": "10:25:00",
+            "arrivalTime": "14:25:00",
             "trainNumber": "763А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2861
+                    "price": 3300
                 }
             ],
-            "travelTimeInSeconds": "13560",
+            "travelTimeInSeconds": "14400",
             "firm": true,
             "numberForUrl": "NzYz0JA="
         },
@@ -1428,7 +1076,7 @@
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2861
+                    "price": 2981
                 }
             ],
             "travelTimeInSeconds": "14280",
@@ -1441,16 +1089,16 @@
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "06:50:00",
-            "arrivalTime": "10:50:00",
+            "departureTime": "06:40:00",
+            "arrivalTime": "10:48:00",
             "trainNumber": "755А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2194
+                    "price": 2248
                 }
             ],
-            "travelTimeInSeconds": "14400",
+            "travelTimeInSeconds": "14880",
             "firm": true,
             "numberForUrl": "NzU10JA="
         },
@@ -1460,24 +1108,24 @@
             "arrivalStation": "2000001",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2000150",
-            "departureTime": "23:04:00",
-            "arrivalTime": "06:41:00",
+            "departureTime": "19:27:00",
+            "arrivalTime": "04:50:00",
             "trainNumber": "297А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 1089
+                    "price": 879
                 },
                 {
                     "type": "plazcard",
-                    "price": 1859
+                    "price": 1599
                 },
                 {
                     "type": "coupe",
-                    "price": 2462
+                    "price": 2671
                 }
             ],
-            "travelTimeInSeconds": "27420",
+            "travelTimeInSeconds": "33780",
             "firm": false,
             "numberForUrl": "Mjk30JA="
         },
@@ -1488,26 +1136,26 @@
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
             "departureTime": "15:00:00",
-            "arrivalTime": "18:45:00",
+            "arrivalTime": "18:51:00",
             "trainNumber": "767А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 3080
+                    "price": 2248
                 }
             ],
-            "travelTimeInSeconds": "13500",
+            "travelTimeInSeconds": "13860",
             "firm": true,
             "numberForUrl": "NzY30JA="
         },
         {
             "name": null,
-            "departureStation": "2004006",
-            "arrivalStation": "2006004",
-            "runDepartureStation": "2004006",
-            "runArrivalStation": "2006004",
-            "departureTime": "02:03:00",
-            "arrivalTime": "12:30:00",
+            "departureStation": "2004001",
+            "arrivalStation": "2000001",
+            "runDepartureStation": "2004001",
+            "runArrivalStation": "2060001",
+            "departureTime": "12:30:00",
+            "arrivalTime": "23:02:00",
             "trainNumber": "253Ч",
             "categories": [
                 {
@@ -1516,14 +1164,14 @@
                 },
                 {
                     "type": "plazcard",
-                    "price": 1593
+                    "price": 1599
                 },
                 {
                     "type": "coupe",
                     "price": 2671
                 }
             ],
-            "travelTimeInSeconds": "37620",
+            "travelTimeInSeconds": "37920",
             "firm": false,
             "numberForUrl": "MjUz0Kc="
         },
@@ -1533,16 +1181,16 @@
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "15:10:00",
-            "arrivalTime": "18:59:00",
+            "departureTime": "15:13:00",
+            "arrivalTime": "19:08:00",
             "trainNumber": "769А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2861
+                    "price": 2981
                 }
             ],
-            "travelTimeInSeconds": "13740",
+            "travelTimeInSeconds": "14100",
             "firm": true,
             "numberForUrl": "NzY50JA="
         },
@@ -1552,16 +1200,16 @@
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "17:10:00",
-            "arrivalTime": "20:56:00",
+            "departureTime": "17:03:00",
+            "arrivalTime": "20:55:00",
             "trainNumber": "773А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 4366
+                    "price": 2981
                 }
             ],
-            "travelTimeInSeconds": "13560",
+            "travelTimeInSeconds": "13920",
             "firm": true,
             "numberForUrl": "Nzcz0JA="
         },
@@ -1572,15 +1220,15 @@
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
             "departureTime": "19:00:00",
-            "arrivalTime": "22:58:00",
+            "arrivalTime": "23:08:00",
             "trainNumber": "775А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2861
+                    "price": 2979
                 }
             ],
-            "travelTimeInSeconds": "14280",
+            "travelTimeInSeconds": "14880",
             "firm": true,
             "numberForUrl": "Nzc10JA="
         },
@@ -1596,11 +1244,11 @@
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1623
+                    "price": 1041
                 },
                 {
                     "type": "coupe",
-                    "price": 2999
+                    "price": 2825
                 }
             ],
             "travelTimeInSeconds": "28440",
@@ -1614,15 +1262,15 @@
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
             "departureTime": "19:10:00",
-            "arrivalTime": "23:13:00",
+            "arrivalTime": "23:20:00",
             "trainNumber": "777А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2861
+                    "price": 2981
                 }
             ],
-            "travelTimeInSeconds": "14580",
+            "travelTimeInSeconds": "15000",
             "firm": true,
             "numberForUrl": "Nzc30JA="
         },
@@ -1633,44 +1281,17 @@
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
             "departureTime": "21:00:00",
-            "arrivalTime": "00:40:00",
+            "arrivalTime": "00:47:00",
             "trainNumber": "779А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2194
+                    "price": 2248
                 }
             ],
-            "travelTimeInSeconds": "13200",
+            "travelTimeInSeconds": "13620",
             "firm": true,
             "numberForUrl": "Nzc50JA="
-        },
-        {
-            "name": null,
-            "departureStation": "2004001",
-            "arrivalStation": "2006004",
-            "runDepartureStation": "2004001",
-            "runArrivalStation": "2006004",
-            "departureTime": "21:05:00",
-            "arrivalTime": "05:22:00",
-            "trainNumber": "287Ч",
-            "categories": [
-                {
-                    "type": "common",
-                    "price": 1030
-                },
-                {
-                    "type": "plazcard",
-                    "price": 1536
-                },
-                {
-                    "type": "coupe",
-                    "price": 3247
-                }
-            ],
-            "travelTimeInSeconds": "29820",
-            "firm": false,
-            "numberForUrl": "Mjg30Kc="
         },
         {
             "name": "",
@@ -1679,23 +1300,23 @@
             "runDepartureStation": "2004300",
             "runArrivalStation": "2006004",
             "departureTime": "07:00:00",
-            "arrivalTime": "16:25:00",
+            "arrivalTime": "16:05:00",
             "trainNumber": "011Ч",
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1859
+                    "price": 1936
                 },
                 {
                     "type": "coupe",
-                    "price": 3068
+                    "price": 3366
                 },
                 {
                     "type": "lux",
-                    "price": 4097
+                    "price": 6126
                 }
             ],
-            "travelTimeInSeconds": "33900",
+            "travelTimeInSeconds": "32700",
             "firm": false,
             "numberForUrl": "MDEx0Kc="
         },
@@ -1705,53 +1326,26 @@
             "arrivalStation": "2000001",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2064900",
-            "departureTime": "16:32:00",
+            "departureTime": "16:11:00",
             "arrivalTime": "03:03:00",
             "trainNumber": "135А",
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1593
+                    "price": 2021
                 },
                 {
                     "type": "coupe",
-                    "price": 1551
+                    "price": 2999
                 },
                 {
                     "type": "lux",
                     "price": 5125
                 }
             ],
-            "travelTimeInSeconds": "37860",
+            "travelTimeInSeconds": "39120",
             "firm": false,
             "numberForUrl": "MTM10JA="
-        },
-        {
-            "name": null,
-            "departureStation": "2004003",
-            "arrivalStation": "2006004",
-            "runDepartureStation": "2004500",
-            "runArrivalStation": "2006004",
-            "departureTime": "23:59:00",
-            "arrivalTime": "10:13:00",
-            "trainNumber": "223*Ь",
-            "categories": [
-                {
-                    "type": "sedentary",
-                    "price": 1089
-                },
-                {
-                    "type": "plazcard",
-                    "price": 1859
-                },
-                {
-                    "type": "coupe",
-                    "price": 3542
-                }
-            ],
-            "travelTimeInSeconds": "36840",
-            "firm": false,
-            "numberForUrl": "MjI00Kw="
         },
         {
             "name": "Сапсан",
@@ -1759,16 +1353,16 @@
             "arrivalStation": "2006004",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "09:10:00",
-            "arrivalTime": "13:05:00",
+            "departureTime": "08:21:00",
+            "arrivalTime": "12:26:00",
             "trainNumber": "759А",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2861
+                    "price": 2981
                 }
             ],
-            "travelTimeInSeconds": "14100",
+            "travelTimeInSeconds": "14700",
             "firm": false,
             "numberForUrl": "NzU50JA="
         },
@@ -1784,19 +1378,19 @@
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 843
+                    "price": 513
                 },
                 {
                     "type": "plazcard",
-                    "price": 1536
+                    "price": 1020
                 },
                 {
                     "type": "coupe",
-                    "price": 2834
+                    "price": 2787
                 },
                 {
                     "type": "lux",
-                    "price": 6799
+                    "price": 7448
                 }
             ],
             "travelTimeInSeconds": "30900",
@@ -1809,37 +1403,18 @@
             "arrivalStation": "2000001",
             "runDepartureStation": "2004001",
             "runArrivalStation": "2060001",
-            "departureTime": "17:00:00",
+            "departureTime": "16:53:00",
             "arrivalTime": "20:54:00",
             "trainNumber": "771Н",
             "categories": [
                 {
                     "type": "sedentary",
-                    "price": 2861
+                    "price": 2981
                 }
             ],
-            "travelTimeInSeconds": "14040",
+            "travelTimeInSeconds": "14460",
             "firm": true,
             "numberForUrl": "Nzcx0J0="
-        },
-        {
-            "name": null,
-            "departureStation": "2004006",
-            "arrivalStation": "2000001",
-            "runDepartureStation": "2004006",
-            "runArrivalStation": "2000001",
-            "departureTime": "03:27:00",
-            "arrivalTime": "14:33:00",
-            "trainNumber": "067А",
-            "categories": [
-                {
-                    "type": "coupe",
-                    "price": 3791
-                }
-            ],
-            "travelTimeInSeconds": "39960",
-            "firm": false,
-            "numberForUrl": "MDY30JA="
         },
         {
             "name": null,
@@ -1857,7 +1432,7 @@
                 },
                 {
                     "type": "lux",
-                    "price": 3041
+                    "price": 4741
                 }
             ],
             "travelTimeInSeconds": "27780",
@@ -1866,49 +1441,53 @@
         },
         {
             "name": null,
-            "departureStation": "2004001",
-            "arrivalStation": "2000001",
-            "runDepartureStation": "2004001",
-            "runArrivalStation": "2060620",
-            "departureTime": "16:00:00",
-            "arrivalTime": "01:56:00",
-            "trainNumber": "295В",
+            "departureStation": "2004006",
+            "arrivalStation": "2006004",
+            "runDepartureStation": "2004580",
+            "runArrivalStation": "2006004",
+            "departureTime": "15:08:00",
+            "arrivalTime": "00:12:00",
+            "trainNumber": "549*В",
             "categories": [
                 {
+                    "type": "sedentary",
+                    "price": 1092
+                },
+                {
                     "type": "plazcard",
-                    "price": 1859
+                    "price": 1815
                 },
                 {
                     "type": "coupe",
-                    "price": 4727
+                    "price": 2829
                 }
             ],
-            "travelTimeInSeconds": "35760",
+            "travelTimeInSeconds": "32640",
             "firm": false,
-            "numberForUrl": "Mjk10JI="
+            "numberForUrl": "NTUw0JI="
         },
         {
             "name": null,
-            "departureStation": "2004006",
+            "departureStation": "2004001",
             "arrivalStation": "2006004",
-            "runDepartureStation": "2004006",
+            "runDepartureStation": "2004001",
             "runArrivalStation": "2006004",
-            "departureTime": "18:09:00",
-            "arrivalTime": "04:25:00",
-            "trainNumber": "258В",
+            "departureTime": "23:36:00",
+            "arrivalTime": "07:40:00",
+            "trainNumber": "237У",
             "categories": [
                 {
                     "type": "plazcard",
-                    "price": 1593
+                    "price": 1006
                 },
                 {
                     "type": "coupe",
-                    "price": 2979
+                    "price": 3687
                 }
             ],
-            "travelTimeInSeconds": "36960",
+            "travelTimeInSeconds": "29040",
             "firm": false,
-            "numberForUrl": "MjU40JI="
+            "numberForUrl": "MjM30KM="
         }
     ],
     "url": "/poezda/rasp_d.php?nnst1=2004000&nnst2=2000000"
