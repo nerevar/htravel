@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta, SA
 
 from django.utils.timezone import pytz
@@ -29,4 +29,7 @@ def parse_rzd_timestamp(date_str):
 def get_next_saturday(from_date=None, direction=1):
     if from_date is None:
         from_date = datetime.now()
+    if from_date.weekday() == 5:
+        # HACK: если сейчас суббота, то ищем билеты на след. субботу
+        from_date += timedelta(days=1)
     return from_date.astimezone(LOCAL_TZ) + relativedelta(weekday=SA(direction))
