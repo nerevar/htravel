@@ -16,3 +16,4 @@ https://www.tutu.ru/poezda/order/round_trip/?trip_number=1
 
 2. Партнёрская ссылка:
 https://c45.travelpayouts.com/click?shmarker=163987.163987&promo_id=1770&source_type=customlink&type=click&custom_url=encodeURI(...)
+https://c45.travelpayouts.com/click?shmarker=163987&promo_id=1770&source_type=customlink&type=click&custom_url=https%3A%2F%2Fwww.tutu.travel%2Fpoezda%2F

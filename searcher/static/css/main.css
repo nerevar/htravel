@@ -1,3 +1,31 @@
+.tacenter {
+    text-align: center;
+}
+
+.flr {
+    float: right;
+}
+
 .trains__dates {
     font-size: 11px;
+}
+
+.schedulle {
+    margin-bottom: 0;
+}
+.schedulle__row {}
+
+.schedulle__time {
+    font-size: 26px;
+}
+
+.schedule__more {
+    text-align: center;
+}
+
+.schedule__more__text {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 3px 30px;
+    cursor: pointer;
 }

@@ -17,7 +17,7 @@ def main(request):
 
     return render(request, 'index.html', {
         'date_to_str': next_saturday.strftime('%d.%m.%Y'),
-        'type': 'index',
+        'page': 'index',
         'trips': trips,
 
         'next_saturday': (next_saturday + timedelta(days=7)).strftime('%d.%m.%Y'),
@@ -35,7 +35,7 @@ def by_city(request, city_from, city_to):
     }))
 
     return render(request, 'by_city.html', {
-        'type': 'by_city',
+        'page': 'by_city',
         'trips': trips,
 
         'next_saturday': (next_saturday + timedelta(days=7)).strftime('%d.%m.%Y'),
@@ -56,7 +56,7 @@ def by_date(request, date_start):
     }))
 
     return render(request, 'by_date.html', {
-        'type': 'by_date',
+        'page': 'by_date',
         'date_to_str': date_start,
         'trips': trips,
 
@@ -79,7 +79,7 @@ def by_city_and_date(request, city_from, city_to, date_start):
     }))
 
     return render(request, 'by_city_and_date.html', {
-        'type': 'by_city_and_date',
+        'page': 'by_city_and_date',
         'trip': trips[0],
 
         'next_saturday': (next_saturday + timedelta(days=7)).strftime('%d.%m.%Y'),
