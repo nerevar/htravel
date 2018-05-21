@@ -13,19 +13,19 @@
                             <div class="schedulle__time">{{ route.departure|schedule_time_format|nbsp }}</div>
                             <div class="schedulle__date">{{ route.departure|schedule_date_format|nbsp }}</div>
                         </td>
-                        <td>&rarr; {{ route.duration|duration_time_format|nbsp }} &rarr;</td>
+                        <td class="tacenter">&rarr; {{ route.duration|duration_time_format|nbsp }} &rarr;</td>
                         <td class="tacenter">
                             <div class="schedulle__time">{{ route.arrive|schedule_time_format|nbsp }}</div>
                             <div class="schedulle__date">{{ route.arrive|schedule_date_format|nbsp }}</div>
                         </td>
-                        <td>{{ route|route_price_format|nbsp }}</td>
-                        <td>{{ route.score|score_formatter }}</td>
+                        <td class="tacenter">{{ route|route_price_format|nbsp }}</td>
+                        <td class="tacenter">{{ route.score|score_formatter }}</td>
                         <td>
                             <label class="tacenter">
                                 <input
                                         type="radio"
                                         class="route_picker {% if direction == 'to' %}route_picker_to{% else %}route_picker_from{% endif %}"
-                                        name="{% if direction == 'to' %}route_picker_to_{{ route.way.trip.id }}{% else %}route_picker_from_{{ route.way.trip.id }}{% endif %}"
+                                        name="{% if direction == 'to' %}route_picker_to_{{ route.way.trip.id }}{% else %}route_picker_from_{{ route.way.trip.id }}{% endif %}_{{ route.departure|simple_date_format }}"
                                         value="{{ route.id }}"
                                         {% if idx == 0 %}checked="checked"{% endif %}
                                 >

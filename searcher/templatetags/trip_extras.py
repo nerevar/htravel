@@ -22,15 +22,6 @@ def show_trip(trip, page, routes_limit=3):
     }
 
 
-@register.inclusion_tag('trip_short.html')
-def show_trip_short(trip, page, routes_limit=3):
-    return {
-        'trip': trip,
-        'page': page,
-        'SHOW_ROUTES_COUNT': ':{}'.format(routes_limit)
-    }
-
-
 @register.inclusion_tag('route_row.html')
 def route_row(route, idx, direction):
     return {
