@@ -1,0 +1,712 @@
+{
+    "trips": [
+        {
+            "name": "Ямал",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "2030319",
+            "departureTime": "13:35:00",
+            "arrivalTime": "19:59:00",
+            "trainNumber": "012Я",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 1365
+                },
+                {
+                    "type": "coupe",
+                    "price": 2260
+                }
+            ],
+            "travelTimeInSeconds": "23040",
+            "firm": true,
+            "numberForUrl": "MDEy0K8="
+        },
+        {
+            "name": "Вятка",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "2060600",
+            "departureTime": "20:05:00",
+            "arrivalTime": "02:13:00",
+            "trainNumber": "032Г",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 853
+                },
+                {
+                    "type": "plazcard",
+                    "price": 1640
+                },
+                {
+                    "type": "coupe",
+                    "price": 2260
+                },
+                {
+                    "type": "lux",
+                    "price": 6207
+                }
+            ],
+            "travelTimeInSeconds": "22080",
+            "firm": true,
+            "numberForUrl": "MDMy0JM="
+        },
+        {
+            "name": "Нижегородец",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "2060001",
+            "departureTime": "00:10:00",
+            "arrivalTime": "06:37:00",
+            "trainNumber": "036Э",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 1640
+                },
+                {
+                    "type": "coupe",
+                    "price": 1967
+                },
+                {
+                    "type": "lux",
+                    "price": 6166
+                }
+            ],
+            "travelTimeInSeconds": "23220",
+            "firm": true,
+            "numberForUrl": "MDM20K0="
+        },
+        {
+            "name": "Томич",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "2028170",
+            "departureTime": "22:50:00",
+            "arrivalTime": "04:50:00",
+            "trainNumber": "038Н",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 2419
+                },
+                {
+                    "type": "coupe",
+                    "price": 2260
+                },
+                {
+                    "type": "lux",
+                    "price": 4305
+                }
+            ],
+            "travelTimeInSeconds": "21600",
+            "firm": true,
+            "numberForUrl": "MDM40J0="
+        },
+        {
+            "name": "Северный Урал",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "2030295",
+            "departureTime": "13:35:00",
+            "arrivalTime": "19:59:00",
+            "trainNumber": "084М",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 864
+                },
+                {
+                    "type": "coupe",
+                    "price": 2260
+                }
+            ],
+            "travelTimeInSeconds": "23040",
+            "firm": true,
+            "numberForUrl": "MDg00Jw="
+        },
+        {
+            "name": "",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "2054052",
+            "departureTime": "16:20:00",
+            "arrivalTime": "23:00:00",
+            "trainNumber": "092И",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 1640
+                },
+                {
+                    "type": "coupe",
+                    "price": 1886
+                }
+            ],
+            "travelTimeInSeconds": "24000",
+            "firm": false,
+            "numberForUrl": "MDky0Jg="
+        },
+        {
+            "name": "",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "2030319",
+            "departureTime": "22:35:00",
+            "arrivalTime": "04:40:00",
+            "trainNumber": "110Э",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 1640
+                },
+                {
+                    "type": "coupe",
+                    "price": 3042
+                },
+                {
+                    "type": "lux",
+                    "price": 5438
+                }
+            ],
+            "travelTimeInSeconds": "21900",
+            "firm": false,
+            "numberForUrl": "MTEw0K0="
+        },
+        {
+            "name": "Енисей",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "2038001",
+            "departureTime": "16:20:00",
+            "arrivalTime": "23:00:00",
+            "trainNumber": "056Ы",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 2089
+                },
+                {
+                    "type": "coupe",
+                    "price": 2260
+                },
+                {
+                    "type": "lux",
+                    "price": 5855
+                }
+            ],
+            "travelTimeInSeconds": "24000",
+            "firm": true,
+            "numberForUrl": "MDU20Ks="
+        },
+        {
+            "name": "Кузбасс",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "2028001",
+            "departureTime": "22:50:00",
+            "arrivalTime": "04:50:00",
+            "trainNumber": "030Н",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 2419
+                },
+                {
+                    "type": "coupe",
+                    "price": 2260
+                },
+                {
+                    "type": "lux",
+                    "price": 4733
+                }
+            ],
+            "travelTimeInSeconds": "21600",
+            "firm": false,
+            "numberForUrl": "MDMw0J0="
+        },
+        {
+            "name": "",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "3300100",
+            "departureTime": "23:55:00",
+            "arrivalTime": "05:48:00",
+            "trainNumber": "004ЗЩ",
+            "categories": [
+                {
+                    "type": "coupe",
+                    "price": 2170
+                }
+            ],
+            "travelTimeInSeconds": "21180",
+            "firm": false,
+            "numberForUrl": "MDA00Jc="
+        },
+        {
+            "name": "Восток",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "3300100",
+            "departureTime": "23:45:00",
+            "arrivalTime": "05:38:00",
+            "trainNumber": "020ЩЧ",
+            "categories": [
+                {
+                    "type": "coupe",
+                    "price": 2189
+                },
+                {
+                    "type": "lux",
+                    "price": 3993
+                }
+            ],
+            "travelTimeInSeconds": "21180",
+            "firm": true,
+            "numberForUrl": "MDIw0Kk="
+        },
+        {
+            "name": "Россия",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "2034130",
+            "departureTime": "23:45:00",
+            "arrivalTime": "05:38:00",
+            "trainNumber": "002Щ",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 2419
+                },
+                {
+                    "type": "coupe",
+                    "price": 1620
+                },
+                {
+                    "type": "lux",
+                    "price": 4355
+                }
+            ],
+            "travelTimeInSeconds": "21180",
+            "firm": false,
+            "numberForUrl": "MDAy0Kk="
+        },
+        {
+            "name": "",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "2060001",
+            "departureTime": "11:40:00",
+            "arrivalTime": "18:50:00",
+            "trainNumber": "236Г",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 1640
+                },
+                {
+                    "type": "coupe",
+                    "price": 2818
+                },
+                {
+                    "type": "lux",
+                    "price": 4661
+                }
+            ],
+            "travelTimeInSeconds": "25800",
+            "firm": false,
+            "numberForUrl": "MjM20JM="
+        },
+        {
+            "name": "Кама",
+            "departureStation": "2000002",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000002",
+            "runArrivalStation": "2030400",
+            "departureTime": "16:50:00",
+            "arrivalTime": "23:10:00",
+            "trainNumber": "008Е",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 1365
+                },
+                {
+                    "type": "coupe",
+                    "price": 2260
+                }
+            ],
+            "travelTimeInSeconds": "22800",
+            "firm": false,
+            "numberForUrl": "MDA40JU="
+        },
+        {
+            "name": "Волга",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2004001",
+            "runArrivalStation": "2060001",
+            "departureTime": "02:25:00",
+            "arrivalTime": "07:45:00",
+            "trainNumber": "060*А",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 2228
+                },
+                {
+                    "type": "coupe",
+                    "price": 2146
+                },
+                {
+                    "type": "lux",
+                    "price": 5246
+                }
+            ],
+            "travelTimeInSeconds": "19200",
+            "firm": true,
+            "numberForUrl": "MDU50JA="
+        },
+        {
+            "name": "",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2004006",
+            "runArrivalStation": "2060150",
+            "departureTime": "22:55:00",
+            "arrivalTime": "04:32:00",
+            "trainNumber": "132*Г",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 1331
+                },
+                {
+                    "type": "coupe",
+                    "price": 1544
+                }
+            ],
+            "travelTimeInSeconds": "20220",
+            "firm": false,
+            "numberForUrl": "MTMx0JM="
+        },
+        {
+            "name": "",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2004006",
+            "runArrivalStation": "2040000",
+            "departureTime": "22:55:00",
+            "arrivalTime": "04:32:00",
+            "trainNumber": "146*А",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 380
+                },
+                {
+                    "type": "common",
+                    "price": 532
+                },
+                {
+                    "type": "plazcard",
+                    "price": 1331
+                },
+                {
+                    "type": "coupe",
+                    "price": 1544
+                },
+                {
+                    "type": "lux",
+                    "price": 3954
+                }
+            ],
+            "travelTimeInSeconds": "20220",
+            "firm": false,
+            "numberForUrl": "MTQ10JA="
+        },
+        {
+            "name": "Стриж",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000001",
+            "runArrivalStation": "2060001",
+            "departureTime": "06:35:00",
+            "arrivalTime": "10:10:00",
+            "trainNumber": "702Н",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 598
+                },
+                {
+                    "type": "lux",
+                    "price": 3212
+                }
+            ],
+            "travelTimeInSeconds": "12900",
+            "firm": true,
+            "numberForUrl": "NzAy0J0="
+        },
+        {
+            "name": "Стриж",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000001",
+            "runArrivalStation": "2060001",
+            "departureTime": "10:56:00",
+            "arrivalTime": "14:43:00",
+            "trainNumber": "704Н",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 1190
+                },
+                {
+                    "type": "coupe",
+                    "price": 2172
+                },
+                {
+                    "type": "lux",
+                    "price": 3212
+                }
+            ],
+            "travelTimeInSeconds": "13620",
+            "firm": true,
+            "numberForUrl": "NzA00J0="
+        },
+        {
+            "name": "Стриж",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000001",
+            "runArrivalStation": "2060001",
+            "departureTime": "15:38:00",
+            "arrivalTime": "19:23:00",
+            "trainNumber": "708Н",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 1190
+                },
+                {
+                    "type": "lux",
+                    "price": 3212
+                }
+            ],
+            "travelTimeInSeconds": "13500",
+            "firm": true,
+            "numberForUrl": "NzA40J0="
+        },
+        {
+            "name": "Стриж",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000001",
+            "runArrivalStation": "2060001",
+            "departureTime": "13:55:00",
+            "arrivalTime": "17:43:00",
+            "trainNumber": "706Н",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 1190
+                },
+                {
+                    "type": "coupe",
+                    "price": 2172
+                },
+                {
+                    "type": "lux",
+                    "price": 2961
+                }
+            ],
+            "travelTimeInSeconds": "13680",
+            "firm": true,
+            "numberForUrl": "NzA20J0="
+        },
+        {
+            "name": "Стриж",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000001",
+            "runArrivalStation": "2060001",
+            "departureTime": "20:20:00",
+            "arrivalTime": "23:55:00",
+            "trainNumber": "710Н",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 598
+                },
+                {
+                    "type": "coupe",
+                    "price": 3247
+                },
+                {
+                    "type": "lux",
+                    "price": 3212
+                }
+            ],
+            "travelTimeInSeconds": "12900",
+            "firm": true,
+            "numberForUrl": "NzEw0J0="
+        },
+        {
+            "name": "Ласточка",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000001",
+            "runArrivalStation": "2060001",
+            "departureTime": "07:12:00",
+            "arrivalTime": "11:02:00",
+            "trainNumber": "728Г",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 942
+                }
+            ],
+            "travelTimeInSeconds": "13800",
+            "firm": true,
+            "numberForUrl": "NzI40JM="
+        },
+        {
+            "name": "Ласточка",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000001",
+            "runArrivalStation": "2060001",
+            "departureTime": "09:25:00",
+            "arrivalTime": "13:35:00",
+            "trainNumber": "730Г",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 942
+                }
+            ],
+            "travelTimeInSeconds": "15000",
+            "firm": true,
+            "numberForUrl": "NzMw0JM="
+        },
+        {
+            "name": "Ласточка",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000001",
+            "runArrivalStation": "2060001",
+            "departureTime": "16:32:00",
+            "arrivalTime": "20:40:00",
+            "trainNumber": "732Г",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 942
+                }
+            ],
+            "travelTimeInSeconds": "14880",
+            "firm": true,
+            "numberForUrl": "NzMy0JM="
+        },
+        {
+            "name": "Ласточка",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2000001",
+            "runArrivalStation": "2060001",
+            "departureTime": "18:35:00",
+            "arrivalTime": "22:22:00",
+            "trainNumber": "734Г",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 942
+                }
+            ],
+            "travelTimeInSeconds": "13620",
+            "firm": false,
+            "numberForUrl": "NzM00JM="
+        },
+        {
+            "name": "Сапсан",
+            "departureStation": "2000001",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2004001",
+            "runArrivalStation": "2060001",
+            "departureTime": "21:08:00",
+            "arrivalTime": "00:59:00",
+            "trainNumber": "772*Н",
+            "categories": [
+                {
+                    "type": "sedentary",
+                    "price": 1445
+                }
+            ],
+            "travelTimeInSeconds": "13860",
+            "firm": true,
+            "numberForUrl": "Nzcx0J0="
+        },
+        {
+            "name": "",
+            "departureStation": "2000006",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2100035",
+            "runArrivalStation": "2044001",
+            "departureTime": "03:35:00",
+            "arrivalTime": "10:27:00",
+            "trainNumber": "104Б",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 1352
+                },
+                {
+                    "type": "coupe",
+                    "price": 2542
+                }
+            ],
+            "travelTimeInSeconds": "24720",
+            "firm": false,
+            "numberForUrl": "MTA00JE="
+        },
+        {
+            "name": "",
+            "departureStation": "2000006",
+            "arrivalStation": "2060001",
+            "runDepartureStation": "2100001",
+            "runArrivalStation": "2044001",
+            "departureTime": "03:35:00",
+            "arrivalTime": "10:27:00",
+            "trainNumber": "064Б",
+            "categories": [
+                {
+                    "type": "plazcard",
+                    "price": 1465
+                },
+                {
+                    "type": "coupe",
+                    "price": 2214
+                }
+            ],
+            "travelTimeInSeconds": "24720",
+            "firm": false,
+            "numberForUrl": "MDY00JE="
+        }
+    ],
+    "url": "/poezda/rasp_d.php?nnst1=2000000&nnst2=2060001"
+}
