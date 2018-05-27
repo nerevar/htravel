@@ -28,17 +28,25 @@ class RzdParser:
     """
     ways_count = 0
     routes_count = 0
+    city_stations = {
+        'НИЖНИЙ НОВГОРОД МОСКОВ': 'Нижний Новгород',
+        'ЯРОСЛАВЛЬ-ГЛАВНЫЙ': 'Ярославль',
+    }
 
     def __init__(self, data, trip):
         self.json_dump = data
         self.trip = trip
 
+    def get_city_name(self, station):
+        return self.city_stations.get(station, station)
+
     def parse_way(self, way_data):
         try:
-            city_from = City.objects.get(title=way_data['from'])
-            city_to = City.objects.get(title=way_data['where'])
+            city_from = City.objects.get(title=self.get_city_name(way_data['from']))
+            city_to = City.objects.get(title=self.get_city_name(way_data['where']))
             way = Way.objects.get(city_from=city_from, city_to=city_to, trip=self.trip)
         except:
+            print('Error parse way from {} to {}'.format(city_from, city_to))
             return None
         return way
 
@@ -79,12 +87,21 @@ class RzdParser:
         for way_data in self.json_dump['tp']:
             way = self.parse_way(way_data)
             if not way:
+                print('        no way', way_data)
                 continue
             self.ways_count += 1
+
+            if len(way_data['list']) == 0 and len(way_data.get('msgList', [])) > 0:
+                for msg in way_data.get('msgList', []):
+                    print('        error: {} {}'.format(msg.get('message'), msg.get('errType')))
 
             for route_data in way_data['list']:
                 route = self.parse_route(route_data)
                 if not route:
+                    print('        cannot parse route: {} - {}, {} ({})'.format(
+                        route_data.get('station0'), route_data.get('station1'),
+                        route_data.get('number'), route_data.get('number2'))
+                    )
                     continue
 
                 # TODO: фильтрация, на основе route и цен
@@ -118,7 +135,7 @@ class RzdParser:
 
 class TuturuTrainsParser:
     def __init__(self, filename):
-        city_from, city_to = filename.replace('.json', '').split('-')
+        city_from, city_to = filename.replace('.json', '').split('--')
         self.city_from = City.objects.get(name__exact=city_from)
         self.city_to = City.objects.get(name__exact=city_to)
 

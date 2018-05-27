@@ -16,9 +16,12 @@ logger = logging.getLogger(__name__)
 
 def download_all_tuturu_trains(request):
     """скачивает недостающие json-дампы с номерами поездов tutu.ru"""
-    current_ways = [x.replace('.json', '').split('-') for x in crawler.get_all_tuturu_dump_files()]
+    current_ways = [x.replace('.json', '').split('--') for x in crawler.get_all_tuturu_dump_files()]
     # logger.info('download_all_tuturu_trains, current_ways: {}'.format(current_ways))
     for new_trip in Trip.trips.get_except(current_ways):
+        print('get trains for trip: {}, way_to: {}, way_from: {}'.format(
+            new_trip, new_trip.way_to, new_trip.way_from
+        ))
         crawler.download_tuturu_trains(new_trip.way_to)
         crawler.download_tuturu_trains(new_trip.way_from)
     return HttpResponse('ok')
@@ -27,6 +30,7 @@ def download_all_tuturu_trains(request):
 def parse_tuturu_trains(request):
     response_text = ''
     for filename in crawler.get_all_tuturu_dump_files():
+        response_text += 'Parse: {}<br>'.format(filename)
         parser = TuturuTrainsParser(filename)
         trains_count = parser.parse()
         response_text += '{} new trains from tutu.ru added: {}<br/>\n'.format(trains_count, filename)

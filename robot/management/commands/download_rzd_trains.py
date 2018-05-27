@@ -32,6 +32,12 @@ class Command(BaseCommand):
             dest='parse',
             help='Parse all current or downloaded routes',
         )
+        parser.add_argument(
+            '--no-save',
+            action='store_true',
+            dest='no_save',
+            help='Just download or parse data without saving to DB',
+        )
 
     def handle(self, *args, **options):
         self.stdout.write(self.help)
@@ -39,10 +45,6 @@ class Command(BaseCommand):
         if options['download']:
             self.stdout.write('Download all routes')
             dumps = download_rzd_trains(max_days_range=90)
-        elif options['download_sample']:
-            self.stdout.write('Download sample routes')
-            # TODO: download sample routes
-            dumps = []
         else:
             dumps = JsonDump.objects.filter(status='downloaded')
             self.stdout.write('Current downloaded routes: {}'.format(len(dumps)))
@@ -50,15 +52,19 @@ class Command(BaseCommand):
         if options['parse']:
             self.stdout.write('Parse dumps')
             for dump in dumps:
-                self.stdout.write('  Parse dump {}'.format(dump.filename))
+                self.stdout.write('  < Parse dump {}'.format(dump.filename))
 
                 parser = RzdParser(dump.get_data(), dump.trip)
                 for way, routes in parser.parse():
-                    Updater(routes).update()
+                    routes = list(routes)
+                    print('        Parsed way: {}, routes: {}, save? {}'.format(way, len(routes), not options['no_save']))
+                    if not options['no_save']:
+                        Updater(routes).update()
 
-                self.stdout.write('Saved {} ways, {} routes'.format(
-                    parser.ways_count, parser.routes_count
+                self.stdout.write('  > Total: parsed {} ways, {} routes, saved? {}\n'.format(
+                    parser.ways_count, parser.routes_count, not options['no_save']
                 ))
-                dump.status = 'parsed'
-                dump.save()
+                if not options['no_save']:
+                    dump.status = 'parsed'
+                    dump.save()
 

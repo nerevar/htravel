@@ -46,7 +46,7 @@ class Way(models.Model):
     trip = models.ForeignKey('Trip', on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return '{}: {} - {}'.format(self.type, self.city_from, self.city_to)
+        return '{}: {} - {} (trip {})'.format(self.type, self.city_from, self.city_to, (self.trip.id if self.trip else None))
 
 
 class TripsManager(models.Manager):

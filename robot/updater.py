@@ -13,14 +13,22 @@ logger = logging.getLogger(__name__)
 class Updater:
     def __init__(self, routes):
         self.routes = list(routes)
+        if not self.routes:
+            return
         self.way = self.routes[0].way
         self.day = self.routes[0].departure.astimezone(LOCAL_TZ).strftime('%d.%m.%Y')
 
     def add(self):
+        if not self.routes:
+            return
+
         """просто сохраняет маршруты в базу"""
         Route.objects.bulk_create(self.routes)
 
     def update(self):
+        if not self.routes:
+            return
+
         """обновляет имеющиеся маршруты в базе на новые"""
         current_routes = list(Trip.trips.get_routes({
             'city_from': self.way.city_from,
@@ -29,7 +37,7 @@ class Updater:
         }, group=False))
 
         # TODO: логирование
-        print('update current_routes: {}, new_routes: {}, way: {}, dep_day: {}'.format(
+        print('            update current_routes: {}, new_routes: {}, way: {}, dep_day: {}'.format(
             len(current_routes), len(list(self.routes)),
             self.way, self.day
         ))

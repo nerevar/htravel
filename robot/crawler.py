@@ -24,12 +24,17 @@ def get_all_tuturu_dump_files():
 
 
 def download_tuturu_trains(way):
-    filename = os.path.join(TUTURU_TRAINS_FOLDER, '{}-{}.json'.format(way.city_from.name, way.city_to.name))
+    filename = os.path.join(TUTURU_TRAINS_FOLDER, '{}--{}.json'.format(way.city_from.name, way.city_to.name))
     url = 'https://www.tutu.ru/poezda/api/travelpayouts/?departureStation={}&arrivalStation={}'.format(
         way.city_from.rzd_code, way.city_to.rzd_code
     )
     r = requests.get(url)
-    data = r.json()
+
+    try:
+        data = r.json()
+    except:
+        print('Error download tutu.ru: "{}"'.format(url))
+        return None
 
     logger.info('download_all_tuturu_trains, got {} trains from way: {}'.format(len(data['trips']), way))
 

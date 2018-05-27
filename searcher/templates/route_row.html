@@ -20,8 +20,8 @@
                         </td>
                         <td class="tacenter">{{ route|route_price_format|nbsp }}</td>
                         <td class="tacenter">{{ route.score|score_formatter }}</td>
-                        <td>
-                            <label class="tacenter">
+                        <td class="tacenter">
+                            <label class="route_picker__label">
                                 <input
                                         type="radio"
                                         class="route_picker {% if direction == 'to' %}route_picker_to{% else %}route_picker_from{% endif %}"
