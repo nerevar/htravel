@@ -81,7 +81,13 @@ class RzdTrainsCrawler:
 
         url1 = self.base_url + params
         r = requests.post(url1)
-        rid = r.json()['rid']
+
+        try:
+            rid = r.json()['rid']
+        except:
+            print('error download json from rzd, 1 step: "{}", text: "{}"'.format(url1, r.raw))
+            logger.info('error download json from rzd, 1 step: "{}"'.format(url1))
+            return None
 
         time.sleep(delay)
 
@@ -91,8 +97,8 @@ class RzdTrainsCrawler:
         try:
             self.json_dump = r.json()
         except:
-            print('error download json from rzd: "{}", "{}"'.format(url2, url1))
-            logger.info('error download json from rzd: "{}", "{}"'.format(url2, url1))
+            print('error download json from rzd, 2 step: "{}", "{}"'.format(url2, url1))
+            logger.info('error download json from rzd, 2 step: "{}", "{}"'.format(url2, url1))
             return None
 
         self.request_date = parse_rzd_timestamp(self.json_dump['timestamp'])
