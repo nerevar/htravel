@@ -28,7 +28,7 @@ def parse_rzd_timestamp(date_str):
 
 def get_next_saturday(from_date=None, direction=1):
     if from_date is None:
-        from_date = datetime.now()
+        from_date = datetime.now().replace(tzinfo=LOCAL_TZ)
     if from_date.weekday() == 5:
         # HACK: если сейчас суббота, то ищем билеты на след. субботу
         from_date += timedelta(days=1)
