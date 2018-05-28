@@ -79,15 +79,22 @@ class RzdTrainsCrawler:
             date_to=self.date_to.strftime('%d.%m.%Y'),
         )
 
-        r = requests.post(self.base_url + params)
+        url1 = self.base_url + params
+        r = requests.post(url1)
         rid = r.json()['rid']
 
         time.sleep(delay)
 
-        params = '&rid={}'.format(rid)
-        r = requests.post(self.base_url + params, cookies=r.cookies)
+        url2 = self.base_url + '&rid={}'.format(rid)
+        r = requests.post(url2, cookies=r.cookies)
 
-        self.json_dump = r.json()
+        try:
+            self.json_dump = r.json()
+        except:
+            print('error download json from rzd: "{}", "{}"'.format(url2, url1))
+            logger.info('error download json from rzd: "{}", "{}"'.format(url2, url1))
+            return None
+
         self.request_date = parse_rzd_timestamp(self.json_dump['timestamp'])
         trains_to_count, trains_from_count = self.get_trains_count()
         logger.info('downloaded rzd train: {}, {} - {}, trains: {},{}'.format(
@@ -161,7 +168,7 @@ def download_rzd_trains(max_days_range=8, download_delay=6):
             c = RzdTrainsCrawler(trip, friday, sunday)
             data = c.download()
 
-            if 'tp' in data and len(data['tp']) == 2:
+            if data and 'tp' in data and len(data['tp']) == 2:
                 print('TO: {} -> {} ways'.format(friday, len(data['tp'][0]['list'])), end='; ')
                 print('FROM: {} -> {} ways'.format(sunday, len(data['tp'][1]['list'])))
                 c.save_to_file()
