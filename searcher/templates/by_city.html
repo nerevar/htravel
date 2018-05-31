@@ -3,6 +3,23 @@
 
 {% block title %}Билеты в {{ trips.0.way_to.city_to }} — Holidays Travel{% endblock %}
 
+{% block second_title %}Билеты в {{ trips.0.way_to.city_to }}{% endblock %}
+
+{% block page_header %}
+<section class="jumbotron text-center">
+    <div class="container">
+        {% jumbotron %}
+
+        <p class="lead text-muted">Самые лучшие билеты в {{ trips.0.way_to.city_to }} — выбирайте выходные, на которых хотите поехать
+        </p>
+        <p class="lead text-muted">
+            А ещё скоро здесь будет календарь цен, чтобы выбрать дни с самыми дешёвыми билетами
+        </p>
+        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#services">Смотреть билеты ↓</a>
+    </div>
+</section>
+{% endblock %}
+
 {% block content %}
     {% for trip in trips %}
         {% show_trip trip page %}

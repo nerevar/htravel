@@ -3,6 +3,25 @@
 
 {% block title %}Дешёвые билеты на поезд по России и Зарубежью — Holidays Travel{% endblock %}
 
+{% block second_title %}Все билеты на эти выходные{% endblock %}
+
+{% block page_header %}
+<section class="jumbotron text-center">
+    <div class="container">
+        {% jumbotron %}
+
+        <p class="lead text-muted">Тут мы показываем билеты на ближайшие выходные, а можете посмотреть билеты {% date_link next_saturday 'на выходные через неделю' %} или на `другую дату`.
+            А ещё вы можете посмотреть все билеты на 3 месяца вперёд в {% city_link city_spb %},
+            {% city_link city_kazan %} или `другие города`
+        </p>
+        <p class="lead text-muted">
+            А ещё скоро можно будет добавить +1, +2 дня к выходным и выбрать город отправления
+        </p>
+        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#services">Билеты на ближайшие выходные ↓</a>
+    </div>
+</section>
+{% endblock %}
+
 {% block content %}
     {% for trip in trips %}
         {% show_trip trip page %}

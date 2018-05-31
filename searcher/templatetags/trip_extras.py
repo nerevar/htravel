@@ -8,12 +8,14 @@ from django.utils.timezone import pytz
 from django.utils import dateformat
 
 from htravel import settings
+from robot.models import City
+from robot.helpers import get_next_saturday
 
 register = template.Library()
 LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
 
 
-@register.inclusion_tag('trip.html')
+@register.inclusion_tag('helpers/trip.html')
 def show_trip(trip, page, routes_limit=3):
     return {
         'trip': trip,
@@ -22,7 +24,7 @@ def show_trip(trip, page, routes_limit=3):
     }
 
 
-@register.inclusion_tag('route_row.html')
+@register.inclusion_tag('helpers/route_row.html')
 def route_row(route, idx, direction):
     return {
         'route': route,
@@ -31,14 +33,24 @@ def route_row(route, idx, direction):
     }
 
 
-@register.inclusion_tag('city_link.html')
+@register.inclusion_tag('helpers/city_link.html')
 def city_link(city):
     return {'city_from_str': 'moscow', 'city_to': city}
 
 
-@register.inclusion_tag('date_link.html')
-def date_link(date_to):
-    return {'date_to': date_to}
+@register.inclusion_tag('helpers/date_link.html')
+def date_link(date_to, text=None):
+    return {'date_to': date_to, 'text': text}
+
+
+@register.inclusion_tag('helpers/jumbotron.html')
+def jumbotron():
+    next_saturday = get_next_saturday()
+    return {
+        'next_saturday': next_saturday,
+        'city_spb': City.objects.get(name__exact='spb'),
+        'city_kazan': City.objects.get(name__exact='kazan'),
+    }
 
 
 @register.filter()

@@ -22,7 +22,7 @@
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" href="/">HTravel</a>
+    <a class="navbar-brand" href="/">2-3-4 travel</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
             aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -50,29 +50,13 @@
     </div>
 </nav>
 
-<section class="jumbotron text-center">
-    <div class="container">
-        <h1 class="jumbotron-heading">Путешествуй на&nbsp;выходных!</h1>
-        <p class="lead text-muted">На нашем сайте вы сможете найти дешёвые билеты <i>в какой-нибудь</i> город на
-            выходных
-            так, чтобы не брать дополнительного отпуска. Либо же добавить плюс 1-2 выходных дня к выходным и больше
-            времени
-            провести в выбранном городе</p>
-
-        <p class="lead text-muted">Тут мы показываем билеты на ближайшие выходные, а можете посмотреть билеты на
-            `следующие выходные` {% date_link next_saturday %} или на `другую дату`.
-            А ещё вы можете посмотреть билеты на 3 месяца вперёд в `{% city_link city_spb %}`,
-            `{% city_link city_kazan %}` или `другие города`
-        </p>
-        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#services">На выходные 14-15 апреля</a>
-    </div>
-</section>
+{% block page_header %}{% endblock %}
 
 <section id="services">
     <div class="container">
         <div class="row">
             <div class="col-md-10">
-                <h2 class="my-4">Билеты в города России</h2>
+                <h2 class="my-4">{% block second_title %}{% endblock %}</h2>
 
                 {% block content %}
                 {% endblock %}

@@ -3,6 +3,21 @@
 
 {% block title %}Все билеты в {{ trip.way_to.city_to }} на выходные {{ trip.date_to }} — Holidays Travel{% endblock %}
 
+{% block second_title %}Все билеты в {{ trip.way_to.city_to }} на выходные {{ trip.date_to }}{% endblock %}
+
+{% block page_header %}
+<section class="jumbotron text-center">
+    <div class="container">
+        {% jumbotron %}
+
+        <p class="lead text-muted">
+            А ещё скоро здесь можно будет сортировать таблицу по цене билета, времени отправления, прибытия и общему score
+        </p>
+        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#services">Смотреть билеты ↓</a>
+    </div>
+</section>
+{% endblock %}
+
 {% block content %}
     {% show_trip trip page 99 %}
 {% endblock %}

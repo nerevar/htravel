@@ -3,6 +3,19 @@
 
 {% block title %}Билеты на выходные {{ date_to_str }} — Holidays Travel{% endblock %}
 
+{% block second_title %}Билеты на выходные {{ date_to_str }}{% endblock %}
+
+{% block page_header %}
+<section class="jumbotron text-center">
+    <div class="container">
+        {% jumbotron %}
+
+        <a class="btn btn-primary btn-xl js-scroll-trigger" href="#services">Смотреть билеты ↓</a>
+    </div>
+</section>
+{% endblock %}
+
+
 {% block content %}
     {% for trip in trips %}
         {% show_trip trip page %}
