@@ -18,6 +18,15 @@
 .schedulle__row td {
     padding: 0.5rem 0.3rem 0.3rem 0.3rem;
 }
+
+.sortedby_asc:after {
+    content: '\00a0↓';
+}
+
+.sortedby_desc:after {
+    content: '\00a0↑';
+}
+
 .route_picker__label {
     font-size: 13px;
 }

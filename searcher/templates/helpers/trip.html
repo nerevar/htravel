@@ -10,8 +10,12 @@
             {{ trip.way_to.city_to.descr }}
         </p>
 
-        <h5>Лучшие 3 поезда туда из {{ trip.routes_to_count }} поездов</h5>
-        <table border="0" class="table schedulle">
+        {% if IS_FULL_TABLE %}
+            <h5>Туда {{ trip.routes_to_count }} поездов</h5>
+        {% else %}
+            <h5>Лучшие 3 поезда туда из {{ trip.routes_to_count }} поездов</h5>
+        {% endif %}
+        <table border="0" class="table schedulle{% if IS_FULL_TABLE %} sortable{% endif %}">
             <thead valign="bottom">
             <tr class="row-odd">
                 <th class="head">Поезд</th>
@@ -19,7 +23,7 @@
                 <th class="head tacenter">⏱</th>
                 <th class="head tacenter">Прибытие</th>
                 <th class="head tacenter">Стоимость</th>
-                <th class="head tacenter">score</th>
+                <th class="head tacenter{% if IS_FULL_TABLE %} sortedby sortedby_asc{% endif %}">score</th>
                 <th class="head">Выбрать</th>
             </tr>
             </thead>
@@ -34,8 +38,13 @@
             <span class="schedule__more__text btn btn-outline-secondary" title="TODO: загрузить все поезда">...</span>
         </div>
 
-        <h5>Лучшие 3 поезда обратно из {{ trip.routes_from_count }} поездов</h5>
-        <table border="0" class="table schedulle">
+        {% if IS_FULL_TABLE %}
+            <h5>Обратно {{ trip.routes_from_count }} поездов</h5>
+        {% else %}
+            <h5>Лучшие 3 поезда обратно из {{ trip.routes_from_count }} поездов</h5>
+        {% endif %}
+
+        <table border="0" class="table schedulle{% if IS_FULL_TABLE %} sortable{% endif %}">
             <thead valign="bottom">
             <tr class="row-odd">
                 <th class="head">Поезд</th>
@@ -43,7 +52,7 @@
                 <th class="head tacenter">⏱</th>
                 <th class="head tacenter">Прибытие</th>
                 <th class="head tacenter">Стоимость</th>
-                <th class="head tacenter">score</th>
+                <th class="head tacenter{% if IS_FULL_TABLE %} sortedby sortedby_asc{% endif %}">score</th>
                 <th class="head tacenter">Выбрать</th>
             </tr>
             </thead>

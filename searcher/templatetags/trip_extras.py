@@ -17,10 +17,14 @@ LOCAL_TZ = pytz.timezone(settings.TIME_ZONE)
 
 @register.inclusion_tag('helpers/trip.html')
 def show_trip(trip, page, routes_limit=3):
+    # TODO: сортировка столбцов
     return {
         'trip': trip,
         'page': page,
-        'SHOW_ROUTES_COUNT': ':{}'.format(routes_limit)
+
+        'routes_limit': routes_limit,
+        'SHOW_ROUTES_COUNT': ':{}'.format(routes_limit),
+        'IS_FULL_TABLE': routes_limit == 99
     }
 
 
