@@ -26,7 +26,7 @@ mistune==2.0.3
 mysqlclient==1.4.4
 nbconvert==6.3.0
 nbformat==4.4.0
-notebook==6.4.10
+notebook==6.4.12
 pandas==0.20.2
 pandocfilters==1.4.2
 parso==0.5.1
